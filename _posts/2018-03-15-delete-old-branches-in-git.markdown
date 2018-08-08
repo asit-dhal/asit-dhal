@@ -3,6 +3,7 @@ layout: post
 title:  "Delete old branches in Git"
 date:   2018-08-01 22:00:47 +0200
 categories: git
+comments: true
 ---
 
 Sometimes there are many branches, accumulated over the years in a git repository. And you need to delete it to save some space or make management of your repository easy.

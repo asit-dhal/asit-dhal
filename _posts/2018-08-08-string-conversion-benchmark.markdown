@@ -1,8 +1,9 @@
 ---
 layout: post
 title:  "std::string conversion benchmark in C++"
-date:   2018-08-01 22:00:47 +0200
+date:   2018-08-08 20:00:47 +0200
 categories: c++
+comments: true
 ---
 
 There are three ways to convert any fundamental data to string.
