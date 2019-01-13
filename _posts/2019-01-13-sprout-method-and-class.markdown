@@ -152,7 +152,7 @@ pageText += producer.makeHeader();
 
 {% endhighlight %}
 
-We can document that commanality in the code by creating an interface class and having them both inherit from it.
+We can document that commonality in the code by creating an interface class and having them both inherit from it.
 
 {% highlight cpp %}
 
@@ -187,4 +187,5 @@ By using these steps, we can fold the class into the set of concepts that we alr
 
 This method of refactoring is called sprout class. 
 
-Sprout method are recommended whenever you can see the code that you are adding as a distinct piece of work. Sprout class are recommended whenever you can see that the code you are adding as a distinct repsonsibility.
+> Sprout method are recommended whenever you can see the code that you are adding as a distinct piece of work. Sprout class are recommended whenever you can see that the code you are adding as a distinct repsonsibility.
+
