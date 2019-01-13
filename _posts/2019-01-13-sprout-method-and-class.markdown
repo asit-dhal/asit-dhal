@@ -14,14 +14,14 @@ Let's say you have a class called TransactionGate that posts entries in another 
 class TransactionGate
 {
 public:
-	void postEntries(std::list<Entry> entries)
-	{
-		for(auto itr = std::begin(entries); itr != std::end(entries); itr++) {
-			itr->updatePostDate();
-		}
+  void postEntries(std::list<Entry> entries)
+  {
+    for(auto itr = std::begin(entries); itr != std::end(entries); itr++) {
+      itr->updatePostDate();
+    }
 
-		transactionBundle->getListManager()->add(entries);
-	}
+    transactionBundle->getListManager()->add(entries);
+  }
 };
 
 {% endhighlight %}
@@ -34,18 +34,18 @@ There is a new requirement to introduce a check that none of the new entries are
 class TransactionGate
 {
 public:
-	void postEntries(std::list<Entry> entries)
-	{
-		std::list<Entry> entriesToAdd;
-		for(auto itr = std::begin(entries); itr != std::end(entries); itr++) {
-			if (transactionBundle->getListManager()->hasEntry(*itr)) {
-				itr->updatePostDate();
-				entriesToAdd.push_back(*itr);
-			}
-		}
+  void postEntries(std::list<Entry> entries)
+  {
+    std::list<Entry> entriesToAdd;
+    for(auto itr = std::begin(entries); itr != std::end(entries); itr++) {
+      if (transactionBundle->getListManager()->hasEntry(*itr)) {
+        itr->updatePostDate();
+        entriesToAdd.push_back(*itr);
+      }
+    }
 
-		transactionBundle->getListManager()->add(entries);
-	}
+    transactionBundle->getListManager()->add(entries);
+  }
 };
 
 {% endhighlight %}
@@ -59,26 +59,26 @@ So, we can add a new method to find unique entries. Call that method in the old 
 class TransactionGate
 {
 public:
-	std::list<Entry> uniqueEntries(std::list<Entry> entries)
-	{
-		std::list<Entry> resultEntries;
-		for(auto itr = std::begin(entries); itr != std::end(entries); itr++) {
-			if (transactionBundle->getListManager()->hasEntry(*itr)) {
-				resultEntries.push_back(*itr);
-			}
-		}	
-	}
+  std::list<Entry> uniqueEntries(std::list<Entry> entries)
+  {
+    std::list<Entry> resultEntries;
+    for(auto itr = std::begin(entries); itr != std::end(entries); itr++) {
+      if (transactionBundle->getListManager()->hasEntry(*itr)) {
+        resultEntries.push_back(*itr);
+      }
+    } 
+  }
 
-	void postEntries(std::list<Entry> entries)
-	{
-		std::list<Entry> entriesToAdd = uniqueEntries(entries);
+  void postEntries(std::list<Entry> entries)
+  {
+    std::list<Entry> entriesToAdd = uniqueEntries(entries);
 
-		for(auto itr = std::begin(entriesToAdd); itr != std::end(entriesToAdd); itr++) {
-			itr->updatePostDate();
-		}
+    for(auto itr = std::begin(entriesToAdd); itr != std::end(entriesToAdd); itr++) {
+      itr->updatePostDate();
+    }
 
-		transactionBundle->getListManager()->add(entriesToAdd);
-	}
+    transactionBundle->getListManager()->add(entriesToAdd);
+  }
 };
 
 {% endhighlight %}
@@ -93,35 +93,35 @@ Here is an old method in a class called QuarterlyReportGenerator.
 class QuarterlyReportGenerator
 {
 public:
-	std::string generate()
-	{
-		std::vector<Result> results = database.queryResults(beginDate, endDate);
+  std::string generate()
+  {
+    std::vector<Result> results = database.queryResults(beginDate, endDate);
 
-		std::string pageText;
-		pageText += "<html><head><title>"
-					+ "Quaretly Report"
-					+ "</title></head>"
-					+ "<body><table>";
+    std::string pageText;
+    pageText += "<html><head><title>"
+          + "Quaretly Report"
+          + "</title></head>"
+          + "<body><table>";
 
-		if (!results.empty()) {
-			for(auto itr = std::begin(results); itr != std::end(results); itr++) {
-				pageText += "<tr>";
-				pageText += "<td>" + itr->department + "</td>";
-				pageText += "<td>" + itr->manager + "</td>";
-				char buffer[128];
-				sprintf(buffer, "<td>$%d</td>", itr->netProfit/100);
-				pageText += std::string(buffer);
-				sprintf(buffer, "<td>$%d</td>", itr->operatingExpense/100);
-				pageText += std::string(buffer);
-				pageText += "</tr>";
-			}
-		} else {
-			pageText += "No results for this period";
-		}
-		pageText += "</table></body></html>";
+    if (!results.empty()) {
+      for(auto itr = std::begin(results); itr != std::end(results); itr++) {
+        pageText += "<tr>";
+        pageText += "<td>" + itr->department + "</td>";
+        pageText += "<td>" + itr->manager + "</td>";
+        char buffer[128];
+        sprintf(buffer, "<td>$%d</td>", itr->netProfit/100);
+        pageText += std::string(buffer);
+        sprintf(buffer, "<td>$%d</td>", itr->operatingExpense/100);
+        pageText += std::string(buffer);
+        pageText += "</tr>";
+      }
+    } else {
+      pageText += "No results for this period";
+    }
+    pageText += "</table></body></html>";
 
-		return pageText;
-	}
+    return pageText;
+  }
 };
 
 {% endhighlight %}
@@ -135,10 +135,10 @@ We can create a new class for this and reuse this class in the existing implemen
 class QuarterlyReportTableHeaderProducer
 {
 public:
-	std::string makeHeader()
-	{
-		return "<tr><td>Department</td><td>Manager</td><td>Profit</td><td>Expense</td></tr>";
-	}
+  std::string makeHeader()
+  {
+    return "<tr><td>Department</td><td>Manager</td><td>Profit</td><td>Expense</td></tr>";
+  }
 };
 
 {% endhighlight %}
@@ -159,26 +159,26 @@ We can document that commanality in the code by creating an interface class and 
 class HTMLGenerator
 {
 public:
-	virtual ~HTMLGenerator() = nullptr;
-	virtual std::string generate() = nullptr;
+  virtual ~HTMLGenerator() = nullptr;
+  virtual std::string generate() = nullptr;
 };
 
 class QuarterlyReportTableHeaderProducer : public HTMLGenerator
 {
 public:
-	std::string makeHeader() override
-	{
-		// implementation
-	}
+  std::string makeHeader() override
+  {
+    // implementation
+  }
 };
 
 class QuarterlyReportGenerator : public HTMLGenerator
 {
 public:
-	std::string generate() override;
-	{
-		// implementation
-	}
+  std::string generate() override;
+  {
+    // implementation
+  }
 };
 
 {% endhighlight %}
