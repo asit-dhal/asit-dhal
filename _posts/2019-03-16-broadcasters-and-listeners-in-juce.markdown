@@ -178,7 +178,7 @@ void MainComponent::sliderValueChanged(Slider *slider)
 
 The broadcaster and listener can have a many to many relationship. One callback can be invoked by many broadcaster. So, you need to know which instanced invoked it. So we do the address comparison in line 44(In this case, it’s not necessary, because we have only one broadcaster.).
 
-![Broadcaster-Listener Demo](/assets/images/broadcaste-listener-demo.png) {:class="img-responsive"}
+![Broadcaster-Listener Demo](/assets/images/broadcaste-listener-demo.png){:class="img-responsive"}
 
 You can also provide your own Listener interface.
 
@@ -730,7 +730,7 @@ void MainComponent::submitActivated(InputForm*, bool isActive)
 
 The application finally looks like this
 
-![Broadcast-Listener Demo](/assets/images/broadcaste-listener-demo-final.png) {:class="img-responsive"}
+![Broadcast-Listener Demo](/assets/images/broadcaste-listener-demo-final.png){:class="img-responsive"}
 
 Comparison with Qt Signal/Slots
 
@@ -744,3 +744,4 @@ I wrote this blog to clarify my doubts. Feel free to correct if I am wrong or wr
 
 The source code is shared here
 
+https://github.com/asit-dhal/Broadcaster-Listener-Demo
