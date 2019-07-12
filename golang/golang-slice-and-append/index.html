@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Golang slice and append - Asit Dhal</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Golang slice and append", url: "#_top", children: [
+              {title: "Reslicing", url: "#reslicing" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../golang-templates-2-template-composition-and-how-to-organize-template-files/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../golang-templates-2-template-composition-and-how-to-organize-template-files/" class="btn btn-xs btn-link">
+        Golang Template-2 Template composition
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="golang-slice-and-append">Golang slice and append</h1>
+<p>In Golang, a slice is a reference to a contiguous segment of an array. Slice is basically a pointer, with additional properties about the array.</p>
+<p>A slice is a structure of 3 fields.</p>
+<ul>
+<li>a pointer to the underlying array</li>
+<li>length of the slice</li>
+<li>capacity of the slice</li>
+</ul>
+<p>You can see this in slice.go, here <a href="https://github.com/golang/go/blob/master/src/runtime/slice.go">https://github.com/golang/go/blob/master/src/runtime/slice.go</a></p>
+<pre><code class="golang">// slice1.go
+package main
+
+import (
+    &quot;fmt&quot;
+)
+
+func main() {
+    var arr1 = [5]int { 10, 20, 30, 40, 50}
+    var slice1 []int = arr1[1:3]
+    var slice2 []int = arr1[2:]
+    fmt.Printf(&quot;array: %v len: %d\n&quot;, arr1, len(arr1))
+    fmt.Printf(&quot;slice1: %v len: %d cap: %d\n&quot;, slice1, len(slice1), cap(slice1))
+    fmt.Printf(&quot;slice2: %v len: %d cap: %d\n&quot;, slice2, len(slice2), cap(slice2))
+
+    arr1[2] = 35
+    fmt.Printf(&quot;array: %v len: %d\n&quot;, arr1, len(arr1))
+    fmt.Printf(&quot;slice1: %v len: %d cap: %d\n&quot;, slice1, len(slice1), cap(slice1))
+    fmt.Printf(&quot;slice2: %v len: %d cap: %d\n&quot;, slice2, len(slice2), cap(slice2))
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>array: [10 20 30 40 50] len: 5
+slice1: [20 30] len: 2 cap: 4
+slice2: [30 40 50] len: 3 cap: 3
+array: [10 20 35 40 50] len: 5
+slice1: [20 35] len: 2 cap: 4
+slice2: [35 40 50] len: 3 cap: 3
+</code></pre>
+
+<p>Both the slices point to the same memory, any changes to the actual data will impact all the slices pointing to the array. So, if you have an array and many slices pointing to the same array, there can be many places where the array can be changed. So, this is a disaster going to happen.</p>
+<p><img alt="slice-append" src="../images/slice-append.png" /></p>
+<blockquote>
+<p>You should avoid exposing the array and always keep it anonymous.</p>
+</blockquote>
+<p>Golang provides make() to achieve this objective. make() allows us to create a slice when the underlying array is not defined.</p>
+<pre><code class="golang">slice1 := make([]type, len) //case 1
+slice2 := make([]type, len, cap) // case 2
+</code></pre>
+
+<p>In the first case, the slice is pointing to an array of length ‘len’.</p>
+<p>Here, the following statement is true</p>
+<pre><code class="golang">cap(slice1) = len(slice1) = len 
+</code></pre>
+
+<p>In the second case, slice2 doesn’t occupy the entire underlying array. The array has a length ‘cap’ and slice has length ‘len’. There is space for reslicing.</p>
+<h2 id="reslicing">Reslicing</h2>
+<p>Changing the length of the slice is called reslicing. It is done by increasing the end index of the slice, until it occupies the entire array.</p>
+<p>Increase the slice length by 1</p>
+<pre><code class="golang">s = s[0:len(s)+1]
+</code></pre>
+
+<blockquote>
+<p>Slice length can be reached upto the capacity. If the length crosses the capacity, it will panic at run time.</p>
+</blockquote>
+<p>The capacity is a limitation in reslicing. So, golang provides an built-in function append() to fix this issue.</p>
+<p>The built-in append() does the following</p>
+<ul>
+<li><code>append()</code> appends zero or more values to a slice and returns the resulting slice.</li>
+<li>allocates a new, sufficiently large slice</li>
+<li>always succeeds, unless the computer runs out of memory</li>
+</ul>
+<blockquote>
+<p>append() may either modify its argument in-place or return a copy of its argument with an additional entry, depending on the size and capacity of its input. append() function creates a new slice, if the length the slice is greater than the length of the array pointed by the slice.</p>
+</blockquote>
+<pre><code class="golang">// append.go
+package main
+
+import (
+    &quot;fmt&quot;
+)
+
+func main() {
+    var arr1 = [5]int { 10, 20, 30, 40, 50}
+    var slice1 []int = arr1[1:4]
+    fmt.Printf(&quot;array: %v\n&quot;, arr1)
+    fmt.Printf(&quot;slice1: %v\n&quot;, slice1)
+
+    //modify the underlying array
+    slice1 = append(slice1, 56)
+    fmt.Printf(&quot;array: %v\n&quot;, arr1)
+    fmt.Printf(&quot;slice1: %v\n&quot;, slice1)
+
+    //creates a new array and returns slice pointing to it
+    slice1 = append(slice1, 69)
+    fmt.Printf(&quot;array: %v\n&quot;, arr1)
+    fmt.Printf(&quot;slice1: %v\n&quot;, slice1)
+
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>array: [10 20 30 40 50]
+slice1: [20 30 40]
+array: [10 20 30 40 56]
+slice1: [20 30 40 56]
+array: [10 20 30 40 56]
+slice1: [20 30 40 56 69]
+</code></pre>
+
+<p>In the first append(), the argument is modified and in the 2nd append(), a new slice is created.</p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../golang-templates-2-template-composition-and-how-to-organize-template-files/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../golang-templates-2-template-composition-and-how-to-organize-template-files/" class="btn btn-xs btn-link">
+        Golang Template-2 Template composition
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

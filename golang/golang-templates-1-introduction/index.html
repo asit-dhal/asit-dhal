@@ -11,7 +11,7 @@
     
     <link rel="shortcut icon" href="../../img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Golang templates 1 introduction - Asit Dhal</title>
+    <title>Golang Templates-1 Introduction - Asit Dhal</title>
     <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -63,6 +63,16 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 
   <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
     
+    <div class="wm-article-nav pull-right">
+      <a href="../golang-templates-2-template-composition-and-how-to-organize-template-files/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../golang-templates-2-template-composition-and-how-to-organize-template-files/" class="btn btn-xs btn-link">
+        Golang Template-2 Template composition
+      </a>
+    </div>
+    
     <div class="wm-article-nav">
       <a href="../../cpp/string-conversion-benchmark/" class="btn btn-xs btn-default pull-left">
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
@@ -75,16 +85,12 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 
     
 
-    <hr />
-<p>title:  Golang Templates-1: Introduction
-date:   2016-09-10</p>
-<hr />
-<h1 id="golang-templates-1-introduction">Golang Templates-1: Introduction</h1>
+    <h1 id="golang-templates-1-introduction">Golang Templates-1: Introduction</h1>
 <p>A template engine is a software application which generates dynamic HTML. This can be assumed as the view of the MVC paradigm. But, in reality, the template is exactly not view, a little bit of controller logic is added to make not too rigid.</p>
 <p>In Golang, the handler(controller) calls the template engine, passing it the template(s) to be used, usually as a list of template files and the dynamic data. The template engine then generates the HTML and writes it to the ResponseWriter, which adds it to the HTTP response sends back to the client.</p>
 <p><img alt="golang-http-server-architecture" src="../images/golang-http-server-architecture.png" /></p>
 <p>A template is a string or file containing one or more portions enclosed in double braces, <code>{{…}}</code>, called actions. These actions are processed by the template engine to produce dynamic HTML.</p>
-<h3 id="steps-to-produce-html-from-template-file">Steps to produce HTML from template file</h3>
+<h2 id="steps-to-produce-html-from-template-file">Steps to produce HTML from template file</h2>
 <ol>
 <li>Parse the template string/file to create a parsed template struct.</li>
 <li>Execute the parsed template, passing a ResponseWriter and some data to it.</li>
@@ -124,14 +130,14 @@ func main() {
 &lt;/html&gt;
 </code></pre>
 
-<h3 id="template-names">Template Names</h3>
+<h2 id="template-names">Template Names</h2>
 <p>All templates are associated with a name.</p>
 <ol>
 <li>Template name are defined using template.New(). In case of ParseFiles() and ParseGlob(), the first file in the argument list and the first file picked up are the names respectively. <a href="https://golang.org/pkg/html/template/#New">https://golang.org/pkg/html/template/#New</a></li>
 <li>Templates can be looked up by using the name(template.Lookup()). <a href="https://golang.org/pkg/html/template/#Template.Lookup">https://golang.org/pkg/html/template/#Template.Lookup</a>.</li>
 <li>Template name can be queried(template.Name()) <a href="https://golang.org/pkg/html/template/#Template.Name">https://golang.org/pkg/html/template/#Template.Name</a>.</li>
 </ol>
-<h3 id="parsing-templates">Parsing Templates</h3>
+<h2 id="parsing-templates">Parsing Templates</h2>
 <p><code>template.Parse()</code> method takes a string and returns a parsed structured template.</p>
 <pre><code class="golang">// main2.go
 
@@ -219,11 +225,11 @@ func main() {
 &lt;/html&gt;
 </code></pre>
 
-<h3 id="executing-templates">Executing Templates</h3>
+<h2 id="executing-templates">Executing Templates</h2>
 <p>The template.Execute() method applies a parsed template to the specified data object and writes the output to an output writer.The template.ExecuteTemplate() method works if the template contains multiple parsed template object. This is shown in the previous example.</p>
 <p><code>template.ExecuteTemplate()</code> calls <code>template.Execute()</code> internally. It basically looks for the named template and executes that one.</p>
 <p>In Golang library, you can see the <a href="https://golang.org/src/html/template/template.go?s=3544:3629#L103">implementation</a>.</p>
-<h3 id="error-handling">Error Handling</h3>
+<h2 id="error-handling">Error Handling</h2>
 <p>All three parse methods returns error in case of failure. The standard library provides template.Must(), which wraps around a function that returns a pointer to a template and an error, and panics if the error is not a nil.</p>
 <pre><code class="golang">t  := template.Must(template.ParseFiles(&quot;tmpl.html&quot;))
 </code></pre>
@@ -239,6 +245,16 @@ func main() {
     
 
   <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../golang-templates-2-template-composition-and-how-to-organize-template-files/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../golang-templates-2-template-composition-and-how-to-organize-template-files/" class="btn btn-xs btn-link">
+        Golang Template-2 Template composition
+      </a>
+    </div>
     
     <div class="wm-article-nav">
       <a href="../../cpp/string-conversion-benchmark/" class="btn btn-xs btn-default pull-left">
