@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>string conversion benchmark in C++ - Asit Dhal</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "string conversion benchmark in C++", url: "#_top", children: [
+              {title: "type=int input_count = 1", url: "#typeint-input_count-1" },
+              {title: "type=int input_count &gt; 30", url: "#typeint-input_count-30" },
+              {title: "type=double input_count=1", url: "#typedouble-input_count1" },
+              {title: "type=double input_count=30", url: "#typedouble-input_count30" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../../juce/side-panel-in-juce/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../../juce/side-panel-in-juce/" class="btn btn-xs btn-link">
+        Side Panel in JUCE
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="string-conversion-benchmark-in-c">string conversion benchmark in C++</h1>
+<p>There are three ways to convert any fundamental data to string.</p>
+<ul>
+<li>std::to_string</li>
+<li>std::ostringstream</li>
+<li>boost::lexical_cast</li>
+</ul>
+<pre><code class="cpp">template &lt;typename T&gt;
+std::string stringify_ostringstream(T val)
+{
+    std::ostringstream ss;
+    ss &lt;&lt; val;
+    return ss.str();
+}
+</code></pre>
+
+<pre><code class="cpp">std::ostringstream g_buffer;
+
+template &lt;typename T&gt;
+std::string stringify_ostringstream_reuse(T val)
+{
+    g_buffer.str(&quot;&quot;); 
+    g_buffer.clear();
+    g_buffer &lt;&lt; val;
+    return g_buffer.str();
+}
+</code></pre>
+
+<pre><code class="cpp">template &lt;typename T&gt;
+std::string stringify_tostring(T val)
+{
+    return std::to_string(val);
+}
+</code></pre>
+
+<p>In this post, I will analyze which one is the fastest to convert any fundamental(int, double, boolean) data to string. I am using google benchmark to measure the time difference. In all charts, y-axis is time in nano seconds.</p>
+<h3 id="typeint-input_count-1">type=int input_count = 1</h3>
+<p><img alt="Int_to_string_count_1" src="../images/int_tostring_count_1.png" /></p>
+<p>For only, one conversion, both std::stringstream and std::ostringstream take nearly same time. boost::lexical_cast in the fastest. And std::to_string is faster than stringstream and slower than boost::lexical_cast. boost::lexical_cast is not the best way for string conversion, because it throws an exception in case of failure.</p>
+<h3 id="typeint-input_count-30">type=int input_count &gt; 30</h3>
+<p><img alt="Int_to_string_count_30" src="../images/int_tostring_count_30.png" /></p>
+<p>Here both std::stringstream and std::ostringstream outperform std::to_string and boost::lexical_cast. You can get better result by reusing std::stringstream and std::ostringstream buffer.</p>
+<pre><code class="cpp">std::ostringstream oss;
+oss.str(“”);
+oss.clear();
+</code></pre>
+
+<p>Creating stream objects are very expensive. So, reuse of buffer gives better result.</p>
+<p><img alt="Int_to_string_count_30_buffer_reuse" src="../images/int_tostring_count_30_buffer_reuse.png" /></p>
+<h3 id="typedouble-input_count1">type=double input_count=1</h3>
+<p><img alt="double_tostring_count_1" src="../images/double_tostring_count_1.png" /></p>
+<p>Performance is very similar to integer. Boost lexical_cast outperforms std::to_string and stringstream.</p>
+<h3 id="typedouble-input_count30">type=double input_count=30</h3>
+<p><img alt="double_tostring_count_30" src="../images/double_tostring_count_30.png" />
+For multiple inputs, boost::lexical_cast outperforms everyone else.</p>
+<p>So, my observations are</p>
+<ul>
+<li>Always use std::to_string to convert any single value to std::string.</li>
+<li>In case of double, use std::string. If you need, precision, use std::ostringstream.</li>
+<li>In all other cases, use std::ostringstream.</li>
+</ul>
+<p>Image produced: <a href="https://github.com/asit-dhal/BenchmarkViewer">https://github.com/asit-dhal/BenchmarkViewer</a></p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../../juce/side-panel-in-juce/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../../juce/side-panel-in-juce/" class="btn btn-xs btn-link">
+        Side Panel in JUCE
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

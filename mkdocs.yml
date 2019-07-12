@@ -1,0 +1,12 @@
+site_name: Asit Dhal
+
+nav: 
+  - Home: index.md
+  - Git: 
+    - git/delete-old-branches-in-git.md
+  - Juce:
+    - juce/broadcasters-and-listeners-in-juce.md
+    - juce/side-panel-in-juce.md
+  - C++:
+    - cpp/string-conversion-benchmark.md
+theme: windmill
