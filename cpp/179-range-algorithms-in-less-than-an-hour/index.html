@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>179 range algorithms in less than an hour - Asit Dhal</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Range algorithms in less than an hour", url: "#_top", children: [
+              {title: "Motivation", url: "#motivation" },
+              {title: "Range", url: "#range" },
+              {title: "Iterator Concepts", url: "#iterator-concepts" },
+              {title: "Sentinels", url: "#sentinels" },
+              {title: "Range Concepts", url: "#range-concepts" },
+              {title: "Sized ranges", url: "#sized-ranges" },
+              {title: "Difference between Rangle algorithims and classic stl algorithims", url: "#difference-between-rangle-algorithims-and-classic-stl-algorithims" },
+              {title: "for_each", url: "#for_each" },
+              {title: "Generators", url: "#generators" },
+              {title: "Permutations", url: "#permutations" },
+              {title: "Transformers", url: "#transformers" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-link">
+        Golang Templates-1 Introduction
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../string-conversion-benchmark/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../string-conversion-benchmark/" class="btn btn-xs btn-link">
+        string conversion benchmark in C++
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="range-algorithms-in-less-than-an-hour">Range algorithms in less than an hour</h1>
+<p>This post is a note about 179 range algorithms in less than an hour by Dvir Yitzchaki presented in Core C++ 2019.</p>
+<h2 id="motivation">Motivation</h2>
+<p>Primary motivation for ranges is to provide a simpler syntax for calling algorithims.</p>
+<p>In good old pre C++20 or without range-v3, </p>
+<pre><code class="cpp">std::vector&lt;int&gt; v {10, 2, 96};
+std::sort(v.begin(), v.end());
+</code></pre>
+
+<p>In C++20 or with range-v3 library</p>
+<pre><code class="cpp">std::ranges::sort(v);
+</code></pre>
+
+<p>Allowing algorithms to take a single range object instead of separate begin and end iterators opens the door torange adaptors which lazily transform or filter their underlying sequence in interesting ways, like</p>
+<pre><code class="cpp">accumulate(view::iota(1) | view::transform([](int x) { return x * x;}) | view::take(10), 0);
+</code></pre>
+
+<h2 id="range">Range</h2>
+<p>Range is a sequence of elements between two locations i,k, often denoted by <code>[i, k)</code>. In standard library, a range is a pair of iterators, usually a begin and an end iterator.</p>
+<pre><code class="cpp">std::copy(v.begin(), v.end(), buf);
+</code></pre>
+
+<p>Range can also be an iterator and count of elements.</p>
+<pre><code class="cpp">std::copy_n(v.begin(), 20, buf);
+</code></pre>
+
+<p>Range can also be an iterator and a possiby stateful predicate that indicates when a range is exhausted.</p>
+<pre><code class="cpp">std::copy(std::istream_iterator&lt;int&gt;{std::cin},
+          std::istream_iterator&lt;int&gt;{},
+          buf);
+</code></pre>
+
+<h2 id="iterator-concepts">Iterator Concepts</h2>
+<ul>
+<li>
+<p><strong>Iterator</strong>: can be derefenced(<code>*it</code>) and incremented(<code>it++</code>). <a href="http://www.enseignement.polytechnique.fr/informatique/INF478/docs/Cpp/en/cpp/concept/Iterator.html">iterator</a></p>
+</li>
+<li>
+<p><strong>InputIterator</strong>: referenced values can be read (<code>auto v = *it</code>). <a href="http://www.enseignement.polytechnique.fr/informatique/INF478/docs/Cpp/en/cpp/concept/InputIterator.html">input iterator</a></p>
+</li>
+<li>
+<p><strong>OutputIterator</strong> - referenced values can be written to (<code>*it = v</code>). <a href="http://www.enseignement.polytechnique.fr/informatique/INF478/docs/Cpp/en/cpp/concept/OutputIterator.html">output iterator</a></p>
+</li>
+<li>
+<p><strong>ForwardIterator</strong> - Input Iterator + comparable and multi-pass. <a href="http://www.enseignement.polytechnique.fr/informatique/INF478/docs/Cpp/en/cpp/concept/ForwardIterator.html">forward iterator</a>. </p>
+</li>
+<li>
+<p><strong>BidirectionalI terator</strong> - Forward Iterator + decrementable (<code>--it</code>). <a href="http://www.enseignement.polytechnique.fr/informatique/INF478/docs/Cpp/en/cpp/concept/BidirectionalIterator.html">bidirectional iterator</a></p>
+</li>
+<li>
+<p><strong>Random Access Iterator</strong> - Bidirectional Iterator + random access (<code>it += n</code>) <a href="http://www.enseignement.polytechnique.fr/informatique/INF478/docs/Cpp/en/cpp/concept/RandomAccessIterator.html">random access iterator</a></p>
+</li>
+<li>
+<p><strong>Contiguous Iterator</strong> - Random Access Iterator + contiguous in memory</p>
+</li>
+</ul>
+<h2 id="sentinels">Sentinels</h2>
+<p>From C++ standard document <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4382.pdf">n4382</a></p>
+<blockquote>
+<p>A sentinel is an abstraction of a past-the-end iterator. Sentinels are Regular types that can be used to denote the end of a range. A sentinel and an iterator denoting a range shall be EqualityComparable. A sentinel denotes an element when an iterator i compares equal to the sentinel, and i points to that element.</p>
+</blockquote>
+<p>You can detect the end of a range in two ways.
+- by testing the iterator itself(past-the-end)
+- by testing the data value at the iterator</p>
+<h2 id="range-concepts">Range Concepts</h2>
+<p>Range is a type that allows iteration over its elements by providing an iterator and a sentinel that denote the elements of the range.</p>
+<ul>
+<li><code>ranges::begin</code>: returns an iterator</li>
+<li><code>ranges::end</code>: returns a sentinel</li>
+</ul>
+<p>Counted range provides an Iterator and a count.</p>
+<ul>
+<li>Input Range - e.g. Range over a std::istream_iterator</li>
+<li>Output Range - e.g. Range over a std::ostream_iterator</li>
+<li>Forward Range - e.g. std::forward_list</li>
+<li>Bidirectional Range - e.g. std::list</li>
+<li>Random Access Range - e.g. std::deque</li>
+<li>Contiguous Range - sentinel is of same type of iterator, e.g. std::vector</li>
+</ul>
+<h2 id="sized-ranges">Sized ranges</h2>
+<ul>
+<li>Sized Sentinel - a Sentinel whose distance can be computed using the - operator in constant time.</li>
+<li>SizedRange - a Range type that knows its size in constant time with the ranges::size function. Not necessarily implies Size Sentinel (std::list)</li>
+<li>ranges::distance can compute the distant of any range but has linear complexity for non sized ranges/sentinels</li>
+<li>ranges::data gives a pointer to the data of a contiguous range</li>
+</ul>
+<h2 id="difference-between-rangle-algorithims-and-classic-stl-algorithims">Difference between Rangle algorithims and classic stl algorithims</h2>
+<ul>
+<li>
+<p>Accept either</p>
+<ul>
+<li>a Range object</li>
+<li>an Iterator+Sentinel pair </li>
+<li>an Iterator and a count (<code>_n</code>)</li>
+</ul>
+</li>
+<li>
+<p>Accept projections </p>
+</li>
+<li>Some return type changes </li>
+<li>No Parallel overloads  </li>
+</ul>
+<h2 id="for_each">for_each</h2>
+<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
+#include &lt;range/v3/algorithm/for_each.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+struct Sum
+{
+    Sum(): sum{0} { }
+    void operator()(int n) { sum += n; }
+    int sum;
+};
+
+int main()
+{
+    auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+    std::vector&lt;int&gt; v{0, 2, 3, 6};
+
+    std::cout &lt;&lt; &quot;std::for_each printFunc: &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+    Sum forEachSum = std::for_each(v.begin(), v.end(), Sum());
+    std::cout &lt;&lt; &quot;std::for_each sum: &quot; &lt;&lt; forEachSum.sum &lt;&lt; '\n';
+
+    std::cout &lt;&lt; &quot;ranges::for_each printFunc: &quot;;
+    ranges::for_each(v, printFunc);
+    std::cout &lt;&lt; '\n';
+    auto res = ranges::for_each(v, Sum());
+    std::cout &lt;&lt; &quot;range::for_each sum: &quot; &lt;&lt; res.fun().sum &lt;&lt; '\n';
+
+    return 0;
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>ranges::for_each printFunc: 0,2,3,6,
+range::for_each sum: 11
+std::for_each printFunc: 0,2,3,6,
+std::for_each sum: 11
+</code></pre>
+
+<p>Both ranges::for_each and std::for_each pass the operands by value(the function and the accumulated value). So Accumulation object is used as copies. </p>
+<h2 id="generators">Generators</h2>
+<h3 id="fill-fill_n">fill, fill_n</h3>
+<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
+#include &lt;range/v3/algorithm/fill.hpp&gt;
+#include &lt;range/v3/algorithm/fill_n.hpp&gt;
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+
+int main()
+{
+    auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+
+    std::vector&lt;int&gt; v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::fill(v.begin(), v.end(), -1);
+    std::cout &lt;&lt; &quot;v: &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::fill(v.begin(), v.end(), 10);
+    std::cout &lt;&lt; &quot;v after std::fill(10): &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::fill_n(v.begin(), 3, -2);
+    std::cout &lt;&lt; &quot;v after std::fill_n(3, -2): &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    ranges::fill(v, 6);
+    std::cout &lt;&lt; &quot;v after ranges::fill(6): &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    ranges::fill_n(v.begin(), 3, 12);
+    std::cout &lt;&lt; &quot;v after ranges::fill_n(3, -2): &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    return 0;
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>v: -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+v after std::fill(10): 10,10,10,10,10,10,10,10,10,10,
+v after std::fill_n(3, -2): -2,-2,-2,10,10,10,10,10,10,10,
+v after ranges::fill(6): 6,6,6,6,6,6,6,6,6,6,
+v after ranges::fill_n(3, -2): 12,12,12,6,6,6,6,6,6,6,
+</code></pre>
+
+<p>Just notice the difference for fill_n, both std::fill_n and ranges::fill_n have very similar sytaxes.</p>
+<h3 id="iota">iota</h3>
+<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
+#include &lt;range/v3/numeric/iota.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;list&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+
+int main()
+{
+    auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+
+    std::list&lt;int&gt; l(10);
+    std::iota(l.begin(), l.end(), -4);
+    std::cout &lt;&lt; &quot;l after std::iota(-4): &quot;;
+    std::for_each(l.begin(), l.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    ranges::iota(l, 6);
+    std::cout &lt;&lt; &quot;l after ranges::iota(6): &quot;;
+    std::for_each(l.begin(), l.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    return 0;
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>l after std::iota(-4): -4,-3,-2,-1,0,1,2,3,4,5,
+l after ranges::iota(6): 6,7,8,9,10,11,12,13,14,15,
+</code></pre>
+
+<h3 id="generate-and-generate_n">generate and generate_n</h3>
+<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
+#include &lt;range/v3/algorithm/generate.hpp&gt;
+#include &lt;range/v3/algorithm/generate_n.hpp&gt;
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+int main()
+{
+    auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+
+    std::vector&lt;int&gt; v(5);
+    std::generate(v.begin(), v.end(), [n = 0] () mutable { return n++; });
+    std::cout &lt;&lt; &quot;v std::generate: &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    v.clear();
+    v.resize(5);
+    std::generate_n(v.begin(), 2, [n = 20] () mutable { return n++; });
+    std::cout &lt;&lt; &quot;v std::generate_n(2): &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    v.clear();
+    v.resize(5);
+    ranges::generate(v, [n = 10] () mutable { return n++; });
+    std::cout &lt;&lt; &quot;v ranges::generate: &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    v.clear();
+    v.resize(10);
+    ranges::generate_n(v.begin(), 3, [n = 15] () mutable { return n++; });
+    std::cout &lt;&lt; &quot;v ranges::generate_n(3): &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    return 0;
+}
+</code></pre>
+
+<p>Output </p>
+<pre><code>v std::generate: 0,1,2,3,4,
+v std::generate_n(2): 20,21,0,0,0,
+v ranges::generate: 10,11,12,13,14,
+v ranges::generate_n(3): 15,16,17,0,0,0,0,0,0,0,
+</code></pre>
+
+<h2 id="permutations">Permutations</h2>
+<h3 id="reverse-and-reverse_copy">reverse and reverse_copy</h3>
+<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
+#include &lt;range/v3/algorithm/reverse.hpp&gt;
+#include &lt;range/v3/algorithm/reverse_copy.hpp&gt;
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+int main()
+{
+    auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+
+    std::vector&lt;int&gt; v{0, 1, 2, 3};
+    std::reverse(v.begin(), v.end());
+    std::cout &lt;&lt; &quot;v std::reverse: &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; v_copy(v.size());
+    std::reverse_copy(v.begin(), v.end(), v_copy.begin());
+    std::cout &lt;&lt; &quot;v_copy std::reverse_copy): &quot;;
+    std::for_each(v_copy.begin(), v_copy.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; v2{0, 1, 2, 3};
+    ranges::reverse(v2);
+    std::cout &lt;&lt; &quot;v2 ranges::reverse: &quot;;
+    std::for_each(v2.begin(), v2.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; v2_copy(v2.size());
+    ranges::reverse_copy(v2, v2_copy.begin());
+    std::cout &lt;&lt; &quot;v2 ranges::reverse_copy: &quot;;
+    std::for_each(v2_copy.begin(), v2_copy.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    return 0;
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>v std::reverse: 3,2,1,0,
+v_copy std::reverse_copy): 0,1,2,3,
+v2 ranges::reverse: 3,2,1,0,
+v2 ranges::reverse_copy: 0,1,2,3,
+</code></pre>
+
+<h3 id="other-functions">Other functions</h3>
+<table>
+<thead>
+<tr>
+<th>function</th>
+<th>std</th>
+<th>ranges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rotate, rotate_copy, shuffle, next_permutation and prev_permutation are very similar.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="transformers">Transformers</h2>
+<h3 id="copy-copy_n-copy_if">copy, copy_n, copy_if</h3>
+<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
+#include &lt;range/v3/algorithm/copy.hpp&gt;
+#include &lt;range/v3/algorithm/copy_n.hpp&gt;
+#include &lt;range/v3/algorithm/copy_if.hpp&gt;
+#include &lt;range/v3/iterator_range.hpp&gt;
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+std::vector&lt;int&gt; from_v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+void copy_fun()
+{
+    std::vector&lt;int&gt; copy_to_v1;
+    std::copy(from_v.begin(), from_v.end(), std::back_inserter(copy_to_v1));
+    std::cout &lt;&lt; &quot;copy_to_v1: &quot;;
+    std::for_each(copy_to_v1.begin(), copy_to_v1.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    //or without a back_inserter
+    std::vector&lt;int&gt; copy_to_v2(from_v.size());
+    std::copy(from_v.begin(), from_v.end(), copy_to_v2.begin());
+    std::cout &lt;&lt; &quot;copy_to_v2: &quot;;
+    std::for_each(copy_to_v2.begin(), copy_to_v2.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; copy_to_v1_ranges;
+    ranges::copy(from_v.begin(), from_v.end(), ranges::back_inserter(copy_to_v1_ranges));
+    std::cout &lt;&lt; &quot;copy_to_v1_ranges: &quot;;
+    std::for_each(copy_to_v1_ranges.begin(), copy_to_v1_ranges.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; copy_to_v2_ranges(from_v.size());
+    ranges::copy(from_v, copy_to_v2_ranges.begin());
+    std::cout &lt;&lt; &quot;copy_to_v2_ranges: &quot;;
+    std::for_each(copy_to_v2_ranges.begin(), copy_to_v2_ranges.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+}
+
+void copy_n_fun()
+{
+    std::vector&lt;int&gt; copy_n_to_v1;
+    std::copy_n(from_v.begin(), 5, std::back_inserter(copy_n_to_v1));
+    std::cout &lt;&lt; &quot;copy_n_to_v1: &quot;;
+    std::for_each(copy_n_to_v1.begin(), copy_n_to_v1.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; copy_n_to_v2(from_v.size());
+    std::copy_n(from_v.begin(), 5, copy_n_to_v2.begin());
+    std::cout &lt;&lt; &quot;copy_n_to_v2: &quot;;
+    std::for_each(copy_n_to_v2.begin(), copy_n_to_v2.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; copy_n_to_v1_ranges;
+    ranges::copy_n(from_v.begin(), 5, ranges::back_inserter(copy_n_to_v1_ranges));
+    std::cout &lt;&lt; &quot;copy_n_to_v1_ranges: &quot;;
+    std::for_each(copy_n_to_v1_ranges.begin(), copy_n_to_v1_ranges.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; copy_n_to_v2_ranges(from_v.size());
+    ranges::copy_n(from_v.begin(), 5, copy_n_to_v2_ranges.begin());
+    std::cout &lt;&lt; &quot;copy_n_to_v2_ranges: &quot;;
+    std::for_each(copy_n_to_v2_ranges.begin(), copy_n_to_v2_ranges.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+}
+
+void copy_if_fun()
+{
+    std::vector&lt;int&gt; copy_if_to_v1;
+    std::copy_if(from_v.begin(), from_v.end(), std::back_inserter(copy_if_to_v1), [](int n) { return n%2 == 0; });
+    std::cout &lt;&lt; &quot;copy_if_to_v1: &quot;;
+    std::for_each(copy_if_to_v1.begin(), copy_if_to_v1.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; copy_if_to_v2(from_v.size());
+    std::copy_if(from_v.begin(), from_v.end(), copy_if_to_v1.begin(), [](int n) { return n%2 == 0; });
+    std::cout &lt;&lt; &quot;copy_if_to_v2: &quot;;
+    std::for_each(copy_if_to_v2.begin(), copy_if_to_v2.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; copy_if_to_v1_ranges;
+    ranges::copy_if(from_v.begin(), from_v.end(), ranges::back_inserter(copy_if_to_v1_ranges), [](int n) { return n%2 == 0; });
+    std::cout &lt;&lt; &quot;copy_if_to_v1_ranges: &quot;;
+    std::for_each(copy_if_to_v1_ranges.begin(), copy_if_to_v1_ranges.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::vector&lt;int&gt; copy_if_to_v2_ranges(from_v.size());
+    ranges::copy_if(from_v, copy_if_to_v2_ranges.begin(), [](int n) { return n%2 == 0; });
+    std::cout &lt;&lt; &quot;copy_if_to_v2_ranges: &quot;;
+    std::for_each(copy_if_to_v2_ranges.begin(), copy_if_to_v2_ranges.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+}
+
+int main()
+{
+    copy_fun();
+    copy_n_fun();
+    copy_if_fun();
+    return 0;
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>copy_to_v1: 0,1,2,3,4,5,6,7,8,9,
+copy_to_v2: 0,1,2,3,4,5,6,7,8,9,
+copy_to_v1_ranges: 0,1,2,3,4,5,6,7,8,9,
+copy_to_v2_ranges: 0,1,2,3,4,5,6,7,8,9,
+copy_n_to_v1: 0,1,2,3,4,
+copy_n_to_v2: 0,1,2,3,4,0,0,0,0,0,
+copy_n_to_v1_ranges: 0,1,2,3,4,
+copy_n_to_v2_ranges: 0,1,2,3,4,0,0,0,0,0,
+copy_if_to_v1: 0,2,4,6,8,
+copy_if_to_v2: 0,0,0,0,0,0,0,0,0,0,
+copy_if_to_v1_ranges: 0,2,4,6,8,
+copy_if_to_v2_ranges: 0,2,4,6,8,0,0,0,0,0,
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-link">
+        Golang Templates-1 Introduction
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../string-conversion-benchmark/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../string-conversion-benchmark/" class="btn btn-xs btn-link">
+        string conversion benchmark in C++
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content"><p>Copyright &copy; 2017 Asit Dhal</p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
