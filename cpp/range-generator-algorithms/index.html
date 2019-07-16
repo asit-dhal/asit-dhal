@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Range Generator Algorithms - Asit Dhal</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Range Generator Algorithms", url: "#_top", children: [
+              {title: "Range", url: "#range" },
+              {title: "Generator Algorithims", url: "#generator-algorithims" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-link">
+        Golang Templates-1 Introduction
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../string-conversion-benchmark/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../string-conversion-benchmark/" class="btn btn-xs btn-link">
+        string conversion benchmark in C++
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="range-generator-algorithms">Range Generator Algorithms</h1>
+<p>This post is about range generator algorithims in C++ and comparision with stl classical algorithims. I will be using range-v3 and boost range library for this.</p>
+<p>Primary motivation for ranges is to provide a simpler syntax for calling algorithims.</p>
+<p>In good old pre C++20 or without range-v3, </p>
+<pre><code class="cpp">std::vector&lt;int&gt; v {10, 2, 96};
+std::sort(v.begin(), v.end());
+</code></pre>
+
+<p>In range-v3 library</p>
+<pre><code class="cpp">ranges::sort(v);
+</code></pre>
+
+<h2 id="range">Range</h2>
+<p>Range is a sequence of elements between two locations i,k, often denoted by <code>[i, k)</code>. Range can also be an iterator and count of elements. Range can also be an iterator and a possiby stateful predicate that indicates when a range is exhausted.</p>
+<pre><code class="cpp">std::copy(std::istream_iterator&lt;int&gt;{std::cin},
+          std::istream_iterator&lt;int&gt;{},
+          buf);
+</code></pre>
+
+<h2 id="generator-algorithims">Generator Algorithims</h2>
+<p>In standard c++, there are three generator algorithims.</p>
+<ul>
+<li>std::fill, std::fill_n</li>
+<li>std::generate, std::generate_n</li>
+<li>std::iota</li>
+</ul>
+<p>std::fill populates a container with a value, std::generate generates a sequence of values to be populated in a container and std::iota generates a sequence of incremental values.</p>
+<h3 id="stdfill-and-stdfill_n">std::fill and std::fill_n</h3>
+<pre><code class="cpp">namespace std {
+
+template&lt; class ForwardIt, class T &gt;
+void fill( ForwardIt first, ForwardIt last, const T&amp; value );
+
+}
+</code></pre>
+
+<p>first -&gt; forward iterator, usually the value of std::begin(c) or c.begin() or c.begin() + a distance value
+last -&gt; past-the-end iterator or any position after first
+value -&gt; is a value to be populated</p>
+<pre><code class="cpp">namespace std {
+
+template&lt; class OutputIt, class Size, class T &gt;
+OutputIt fill_n( OutputIt first, Size count, const T&amp; value );
+
+}
+</code></pre>
+
+<p><code>fill_n</code> takes a size instead of an iterator. Notice that <code>fill_n</code> takes a output iterator and fill takes a forward iterator. Output iterator doesn't support equality/inequality comparison (including operator!= used in the possible implementation of <code>fill()</code>) and multipass guarantee, while forward iterator does. That means output iterator can't be used for representing a range via two iterators (e.g. [first, last)) which is required by <code>fill()</code>'s interface.</p>
+<p>There is another difference, <code>fill_n</code> return type is an output iterator. The return value is first + n.</p>
+<p>Example</p>
+<pre><code class="cpp">auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+
+std::vector&lt;int&gt; v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+std::fill(v.begin(), v.end(), -1);
+std::cout &lt;&lt; &quot;v after std::fill(..., -1): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+auto ret = std::fill_n(v.begin(), 3, -2);
+assert(ret == v.begin() + 3);
+std::cout &lt;&lt; &quot;v after std::fill_n(..., 3, -2): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+</code></pre>
+
+<p>Output</p>
+<pre><code>v after std::fill(..., -1): -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+v after std::fill_n(..., 3, -2): -2,-2,-2,-1,-1,-1,-1,-1,-1,-1,
+</code></pre>
+
+<p>Both range-v3 and boost range emulates this behavior.</p>
+<pre><code class="cpp">namespace range {
+namespace v3 {
+struct fill_fn
+{
+    template&lt;typename O, typename S, typename V,
+        CONCEPT_REQUIRES_(OutputIterator&lt;O, V const &amp;&gt;() &amp;&amp; Sentinel&lt;S, O&gt;())&gt;
+    O operator()(O begin, S end, V const &amp; val) const
+    {
+        for(; begin != end; ++begin)
+            *begin = val;
+        return begin;
+    }
+
+    template&lt;typename Rng, typename V, typename O = iterator_t&lt;Rng&gt;,
+        CONCEPT_REQUIRES_(OutputRange&lt;Rng, V const &amp;&gt;())&gt;
+    safe_iterator_t&lt;Rng&gt; operator()(Rng &amp;&amp;rng, V const &amp; val) const
+    {
+        return (*this)(begin(rng), end(rng), val);
+    }
+}
+} // v3
+} // range
+</code></pre>
+
+<p>The first version of fill is straight forward. It takes both begin and end iterator, and a value. It returns end.
+The second version takes a range, basically a pair of begin and end.</p>
+<pre><code class="cpp">
+namespace range {
+namespace v3 {
+
+struct fill_n_fn
+{
+    template&lt;typename O, typename V,
+        CONCEPT_REQUIRES_(OutputIterator&lt;O, V const &amp;&gt;())&gt;
+    O operator()(O begin, difference_type_t&lt;O&gt; n, V const &amp; val) const
+    {
+        RANGES_EXPECT(n &gt;= 0);
+        auto norig = n;
+        auto b = uncounted(begin);
+        for(; n != 0; ++b, --n)
+            *b = val;
+            return recounted(begin, b, norig);
+    }
+};
+} // v3
+} // range
+</code></pre>
+
+<p>The <code>fill_n</code> takes an output iterator and a length. It returns first + n.</p>
+<p>Example</p>
+<pre><code class="cpp">std::vector&lt;int&gt; v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+auto ret1 = ranges::fill(v, 6);
+assert(ret1 == v.end());
+std::cout &lt;&lt; &quot;v after ranges::fill(..., 6): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+auto ret2 = ranges::fill_n(v.begin(), 3, 12);
+assert(ret2 == v.begin() + 3);
+std::cout &lt;&lt; &quot;v after ranges::fill_n(..., 3, 12): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+</code></pre>
+
+<p>Output</p>
+<pre><code>v after ranges::fill(..., 6): 6,6,6,6,6,6,6,6,6,6,
+v after ranges::fill_n(..., 3, 12): 12,12,12,6,6,6,6,6,6,6,
+</code></pre>
+
+<p>Boost range is very similar to range-v3, except fill_n can figure out begin iterator easily.</p>
+<p>Example</p>
+<pre><code class="cpp">std::vector&lt;int&gt; v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+oost::range::fill(v, -1);
+std::cout &lt;&lt; &quot;v after boost::range::fill(..., -1): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+boost::range::fill_n(v, 5, -10);
+std::cout &lt;&lt; &quot;v after boost::range::fill(..., 5, -10): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+</code></pre>
+
+<p>Output</p>
+<pre><code>v after boost::range::fill(..., -1): -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+v after boost::range::fill(..., 5, -10): -10,-10,-10,-10,-10,-1,-1,-1,-1,-1,
+</code></pre>
+
+<p>Boost range interally uses classical stl algorithims. All three have a very similar performance.</p>
+<p><img alt="fill_benchmark" src="../images/fill_benchmark.png" />
+<img alt="fill_n_benchmark" src="../images/fill_n_benchmark.png" /></p>
+<h3 id="iota">iota</h3>
+<p>iota is very similar to fill.</p>
+<pre><code class="cpp">auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+
+std::list&lt;int&gt; l(10);
+std::iota(l.begin(), l.end(), -4);
+std::cout &lt;&lt; &quot;l after std::iota(..., -4): &quot;;
+std::for_each(l.begin(), l.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+ranges::iota(l, 6);
+std::cout &lt;&lt; &quot;l after ranges::iota(..., 6): &quot;;
+std::for_each(l.begin(), l.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+boost::range::iota(l, -10);
+std::cout &lt;&lt; &quot;l after boost::range::iota(..., -10): &quot;;
+std::for_each(l.begin(), l.end(), printFunc);
+std::cout &lt;&lt; '\n';
+</code></pre>
+
+<p>Output</p>
+<pre><code>l after std::iota(..., -4): -4,-3,-2,-1,0,1,2,3,4,5,
+l after ranges::iota(..., 6): 6,7,8,9,10,11,12,13,14,15,
+l after boost::range::iota(..., -10): -10,-9,-8,-7,-6,-5,-4,-3,-2,-1,
+</code></pre>
+
+<p>Like fill and fill_n, iota has also similar performance.
+<img alt="iota_benchmark" src="../images/iota_benchmark.png" /></p>
+<h3 id="generate-and-generate_n">generate and generate_n</h3>
+<p>Both generate and generate_n are very similar to fill and fill_n. Boost doesn't have an equivalent of n function.</p>
+<p>Example of std library</p>
+<pre><code class="cpp">std::vector&lt;int&gt; v(5);
+std::generate(v.begin(), v.end(), [n = 0] () mutable { return n++; });
+std::cout &lt;&lt; &quot;v std::generate(...): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+v.clear();
+v.resize(5);
+std::generate_n(v.begin(), 2, [n = 20] () mutable { return n++; });
+std::cout &lt;&lt; &quot;v std::generate_n(..., 2, ...): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n'; 
+</code></pre>
+
+<p>Output</p>
+<pre><code>v std::generate(...): 0,1,2,3,4,
+v std::generate_n(..., 2, ...): 20,21,0,0,0,
+</code></pre>
+
+<p>Example of range library</p>
+<pre><code class="cpp">std::vector&lt;int&gt; v(5);
+ranges::generate(v, [n = 10] () mutable { return n++; });
+std::cout &lt;&lt; &quot;v ranges::generate(...): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+v.clear();
+v.resize(10);
+ranges::generate_n(v.begin(), 3, [n = 15] () mutable { return n++; });
+std::cout &lt;&lt; &quot;v ranges::generate_n(.., 3, ..): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+</code></pre>
+
+<p>Output</p>
+<pre><code>v ranges::generate(...): 10,11,12,13,14,
+v ranges::generate_n(.., 3, ..): 15,16,17,0,0,0,0,0,0,0,
+</code></pre>
+
+<p>Example of boost library</p>
+<pre><code class="cpp">std::vector&lt;int&gt; v(5);
+boost::range::generate(v, [n = 10] () mutable { return n++; });
+std::cout &lt;&lt; &quot;v boost::ranges::generate(...): &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+</code></pre>
+
+<p>Output</p>
+<pre><code>v boost::ranges::generate(...): 10,11,12,13,14,
+</code></pre>
+
+<p>And finally, the performance benchmark</p>
+<p><img alt="generate_benchmark" src="../images/generate_benchmark.png" />
+<img alt="generate_n_benchmark" src="../images/generate_n_benchmark.png" /></p>
+<p>Benchmark source code is shared here
+<a href="https://github.com/asit-dhal/range-benchmarks.git">https://github.com/asit-dhal/range-benchmarks.git</a></p>
+<p>Image produced: <a href="https://github.com/asit-dhal/BenchmarkViewer">https://github.com/asit-dhal/BenchmarkViewer</a></p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-link">
+        Golang Templates-1 Introduction
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../string-conversion-benchmark/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../string-conversion-benchmark/" class="btn btn-xs btn-link">
+        string conversion benchmark in C++
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content"><p>Copyright &copy; 2017 Asit Dhal</p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

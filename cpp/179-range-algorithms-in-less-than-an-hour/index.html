@@ -40,7 +40,6 @@
               {title: "Range Concepts", url: "#range-concepts" },
               {title: "Sized ranges", url: "#sized-ranges" },
               {title: "Difference between Rangle algorithims and classic stl algorithims", url: "#difference-between-rangle-algorithims-and-classic-stl-algorithims" },
-              {title: "for_each", url: "#for_each" },
               {title: "Generators", url: "#generators" },
               {title: "Permutations", url: "#permutations" },
               {title: "Transformers", url: "#transformers" },
@@ -61,33 +60,6 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <div class="container-fluid wm-page-content">
   <a name="_top"></a>
     
-
-    
-    
-      
-    
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
-    
-    <div class="wm-article-nav pull-right">
-      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-link">
-        Golang Templates-1 Introduction
-      </a>
-    </div>
-    
-    <div class="wm-article-nav">
-      <a href="../string-conversion-benchmark/" class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../string-conversion-benchmark/" class="btn btn-xs btn-link">
-        string conversion benchmark in C++
-      </a>
-    </div>
-    
-  </div>
 
     
 
@@ -193,49 +165,6 @@ std::sort(v.begin(), v.end());
 <li>Some return type changes </li>
 <li>No Parallel overloads  </li>
 </ul>
-<h2 id="for_each">for_each</h2>
-<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
-#include &lt;range/v3/algorithm/for_each.hpp&gt;
-#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;algorithm&gt;
-
-struct Sum
-{
-    Sum(): sum{0} { }
-    void operator()(int n) { sum += n; }
-    int sum;
-};
-
-int main()
-{
-    auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
-    std::vector&lt;int&gt; v{0, 2, 3, 6};
-
-    std::cout &lt;&lt; &quot;std::for_each printFunc: &quot;;
-    std::for_each(v.begin(), v.end(), printFunc);
-    std::cout &lt;&lt; '\n';
-    Sum forEachSum = std::for_each(v.begin(), v.end(), Sum());
-    std::cout &lt;&lt; &quot;std::for_each sum: &quot; &lt;&lt; forEachSum.sum &lt;&lt; '\n';
-
-    std::cout &lt;&lt; &quot;ranges::for_each printFunc: &quot;;
-    ranges::for_each(v, printFunc);
-    std::cout &lt;&lt; '\n';
-    auto res = ranges::for_each(v, Sum());
-    std::cout &lt;&lt; &quot;range::for_each sum: &quot; &lt;&lt; res.fun().sum &lt;&lt; '\n';
-
-    return 0;
-}
-</code></pre>
-
-<p>Output</p>
-<pre><code>ranges::for_each printFunc: 0,2,3,6,
-range::for_each sum: 11
-std::for_each printFunc: 0,2,3,6,
-std::for_each sum: 11
-</code></pre>
-
-<p>Both ranges::for_each and std::for_each pass the operands by value(the function and the accumulated value). So Accumulation object is used as copies. </p>
 <h2 id="generators">Generators</h2>
 <h3 id="fill-fill_n">fill, fill_n</h3>
 <pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
@@ -560,35 +489,52 @@ copy_if_to_v1_ranges: 0,2,4,6,8,
 copy_if_to_v2_ranges: 0,2,4,6,8,0,0,0,0,0,
 </code></pre>
 
+<h3 id="for_each">for_each</h3>
+<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
+#include &lt;range/v3/algorithm/for_each.hpp&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+struct Sum
+{
+    Sum(): sum{0} { }
+    void operator()(int n) { sum += n; }
+    int sum;
+};
+
+int main()
+{
+    auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+    std::vector&lt;int&gt; v{0, 2, 3, 6};
+
+    std::cout &lt;&lt; &quot;std::for_each printFunc: &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+    Sum forEachSum = std::for_each(v.begin(), v.end(), Sum());
+    std::cout &lt;&lt; &quot;std::for_each sum: &quot; &lt;&lt; forEachSum.sum &lt;&lt; '\n';
+
+    std::cout &lt;&lt; &quot;ranges::for_each printFunc: &quot;;
+    ranges::for_each(v, printFunc);
+    std::cout &lt;&lt; '\n';
+    auto res = ranges::for_each(v, Sum());
+    std::cout &lt;&lt; &quot;range::for_each sum: &quot; &lt;&lt; res.fun().sum &lt;&lt; '\n';
+
+    return 0;
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>ranges::for_each printFunc: 0,2,3,6,
+range::for_each sum: 11
+std::for_each printFunc: 0,2,3,6,
+std::for_each sum: 11
+</code></pre>
+
+<p>Both ranges::for_each and std::for_each pass the operands by value(the function and the accumulated value). So Accumulation object is used as copies. </p>
+
   <br>
     
-
-    
-    
-      
-    
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
-    
-    <div class="wm-article-nav pull-right">
-      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-link">
-        Golang Templates-1 Introduction
-      </a>
-    </div>
-    
-    <div class="wm-article-nav">
-      <a href="../string-conversion-benchmark/" class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../string-conversion-benchmark/" class="btn btn-xs btn-link">
-        string conversion benchmark in C++
-      </a>
-    </div>
-    
-  </div>
 
     <br>
 </div>
