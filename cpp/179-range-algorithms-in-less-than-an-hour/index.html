@@ -39,7 +39,10 @@
               {title: "Sentinels", url: "#sentinels" },
               {title: "Range Concepts", url: "#range-concepts" },
               {title: "Sized ranges", url: "#sized-ranges" },
+              {title: "Projections", url: "#projections" },
               {title: "Difference between Rangle algorithims and classic stl algorithims", url: "#difference-between-rangle-algorithims-and-classic-stl-algorithims" },
+              {title: "Views: Pipelines of lazy computation", url: "#views-pipelines-of-lazy-computation" },
+              {title: "Factoris &amp; Adaptors", url: "#factoris-adaptors" },
               {title: "Generators", url: "#generators" },
               {title: "Permutations", url: "#permutations" },
               {title: "Transformers", url: "#transformers" },
@@ -47,7 +50,16 @@
         ];
 
     </script>
-    <script src="../../js/base.js"></script> 
+    <script src="../../js/base.js"></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-58305706-1', 'asit-dhal.github.io');
+        ga('send', 'pageview');
+    </script> 
 </head>
 
 <body>
@@ -125,9 +137,24 @@ std::sort(v.begin(), v.end());
 <blockquote>
 <p>A sentinel is an abstraction of a past-the-end iterator. Sentinels are Regular types that can be used to denote the end of a range. A sentinel and an iterator denoting a range shall be EqualityComparable. A sentinel denotes an element when an iterator i compares equal to the sentinel, and i points to that element.</p>
 </blockquote>
-<p>You can detect the end of a range in two ways.
-- by testing the iterator itself(past-the-end)
-- by testing the data value at the iterator</p>
+<p>You can detect the end of a range in two ways.</p>
+<ul>
+<li>
+<p>by testing the iterator itself(past-the-end)</p>
+</li>
+<li>
+<p>by testing the data value at the iterator</p>
+</li>
+</ul>
+<p>By allowing the type of the end iterator to differ from begin we:</p>
+<ul>
+<li>
+<p>Give the optimizer more context, resulting in better codegen</p>
+</li>
+<li>
+<p>Make it easier to write correct iterators.</p>
+</li>
+</ul>
 <h2 id="range-concepts">Range Concepts</h2>
 <p>Range is a type that allows iteration over its elements by providing an iterator and a sentinel that denote the elements of the range.</p>
 <ul>
@@ -150,6 +177,8 @@ std::sort(v.begin(), v.end());
 <li>ranges::distance can compute the distant of any range but has linear complexity for non sized ranges/sentinels</li>
 <li>ranges::data gives a pointer to the data of a contiguous range</li>
 </ul>
+<h2 id="projections">Projections</h2>
+<p>Projections allow you give a lambda or invocable that transforms the data on the fly while the algorihim is operating on data. It basically transforms the input sequence.</p>
 <h2 id="difference-between-rangle-algorithims-and-classic-stl-algorithims">Difference between Rangle algorithims and classic stl algorithims</h2>
 <ul>
 <li>
@@ -165,6 +194,32 @@ std::sort(v.begin(), v.end());
 </li>
 <li>Some return type changes </li>
 <li>No Parallel overloads  </li>
+</ul>
+<h2 id="views-pipelines-of-lazy-computation">Views: Pipelines of lazy computation</h2>
+<p>View is a range type that has constant time copy, move, and assignment operators.</p>
+<p>e.g.</p>
+<ul>
+<li>A range type that wraps a pair of iterators.</li>
+<li>A range type that holds its elements by <code>shared_ptr</code> and shares ownership with all its copies.</li>
+<li>A range type that generates its elements on demand.</li>
+<li>most containers are not views.</li>
+</ul>
+<pre><code class="cpp">int main()
+{
+    std::vector&lt;int&gt; is = ranges::view::iota(0, 10);
+    auto is_even = [](int i) { return i%2 == 0; };
+
+    for (int i: is | ranges::view::filter(is_even))
+        std::cout &lt;&lt; i &lt;&lt; &quot; &quot;;
+}
+</code></pre>
+
+<p>view are implicitly converted to stl containers. </p>
+<h2 id="factoris-adaptors">Factoris &amp; Adaptors</h2>
+<ul>
+<li>For each view, the library defines a utility object called an adaptor (if it transforms an existing range) or a factory (otherwise), which creates such a view.</li>
+<li>Adapted views are lazy, which means they generate their elements only on demand, when the resulting adapted range is iterated.</li>
+<li>For this reason, there can be views with infinitely many elements</li>
 </ul>
 <h2 id="generators">Generators</h2>
 <h3 id="fill-fill_n">fill, fill_n</h3>
@@ -540,7 +595,7 @@ std::for_each sum: 11
     <br>
 </div>
 
-<footer class="col-md-12 wm-page-content"><p>Copyright &copy; 2017 Asit Dhal</p>
+<footer class="col-md-12 wm-page-content"><p>Copyright &copy; 2017-2019 Asit Dhal</p>
   <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
 </footer>
 
