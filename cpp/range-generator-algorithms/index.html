@@ -34,7 +34,7 @@
         var pageToc = [
           {title: "Range Generator Algorithms", url: "#_top", children: [
               {title: "Range", url: "#range" },
-              {title: "Generator Algorithims", url: "#generator-algorithims" },
+              {title: "Range based Generator Algorithim overloads", url: "#range-based-generator-algorithim-overloads" },
           ]},
         ];
 
@@ -95,13 +95,23 @@ std::sort(v.begin(), v.end());
 </code></pre>
 
 <h2 id="range">Range</h2>
-<p>Range is a sequence of elements between two locations i,k, often denoted by <code>[i, k)</code>. Range can also be an iterator and count of elements. Range can also be an iterator and a possiby stateful predicate that indicates when a range is exhausted.</p>
-<pre><code class="cpp">std::copy(std::istream_iterator&lt;int&gt;{std::cin},
-          std::istream_iterator&lt;int&gt;{},
-          buf);
+<p>Ranges are an abstraction over Iterators. Range is basically anything that has a begin() and an end(), both begin() returns an iterator and end() returns a sentinel.</p>
+<pre><code class="cpp">range
+{
+    SomeIterator begin();
+    SomeSentinel end();
+}
 </code></pre>
 
-<h2 id="generator-algorithims">Generator Algorithims</h2>
+<p>From C++ standard document <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4382.pdf">n4382</a></p>
+<blockquote>
+<p>A sentinel is an abstraction of a past-the-end iterator. Sentinels are Regular types that can be used to denote the end of a range. A sentinel and an iterator denoting a range shall be EqualityComparable. A sentinel denotes an element when an iterator i compares equal to the sentinel, and i points to that element.</p>
+</blockquote>
+<p>You can detect the end of a range in two ways.
+- by testing the iterator itself(past-the-end)
+- by testing the data value at the iterator</p>
+<p>Most classical stl algorithim has an overload which takes a range, instead of begin() and end() iterator.</p>
+<h2 id="range-based-generator-algorithim-overloads">Range based Generator Algorithim overloads</h2>
 <p>In standard c++, there are three generator algorithims.</p>
 <ul>
 <li>std::fill, std::fill_n</li>

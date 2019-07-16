@@ -81,6 +81,7 @@ std::sort(v.begin(), v.end());
 </code></pre>
 
 <h2 id="range">Range</h2>
+<p>Ranges are an abstraction over Iterators. Range is basically anything that has a begin() and an end(), both begin() returns an iterator and end() returns a sentinel.</p>
 <p>Range is a sequence of elements between two locations i,k, often denoted by <code>[i, k)</code>. In standard library, a range is a pair of iterators, usually a begin and an end iterator.</p>
 <pre><code class="cpp">std::copy(v.begin(), v.end(), buf);
 </code></pre>
