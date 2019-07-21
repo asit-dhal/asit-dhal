@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Range Property Check and Value Query Algorithms - Asit Dhal</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Range Property Check Algorithms", url: "#_top", children: [
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-58305706-1', 'asit-dhal.github.io');
+        ga('send', 'pageview');
+    </script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="range-property-check-algorithms">Range Property Check Algorithms</h1>
+<p>There are three property check algorithms in range-v3 and standarc c++</p>
+<ul>
+<li>all_of</li>
+<li>none_of</li>
+<li>any_of</li>
+</ul>
+<p>All these algorithims take an unary predicate and apply on range. all_of checks if the unary predicate is true for all elements, none_of checks the opposite and any_of checks at-least one is true.</p>
+<p>Boost range doesn't have any equivalent functions like this.</p>
+<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
+#include &lt;range/v3/algorithm/all_of.hpp&gt;
+#include &lt;range/v3/algorithm/any_of.hpp&gt;
+#include &lt;range/v3/algorithm/none_of.hpp&gt;
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+
+int main()
+{
+    std::vector&lt;int&gt; v{2, 4, 6};
+
+    std::cout &lt;&lt; &quot;v: &quot;;
+    std::for_each(v.begin(), v.end(), printFunc);
+    std::cout &lt;&lt; '\n';
+
+    std::cout &lt;&lt; std::boolalpha;
+
+    std::cout &lt;&lt; &quot;std::all_of evens: &quot; &lt;&lt; std::all_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
+    std::cout &lt;&lt; &quot;std::any_of divisible by 4: &quot; &lt;&lt; std::any_of(v.begin(), v.end(), [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
+    std::cout &lt;&lt; &quot;std::none_of odd: &quot; &lt;&lt; std::none_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+
+    std::cout &lt;&lt; &quot;ranges::all_of evens: &quot; &lt;&lt; ranges::all_of(v, [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
+    std::cout &lt;&lt; &quot;ranges::any_of divisible by 4: &quot; &lt;&lt; ranges::any_of(v, [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
+    std::cout &lt;&lt; &quot;ranges::none_of odd: &quot; &lt;&lt; ranges::none_of(v, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+
+    return 0;
+}
+</code></pre>
+
+<p>Output</p>
+<pre><code>v: 2,4,6,
+std::all_of evens: true
+std::any_of divisible by 4: true
+std::none_of odd: true
+ranges::all_of evens: true
+ranges::any_of divisible by 4: true
+ranges::none_of odd: true
+</code></pre>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content"><p>Copyright &copy; 2017-2019 Asit Dhal</p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
