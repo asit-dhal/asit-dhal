@@ -11,7 +11,7 @@
     
     <link rel="shortcut icon" href="../../img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Range Property Check and Value Query Algorithms - Asit Dhal</title>
+    <title>Range Property Check Functions - Asit Dhal</title>
     <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -61,6 +61,33 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
     
 
     
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-link">
+        Golang Templates-1 Introduction
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../range-generator-algorithms/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../range-generator-algorithms/" class="btn btn-xs btn-link">
+        Range Generator Algorithms
+      </a>
+    </div>
+    
+  </div>
+
+    
 
     <h1 id="range-property-check-algorithms">Range Property Check Algorithms</h1>
 <p>There are three property check algorithms in range-v3 and standarc c++</p>
@@ -69,39 +96,39 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <li>none_of</li>
 <li>any_of</li>
 </ul>
-<p>All these algorithims take an unary predicate and apply on range. all_of checks if the unary predicate is true for all elements, none_of checks the opposite and any_of checks at-least one is true.</p>
-<p>Boost range doesn't have any equivalent functions like this.</p>
-<pre><code class="cpp">#include &lt;range/v3/core.hpp&gt;
-#include &lt;range/v3/algorithm/all_of.hpp&gt;
-#include &lt;range/v3/algorithm/any_of.hpp&gt;
-#include &lt;range/v3/algorithm/none_of.hpp&gt;
+<p>All these algorithims take a sequence and an unary predicate. 
+    - all_of checks if the unary predicate is true for all elements
+    - none_of checks the opposite 
+    - any_of checks at-least one is true.</p>
+<p>Boost algorithims take both iterators(begin and end pair) or range.</p>
+<pre><code class="cpp">std::vector&lt;int&gt; v{2, 4, 6};
 
-#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;algorithm&gt;
+std::cout &lt;&lt; &quot;v: &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
 
-auto printFunc = [](auto x) { std::cout &lt;&lt; x &lt;&lt; ',';};
+std::cout &lt;&lt; std::boolalpha;
 
-int main()
-{
-    std::vector&lt;int&gt; v{2, 4, 6};
+std::cout &lt;&lt; &quot;std::all_of evens: &quot; &lt;&lt; std::all_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;std::any_of divisible by 4: &quot; &lt;&lt; std::any_of(v.begin(), v.end(), [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;std::none_of odd: &quot; &lt;&lt; std::none_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
 
-    std::cout &lt;&lt; &quot;v: &quot;;
-    std::for_each(v.begin(), v.end(), printFunc);
-    std::cout &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;ranges::all_of evens: &quot; &lt;&lt; ranges::all_of(v, [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;ranges::any_of divisible by 4: &quot; &lt;&lt; ranges::any_of(v, [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;ranges::none_of odd: &quot; &lt;&lt; ranges::none_of(v, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
 
-    std::cout &lt;&lt; std::boolalpha;
-
-    std::cout &lt;&lt; &quot;std::all_of evens: &quot; &lt;&lt; std::all_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
-    std::cout &lt;&lt; &quot;std::any_of divisible by 4: &quot; &lt;&lt; std::any_of(v.begin(), v.end(), [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
-    std::cout &lt;&lt; &quot;std::none_of odd: &quot; &lt;&lt; std::none_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
-
-    std::cout &lt;&lt; &quot;ranges::all_of evens: &quot; &lt;&lt; ranges::all_of(v, [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
-    std::cout &lt;&lt; &quot;ranges::any_of divisible by 4: &quot; &lt;&lt; ranges::any_of(v, [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
-    std::cout &lt;&lt; &quot;ranges::none_of odd: &quot; &lt;&lt; ranges::none_of(v, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
-
-    return 0;
-}
+std::cout &lt;&lt; &quot;boost::algorithm::all_of(iter...) evens: &quot;
+          &lt;&lt; boost::algorithm::all_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::all_of(range...) evens: &quot;
+          &lt;&lt; boost::algorithm::all_of(v, [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::any_of divisible by 4(iter...): &quot;
+          &lt;&lt; boost::algorithm::any_of(v.begin(), v.end(), [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::any_of divisible by 4(range...): &quot;
+          &lt;&lt; boost::algorithm::any_of(v, [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::none_of(iter...) odd: &quot;
+          &lt;&lt; boost::algorithm::none_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::none_of(range...) odd: &quot;
+          &lt;&lt; boost::algorithm::none_of(v, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
 </code></pre>
 
 <p>Output</p>
@@ -112,10 +139,129 @@ std::none_of odd: true
 ranges::all_of evens: true
 ranges::any_of divisible by 4: true
 ranges::none_of odd: true
+boost::algorithm::all_of(iter...) evens: true
+boost::algorithm::all_of(range...) evens: true
+boost::algorithm::any_of divisible by 4(iter...): true
+boost::algorithm::any_of divisible by 4(range...): true
+boost::algorithm::none_of(iter...) odd: true
+boost::algorithm::none_of(range...) odd: true
+</code></pre>
+
+<p>Boost has a few additional property check functions.</p>
+<ul>
+<li>one_of</li>
+<li>is_sorted</li>
+<li>is_partioned</li>
+</ul>
+<p>one_of takes a sequence and a predicate. It will return true if the predicate returns true for one element in the sequence. The function is_sorted determines whether or not a sequence is completely sorted according so some criteria. If no comparison predicate is specified, then std::less_equal is used. is_partitioned takes a sequence and a predicate and returns true if the sequence is partitioned according to the predicate. </p>
+<pre><code class="cpp">std::vector&lt;int&gt; v{2, 4, 6};
+std::vector&lt;int&gt; v2{1,3, 4, 2, 4, 6};
+std::cout &lt;&lt; &quot;v: &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+std::cout &lt;&lt; std::boolalpha;
+std::cout &lt;&lt; &quot;boost::algorithm::one_of(iter...) odd: &quot;
+          &lt;&lt; boost::algorithm::one_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::one_of(range...) odd: &quot;
+          &lt;&lt; boost::algorithm::one_of(v, [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::is_sorted(iter...): &quot;
+          &lt;&lt; boost::algorithm::is_sorted(v.begin(), v.end()) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::is_sorted(range...): &quot;
+          &lt;&lt; boost::algorithm::is_sorted(v) &lt;&lt; '\n';
+
+std::cout &lt;&lt; &quot;boost::algorithm::is_partitioned(iter...): &quot;
+          &lt;&lt; boost::algorithm::is_partitioned(v2.begin(), v2.end(), [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::is_partitioned(range...): &quot;
+          &lt;&lt; boost::algorithm::is_partitioned(v2, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+
+// range-v3
+std::cout &lt;&lt; &quot;ranges::is_sorted: &quot;&lt;&lt; ranges::is_sorted(v) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;ranges::is_partitioned: &quot;&lt;&lt; ranges::is_partitioned(v2, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+</code></pre>
+
+<p>Output</p>
+<pre><code>v: 2,4,6,
+boost::algorithm::one_of(iter...) odd: false
+boost::algorithm::one_of(range...) odd: false
+boost::algorithm::is_sorted(iter...): true
+boost::algorithm::is_sorted(range...): true
+boost::algorithm::is_partitioned(iter...): true
+boost::algorithm::is_partitioned(range...): true
+ranges::is_sorted: true
+ranges::is_partitioned: true
+</code></pre>
+
+<p>Boost also provides number of algorithims with _equal suffix. They take an additional parameter to compare the value with. </p>
+<ul>
+<li>all_of_equal</li>
+<li>none_of_equal</li>
+<li>any_of_equal</li>
+<li>one_of_equal</li>
+</ul>
+<pre><code class="cpp">std::vector&lt;int&gt; v{2, 4, 6};
+std::cout &lt;&lt; &quot;v: &quot;;
+std::for_each(v.begin(), v.end(), printFunc);
+std::cout &lt;&lt; '\n';
+
+std::cout &lt;&lt; std::boolalpha;
+
+std::cout &lt;&lt; &quot;Iterator ...\n&quot;;
+std::cout &lt;&lt; &quot;boost::algorithm::all_of_equal: &quot;&lt;&lt; boost::algorithm::all_of_equal(v.begin(), v.end(), 4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::any_of_equal: &quot;&lt;&lt; boost::algorithm::any_of_equal(v.begin(), v.end(), 4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::none_of_equal: &quot;&lt;&lt; boost::algorithm::none_of_equal(v.begin(), v.end(), 4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::one_of_equal: &quot;&lt;&lt; boost::algorithm::one_of_equal(v.begin(), v.end(), 4) &lt;&lt; '\n';
+
+std::cout &lt;&lt; &quot;Range ...\n&quot;;
+std::cout &lt;&lt; &quot;boost::algorithm::all_of_equal: &quot;&lt;&lt; boost::algorithm::all_of_equal(v, 4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::any_of_equal: &quot;&lt;&lt; boost::algorithm::any_of_equal(v, 4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::none_of_equal: &quot;&lt;&lt; boost::algorithm::none_of_equal(v, 4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::one_of_equal: &quot;&lt;&lt; boost::algorithm::one_of_equal(v, 4) &lt;&lt; '\n';
+</code></pre>
+
+<p>Output</p>
+<pre><code>v: 2,4,6,
+Iterator ...
+boost::algorithm::all_of_equal: false
+boost::algorithm::any_of_equal: true
+boost::algorithm::none_of_equal: false
+boost::algorithm::one_of_equal: true
+Range ...
+boost::algorithm::all_of_equal: false
+boost::algorithm::any_of_equal: true
+boost::algorithm::none_of_equal: false
+boost::algorithm::one_of_equal: true
 </code></pre>
 
   <br>
     
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../../golang/golang-templates-1-introduction/" class="btn btn-xs btn-link">
+        Golang Templates-1 Introduction
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../range-generator-algorithms/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../range-generator-algorithms/" class="btn btn-xs btn-link">
+        Range Generator Algorithms
+      </a>
+    </div>
+    
+  </div>
 
     <br>
 </div>
