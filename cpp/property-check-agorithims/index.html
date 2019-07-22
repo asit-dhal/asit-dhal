@@ -33,6 +33,7 @@
         
         var pageToc = [
           {title: "Property Check Algorithms in C++", url: "#_top", children: [
+              {title: "property check on empty ranges", url: "#property-check-on-empty-ranges" },
           ]},
         ];
 
@@ -233,6 +234,59 @@ boost::algorithm::any_of_equal: true
 boost::algorithm::none_of_equal: false
 boost::algorithm::one_of_equal: true
 </code></pre>
+
+<h2 id="property-check-on-empty-ranges">property check on empty ranges</h2>
+<p>Empty range behaves a little bit different. An empty range returns true for all_of and none_of. An empty range returns false for any_of and one_of. An empty range is always sorted and partioned.</p>
+<table>
+<thead>
+<tr>
+<th>function on empty</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>all_of</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>all_of_equal</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>any_of</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>any_of_equal</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>none_of</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>none_of_equal</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>one_of</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>one_of_equal</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>is_sorted</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>is_partitioned</code></td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
 
   <br>
     
