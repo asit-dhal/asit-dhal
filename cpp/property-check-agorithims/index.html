@@ -11,7 +11,7 @@
     
     <link rel="shortcut icon" href="../../img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Range Property Check Functions - Asit Dhal</title>
+    <title>Property Check Algorithms - Asit Dhal</title>
     <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -32,7 +32,7 @@
       var is_top_frame = false;
         
         var pageToc = [
-          {title: "Range Property Check Algorithms", url: "#_top", children: [
+          {title: "Property Check Algorithms in C++", url: "#_top", children: [
           ]},
         ];
 
@@ -89,18 +89,19 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 
     
 
-    <h1 id="range-property-check-algorithms">Range Property Check Algorithms</h1>
-<p>There are three property check algorithms in range-v3 and standarc c++</p>
+    <h1 id="property-check-algorithms-in-c">Property Check Algorithms in C++</h1>
+<p>There are three property check algorithms in range-v3 and standard c++</p>
 <ul>
 <li>all_of</li>
 <li>none_of</li>
 <li>any_of</li>
 </ul>
-<p>All these algorithims take a sequence and an unary predicate. 
-    - all_of checks if the unary predicate is true for all elements
-    - none_of checks the opposite 
-    - any_of checks at-least one is true.</p>
-<p>Boost algorithims take both iterators(begin and end pair) or range.</p>
+<p>All these functions take a sequence and a unary predicate. </p>
+<pre><code>- all_of checks if the unary predicate is true for all elements
+- none_of checks the opposite 
+- any_of checks at-least one is true.
+</code></pre>
+<p>Boost functions take both iterators(begin and end pair) or range.</p>
 <pre><code class="cpp">std::vector&lt;int&gt; v{2, 4, 6};
 
 std::cout &lt;&lt; &quot;v: &quot;;
@@ -153,7 +154,7 @@ boost::algorithm::none_of(range...) odd: true
 <li>is_sorted</li>
 <li>is_partioned</li>
 </ul>
-<p>one_of takes a sequence and a predicate. It will return true if the predicate returns true for one element in the sequence. The function is_sorted determines whether or not a sequence is completely sorted according so some criteria. If no comparison predicate is specified, then std::less_equal is used. is_partitioned takes a sequence and a predicate and returns true if the sequence is partitioned according to the predicate. </p>
+<p>one_of takes a sequence and a predicate. It will return true if the predicate returns true for one element in the sequence. The function is_sorted determines whether or not a sequence is completely sorted according to some criteria. If no comparison predicate is specified, then std::less_equal is used. is_partitioned takes a sequence and a predicate and returns true if the sequence is partitioned according to the predicate. </p>
 <pre><code class="cpp">std::vector&lt;int&gt; v{2, 4, 6};
 std::vector&lt;int&gt; v2{1,3, 4, 2, 4, 6};
 std::cout &lt;&lt; &quot;v: &quot;;
@@ -192,7 +193,7 @@ ranges::is_sorted: true
 ranges::is_partitioned: true
 </code></pre>
 
-<p>Boost also provides number of algorithims with _equal suffix. They take an additional parameter to compare the value with. </p>
+<p>Boost also provides several algorithms with the _equal suffix. They take an additional parameter to compare the value with. </p>
 <ul>
 <li>all_of_equal</li>
 <li>none_of_equal</li>
