@@ -111,26 +111,20 @@ std::cout &lt;&lt; '\n';
 
 std::cout &lt;&lt; std::boolalpha;
 
-std::cout &lt;&lt; &quot;std::all_of evens: &quot; &lt;&lt; std::all_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;std::any_of divisible by 4: &quot; &lt;&lt; std::any_of(v.begin(), v.end(), [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;std::none_of odd: &quot; &lt;&lt; std::none_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;std::all_of evens: &quot; &lt;&lt; std::all_of(v.begin(), v.end(), isEven) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;std::any_of divisible by 4: &quot; &lt;&lt; std::any_of(v.begin(), v.end(), isDivisibleBy4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;std::none_of odd: &quot; &lt;&lt; std::none_of(v.begin(), v.end(), isOdd) &lt;&lt; '\n';
 
-std::cout &lt;&lt; &quot;ranges::all_of evens: &quot; &lt;&lt; ranges::all_of(v, [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;ranges::any_of divisible by 4: &quot; &lt;&lt; ranges::any_of(v, [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;ranges::none_of odd: &quot; &lt;&lt; ranges::none_of(v, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;ranges::all_of evens: &quot; &lt;&lt; ranges::all_of(v, isEven) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;ranges::any_of divisible by 4: &quot; &lt;&lt; ranges::any_of(v, isDivisibleBy4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;ranges::none_of odd: &quot; &lt;&lt; ranges::none_of(v, isOdd) &lt;&lt; '\n';
 
-std::cout &lt;&lt; &quot;boost::algorithm::all_of(iter...) evens: &quot;
-          &lt;&lt; boost::algorithm::all_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;boost::algorithm::all_of(range...) evens: &quot;
-          &lt;&lt; boost::algorithm::all_of(v, [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;boost::algorithm::any_of divisible by 4(iter...): &quot;
-          &lt;&lt; boost::algorithm::any_of(v.begin(), v.end(), [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;boost::algorithm::any_of divisible by 4(range...): &quot;
-          &lt;&lt; boost::algorithm::any_of(v, [](const int&amp; e) { return e%4 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;boost::algorithm::none_of(iter...) odd: &quot;
-          &lt;&lt; boost::algorithm::none_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;boost::algorithm::none_of(range...) odd: &quot;
-          &lt;&lt; boost::algorithm::none_of(v, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::all_of(iter...) evens: &quot; &lt;&lt; boost::algorithm::all_of(v.begin(), v.end(), isEven) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::all_of(range...) evens: &quot;&lt;&lt; boost::algorithm::all_of(v, isEven) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::any_of divisible by 4(iter...): &quot; &lt;&lt; boost::algorithm::any_of(v.begin(), v.end(), isDivisibleBy4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::any_of divisible by 4(range...): &quot;&lt;&lt; boost::algorithm::any_of(v, isDivisibleBy4) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::none_of(iter...) odd: &quot; &lt;&lt; boost::algorithm::none_of(v.begin(), v.end(), isOdd) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::none_of(range...) odd: &quot;&lt;&lt; boost::algorithm::none_of(v, isOdd) &lt;&lt; '\n';
 </code></pre>
 
 <p>Output</p>
@@ -163,23 +157,19 @@ std::for_each(v.begin(), v.end(), printFunc);
 std::cout &lt;&lt; '\n';
 
 std::cout &lt;&lt; std::boolalpha;
-std::cout &lt;&lt; &quot;boost::algorithm::one_of(iter...) odd: &quot;
-          &lt;&lt; boost::algorithm::one_of(v.begin(), v.end(), [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;boost::algorithm::one_of(range...) odd: &quot;
-          &lt;&lt; boost::algorithm::one_of(v, [](const int&amp; e) { return e%2 == 0;}) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;boost::algorithm::is_sorted(iter...): &quot;
-          &lt;&lt; boost::algorithm::is_sorted(v.begin(), v.end()) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;boost::algorithm::is_sorted(range...): &quot;
-          &lt;&lt; boost::algorithm::is_sorted(v) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::one_of(iter...) odd: &quot; &lt;&lt; boost::algorithm::one_of(v.begin(), v.end(), isOdd) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::one_of(range...) odd: &quot;&lt;&lt; boost::algorithm::one_of(v, isOdd) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::is_sorted(iter...): &quot;  &lt;&lt; boost::algorithm::is_sorted(v.begin(), v.end()) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;boost::algorithm::is_sorted(range...): &quot; &lt;&lt; boost::algorithm::is_sorted(v) &lt;&lt; '\n';
 
 std::cout &lt;&lt; &quot;boost::algorithm::is_partitioned(iter...): &quot;
-          &lt;&lt; boost::algorithm::is_partitioned(v2.begin(), v2.end(), [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+          &lt;&lt; boost::algorithm::is_partitioned(v2.begin(), v2.end(), isOdd) &lt;&lt; '\n';
 std::cout &lt;&lt; &quot;boost::algorithm::is_partitioned(range...): &quot;
-          &lt;&lt; boost::algorithm::is_partitioned(v2, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+          &lt;&lt; boost::algorithm::is_partitioned(v2, isOdd) &lt;&lt; '\n';
 
 // range-v3
 std::cout &lt;&lt; &quot;ranges::is_sorted: &quot;&lt;&lt; ranges::is_sorted(v) &lt;&lt; '\n';
-std::cout &lt;&lt; &quot;ranges::is_partitioned: &quot;&lt;&lt; ranges::is_partitioned(v2, [](const int&amp; e) { return e%2 == 1;}) &lt;&lt; '\n';
+std::cout &lt;&lt; &quot;ranges::is_partitioned: &quot;&lt;&lt; ranges::is_partitioned(v2, isOdd) &lt;&lt; '\n';
 </code></pre>
 
 <p>Output</p>
