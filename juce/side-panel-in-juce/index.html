@@ -1,511 +1,1027 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  
-  
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
     
-    
-    
-    <link rel="shortcut icon" href="../../img/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Side Panel in JUCE - Asit Dhal</title>
-    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
-    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
-    <link href="../../css/base.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/highlight.css">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <script src="../../js/jquery-3.2.1.min.js"></script>
-    <script src="../../js/bootstrap-3.3.7.min.js"></script>
-    <script src="../../js/highlight.pack.js"></script>
-    
-    <base target="_top">
-    <script>
-      var base_url = '../..';
-      var is_top_frame = false;
-        
-        var pageToc = [
-          {title: "Side Panel in JUCE", url: "#_top", children: [
-              {title: "Sidepanel Components", url: "#sidepanel-components" },
-          ]},
-        ];
-
-    </script>
-    <script src="../../js/base.js"></script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-58305706-1', 'asit-dhal.github.io');
-        ga('send', 'pageview');
-    </script> 
-</head>
-
-<body>
-<script>
-if (is_top_frame) { $('body').addClass('wm-top-page'); }
-</script>
-
-
-
-<div class="container-fluid wm-page-content">
-  <a name="_top"></a>
-    
-
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
     
     
       
+        <title>Side Panel in JUCE</title>
+      
     
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
     
-    <div class="wm-article-nav pull-right">
-      <a href="../../cpp/string-conversion-benchmark/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-58305706-1", "asit-dhal.github.io")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#side-panel-in-juce" tabindex="1" class="md-skip">
+        Skip to content
       </a>
-      <a href="../../cpp/string-conversion-benchmark/" class="btn btn-xs btn-link">
-        string conversion benchmark in C++
-      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Asit Dhal" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Asit Dhal
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Side Panel in JUCE
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
     </div>
-    
-    <div class="wm-article-nav">
-      <a href="../broadcasters-and-listeners-in-juce/" class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../broadcasters-and-listeners-in-juce/" class="btn btn-xs btn-link">
-        Broadcasters and listeners in JUCE
-      </a>
-    </div>
-    
   </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Asit Dhal" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Asit Dhal
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
 
     
+      
+      
+      
 
-    <h1 id="side-panel-in-juce">Side Panel in JUCE</h1>
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Git
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Git
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../git/delete-old-branches-in-git/" title="Delete old branches in Git" class="md-nav__link">
+      Delete old branches in Git
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Juce
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Juce
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../broadcasters-and-listeners-in-juce/" title="Broadcasters and listeners in JUCE" class="md-nav__link">
+      Broadcasters and listeners in JUCE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Side Panel in JUCE
+      </label>
+    
+    <a href="./" title="Side Panel in JUCE" class="md-nav__link md-nav__link--active">
+      Side Panel in JUCE
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sidepanel-components" title="Sidepanel Components" class="md-nav__link">
+    Sidepanel Components
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-component" title="Header Component" class="md-nav__link">
+    Header Component
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      C++
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        C++
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/string-conversion-benchmark/" title="string conversion benchmark in C++" class="md-nav__link">
+      string conversion benchmark in C++
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/range-generator-algorithms/" title="Range Generator Algorithms" class="md-nav__link">
+      Range Generator Algorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/property-check-agorithims/" title="Property Check Algorithms" class="md-nav__link">
+      Property Check Algorithms
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Golang
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Golang
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-templates-1-introduction/" title="Golang Templates-1 Introduction" class="md-nav__link">
+      Golang Templates-1 Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-templates-2-template-composition-and-how-to-organize-template-files/" title="Golang Template-2 Template composition" class="md-nav__link">
+      Golang Template-2 Template composition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-slice-and-append/" title="Golang slice and append" class="md-nav__link">
+      Golang slice and append
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../archives/" title="Archives" class="md-nav__link">
+      Archives
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sidepanel-components" title="Sidepanel Components" class="md-nav__link">
+    Sidepanel Components
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-component" title="Header Component" class="md-nav__link">
+    Header Component
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="side-panel-in-juce">Side Panel in JUCE<a class="headerlink" href="#side-panel-in-juce" title="Permanent link">&para;</a></h1>
 <p>This tutorial explains the side panel in JUCE GUI framework.</p>
 <p>Side Panel can be used for navigation if the application doesn’t have a tool bar or menu bar. Usually, it stays on the left or right side of the application and triggered by the user.</p>
 <p>Juce has built-in support for side panel.</p>
 <p>Let’s first make a skeleton app. The app will have a button to trigger side panel and a label to show the status.</p>
-<pre><code class="cpp">// MainComponent.h
+<div class="codehilite"><pre><span></span><span class="c1">// MainComponent.h</span>
 
-#pragma once
+<span class="cp">#pragma once</span>
 
-#include &quot;../JuceLibraryCode/JuceHeader.h&quot;
+<span class="cp">#include</span> <span class="cpf">&quot;../JuceLibraryCode/JuceHeader.h&quot;</span><span class="cp"></span>
 
-class MainComponent   : public Component
-{
-public:
-    MainComponent();
-    ~MainComponent();
+<span class="k">class</span> <span class="nc">MainComponent</span>   <span class="o">:</span> <span class="k">public</span> <span class="n">Component</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">MainComponent</span><span class="p">();</span>
+    <span class="o">~</span><span class="n">MainComponent</span><span class="p">();</span>
 
-    void paint (Graphics&amp;) override;
-    void resized() override;
+    <span class="kt">void</span> <span class="nf">paint</span> <span class="p">(</span><span class="n">Graphics</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">resized</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
 
-private:
-    TextButton m_invokeSidePanel;
-    Label m_sidePanelStatus;
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">TextButton</span> <span class="n">m_invokeSidePanel</span><span class="p">;</span>
+    <span class="n">Label</span> <span class="n">m_sidePanelStatus</span><span class="p">;</span>
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
-};
-</code></pre>
+    <span class="n">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</span> <span class="p">(</span><span class="n">MainComponent</span><span class="p">)</span>
+<span class="p">};</span>
+</pre></div>
 
-<pre><code class="cpp">// MainComponent.cpp
 
-#include &quot;MainComponent.h&quot;
+<div class="codehilite"><pre><span></span><span class="c1">// MainComponent.cpp</span>
 
-MainComponent::MainComponent(): m_invokeSidePanel(&quot;Sidepanel&quot;, &quot;Show Sidepanel&quot;)
-{
-    addAndMakeVisible(m_invokeSidePanel);
-    addAndMakeVisible(m_sidePanelStatus);
+<span class="cp">#include</span> <span class="cpf">&quot;MainComponent.h&quot;</span><span class="cp"></span>
 
-    m_sidePanelStatus.setText(&quot;status&quot;, dontSendNotification);
-    setSize (600, 400);
-}
+<span class="n">MainComponent</span><span class="o">::</span><span class="n">MainComponent</span><span class="p">()</span><span class="o">:</span> <span class="n">m_invokeSidePanel</span><span class="p">(</span><span class="s">&quot;Sidepanel&quot;</span><span class="p">,</span> <span class="s">&quot;Show Sidepanel&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">addAndMakeVisible</span><span class="p">(</span><span class="n">m_invokeSidePanel</span><span class="p">);</span>
+    <span class="n">addAndMakeVisible</span><span class="p">(</span><span class="n">m_sidePanelStatus</span><span class="p">);</span>
 
-MainComponent::~MainComponent()
-{
-}
+    <span class="n">m_sidePanelStatus</span><span class="p">.</span><span class="n">setText</span><span class="p">(</span><span class="s">&quot;status&quot;</span><span class="p">,</span> <span class="n">dontSendNotification</span><span class="p">);</span>
+    <span class="n">setSize</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">);</span>
+<span class="p">}</span>
 
-void MainComponent::paint (Graphics&amp; g)
-{
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-}
+<span class="n">MainComponent</span><span class="o">::~</span><span class="n">MainComponent</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="p">}</span>
 
-void MainComponent::resized()
-{
-    auto localBounds = getLocalBounds();
-    if (localBounds.getHeight() / 2 - 50 &gt; 5)
-        localBounds.removeFromTop(localBounds.getHeight() / 2 - 50);
-    if (localBounds.getWidth() / 2 - 50 &gt; 5)
-        localBounds.removeFromLeft(localBounds.getWidth() / 2 - 50);
+<span class="kt">void</span> <span class="n">MainComponent</span><span class="o">::</span><span class="n">paint</span> <span class="p">(</span><span class="n">Graphics</span><span class="o">&amp;</span> <span class="n">g</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">fillAll</span> <span class="p">(</span><span class="n">getLookAndFeel</span><span class="p">().</span><span class="n">findColour</span> <span class="p">(</span><span class="n">ResizableWindow</span><span class="o">::</span><span class="n">backgroundColourId</span><span class="p">));</span>
+<span class="p">}</span>
 
-    auto buttonBound = localBounds.removeFromTop(30).removeFromRight(100);
-    auto statusLabelBound = localBounds.removeFromTop(30).removeFromRight(100).reduced(5);
-    m_invokeSidePanel.setBounds(buttonBound);
-    m_sidePanelStatus.setBounds(statusLabelBound);
-}
-</code></pre>
+<span class="kt">void</span> <span class="n">MainComponent</span><span class="o">::</span><span class="n">resized</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">auto</span> <span class="n">localBounds</span> <span class="o">=</span> <span class="n">getLocalBounds</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">localBounds</span><span class="p">.</span><span class="n">getHeight</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">50</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">localBounds</span><span class="p">.</span><span class="n">removeFromTop</span><span class="p">(</span><span class="n">localBounds</span><span class="p">.</span><span class="n">getHeight</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">50</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">localBounds</span><span class="p">.</span><span class="n">getWidth</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">50</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">localBounds</span><span class="p">.</span><span class="n">removeFromLeft</span><span class="p">(</span><span class="n">localBounds</span><span class="p">.</span><span class="n">getWidth</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">50</span><span class="p">);</span>
+
+    <span class="k">auto</span> <span class="n">buttonBound</span> <span class="o">=</span> <span class="n">localBounds</span><span class="p">.</span><span class="n">removeFromTop</span><span class="p">(</span><span class="mi">30</span><span class="p">).</span><span class="n">removeFromRight</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">statusLabelBound</span> <span class="o">=</span> <span class="n">localBounds</span><span class="p">.</span><span class="n">removeFromTop</span><span class="p">(</span><span class="mi">30</span><span class="p">).</span><span class="n">removeFromRight</span><span class="p">(</span><span class="mi">100</span><span class="p">).</span><span class="n">reduced</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+    <span class="n">m_invokeSidePanel</span><span class="p">.</span><span class="n">setBounds</span><span class="p">(</span><span class="n">buttonBound</span><span class="p">);</span>
+    <span class="n">m_sidePanelStatus</span><span class="p">.</span><span class="n">setBounds</span><span class="p">(</span><span class="n">statusLabelBound</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>When user clicks the button, the side panel should appear. There is already a closed button on the side panel, the user can click on this to close the side panel.</p>
 <p>The side panel will have a list of entries. When the user selects any of those entries, the status label should show the text.</p>
 <p><img alt="side-panel-example" src="../images/side-panel-example.png" /></p>
 <p>Juce provides a built in component called Side Panel, https://docs.juce.com/master/classSidePanel.html</p>
-<h3 id="sidepanel-components">Sidepanel Components</h3>
+<h3 id="sidepanel-components">Sidepanel Components<a class="headerlink" href="#sidepanel-components" title="Permanent link">&para;</a></h3>
 <p>SidePanel has two parts.</p>
 <ol>
 <li>header which can contain a label, a few buttons and a close button</li>
 <li>a list box which shows a list of entries</li>
 </ol>
 <p>Let’s add a SidePanel component to the main component. The SidePanel should be shown when the user clicks on the sidePanel button in the main component.</p>
-<pre><code class="cpp">// MainComponent.h
-#pragma once
+<div class="codehilite"><pre><span></span><span class="c1">// MainComponent.h</span>
+<span class="cp">#pragma once</span>
 
-#include &quot;../JuceLibraryCode/JuceHeader.h&quot;
+<span class="cp">#include</span> <span class="cpf">&quot;../JuceLibraryCode/JuceHeader.h&quot;</span><span class="cp"></span>
 
-class MainComponent   : public Component,
-    // step 2: override Button::Listener to get broadcast events from the button
-    public Button::Listener
-{
-public:
-    // ...
-    // step 3: implement the button clicked callback
-    void buttonClicked(Button*) override;
+<span class="k">class</span> <span class="nc">MainComponent</span>   <span class="o">:</span> <span class="k">public</span> <span class="n">Component</span><span class="p">,</span>
+    <span class="c1">// step 2: override Button::Listener to get broadcast events from the button</span>
+    <span class="k">public</span> <span class="n">Button</span><span class="o">::</span><span class="n">Listener</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="c1">// ...</span>
+    <span class="c1">// step 3: implement the button clicked callback</span>
+    <span class="kt">void</span> <span class="n">buttonClicked</span><span class="p">(</span><span class="n">Button</span><span class="o">*</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
 
-private:
-    // ...
-    // step 1: add sidepanel
-    SidePanel m_sidePanel;
-};
-</code></pre>
+<span class="k">private</span><span class="o">:</span>
+    <span class="c1">// ...</span>
+    <span class="c1">// step 1: add sidepanel</span>
+    <span class="n">SidePanel</span> <span class="n">m_sidePanel</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
 
-<pre><code class="cpp">// MainComponent.cpp
 
-#include &quot;MainComponent.h&quot;
+<div class="codehilite"><pre><span></span><span class="c1">// MainComponent.cpp</span>
 
-MainComponent::MainComponent(): m_invokeSidePanel(&quot;Sidepanel&quot;, &quot;Show Sidepanel&quot;),
-    m_sidePanel(&quot;Side Panel Demo&quot;, 250, true, nullptr, false)
-{
-    // ....
-    addAndMakeVisible(m_sidePanel);
+<span class="cp">#include</span> <span class="cpf">&quot;MainComponent.h&quot;</span><span class="cp"></span>
 
-    // ...
-    m_invokeSidePanel.addListener(this);
-}
+<span class="n">MainComponent</span><span class="o">::</span><span class="n">MainComponent</span><span class="p">()</span><span class="o">:</span> <span class="n">m_invokeSidePanel</span><span class="p">(</span><span class="s">&quot;Sidepanel&quot;</span><span class="p">,</span> <span class="s">&quot;Show Sidepanel&quot;</span><span class="p">),</span>
+    <span class="n">m_sidePanel</span><span class="p">(</span><span class="s">&quot;Side Panel Demo&quot;</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="nb">false</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// ....</span>
+    <span class="n">addAndMakeVisible</span><span class="p">(</span><span class="n">m_sidePanel</span><span class="p">);</span>
 
-MainComponent::~MainComponent()
-{
-    m_invokeSidePanel.removeListener(this);
-}
+    <span class="c1">// ...</span>
+    <span class="n">m_invokeSidePanel</span><span class="p">.</span><span class="n">addListener</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="p">}</span>
 
-void MainComponent::buttonClicked(Button* btn)
-{
-    if (btn == &amp;m_invokeSidePanel)
-    {
-        // step 4: show the side panel when the button is clicked
-        m_sidePanel.showOrHide(true);
-    }
-}
-</code></pre>
+<span class="n">MainComponent</span><span class="o">::~</span><span class="n">MainComponent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">m_invokeSidePanel</span><span class="p">.</span><span class="n">removeListener</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">MainComponent</span><span class="o">::</span><span class="n">buttonClicked</span><span class="p">(</span><span class="n">Button</span><span class="o">*</span> <span class="n">btn</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">btn</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">m_invokeSidePanel</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// step 4: show the side panel when the button is clicked</span>
+        <span class="n">m_sidePanel</span><span class="p">.</span><span class="n">showOrHide</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>Now, if you run this, you will a side Panel without any contents on this(there will be only title and a close button).</p>
 <p><img alt="side-panel-example-2" src="../images/side-panel-example-2.png" /></p>
-<h4 id="header-component">Header Component</h4>
+<h4 id="header-component">Header Component<a class="headerlink" href="#header-component" title="Permanent link">&para;</a></h4>
 <p>Let’s add the header component</p>
 <p>The header has two shape buttons(one for home and another for settings), a title and a close button.</p>
-<pre><code class="cpp">// SidePanelHeader.h
+<div class="codehilite"><pre><span></span><span class="c1">// SidePanelHeader.h</span>
 
-#include &quot;../JuceLibraryCode/JuceHeader.h&quot;
+<span class="cp">#include</span> <span class="cpf">&quot;../JuceLibraryCode/JuceHeader.h&quot;</span><span class="cp"></span>
 
-class SidePanelHeader : public Component
-{
-public:
-    SidePanelHeader(const String&amp; titleText);
-    ~SidePanelHeader();
+<span class="k">class</span> <span class="nc">SidePanelHeader</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Component</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">SidePanelHeader</span><span class="p">(</span><span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">titleText</span><span class="p">);</span>
+    <span class="o">~</span><span class="n">SidePanelHeader</span><span class="p">();</span>
 
-    void paint (Graphics&amp;) override;
-    void resized() override;
+    <span class="kt">void</span> <span class="nf">paint</span> <span class="p">(</span><span class="n">Graphics</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">resized</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
 
-private:
-    Label m_titleLabel;
-    ShapeButton m_homeButton{ &quot;Home&quot;, Colours::transparentBlack, Colours::transparentBlack, Colours::transparentBlack },
-        m_settingsButton{ &quot;Settings&quot;, Colours::transparentBlack, Colours::transparentBlack, Colours::transparentBlack };
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">Label</span> <span class="n">m_titleLabel</span><span class="p">;</span>
+    <span class="n">ShapeButton</span> <span class="n">m_homeButton</span><span class="p">{</span> <span class="s">&quot;Home&quot;</span><span class="p">,</span> <span class="n">Colours</span><span class="o">::</span><span class="n">transparentBlack</span><span class="p">,</span> <span class="n">Colours</span><span class="o">::</span><span class="n">transparentBlack</span><span class="p">,</span> <span class="n">Colours</span><span class="o">::</span><span class="n">transparentBlack</span> <span class="p">},</span>
+        <span class="n">m_settingsButton</span><span class="p">{</span> <span class="s">&quot;Settings&quot;</span><span class="p">,</span> <span class="n">Colours</span><span class="o">::</span><span class="n">transparentBlack</span><span class="p">,</span> <span class="n">Colours</span><span class="o">::</span><span class="n">transparentBlack</span><span class="p">,</span> <span class="n">Colours</span><span class="o">::</span><span class="n">transparentBlack</span> <span class="p">};</span>
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SidePanelHeader)
-};
-</code></pre>
+    <span class="n">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</span> <span class="p">(</span><span class="n">SidePanelHeader</span><span class="p">)</span>
+<span class="p">};</span>
+</pre></div>
+
 
 <p>ShapeButton has only one constructor, which takes three color ids, normal color(the colour to fill the shape with when the mouse isn’t over), overColor(the colour to use when the mouse is over the shape) and downColour(the colour to use when the button is in the pressed-down state). In the beginning we will make everything transparent black and repaint with proper color in the paint() method.</p>
-<pre><code class="cpp">// SidePanelHeader.cpp
+<div class="codehilite"><pre><span></span><span class="c1">// SidePanelHeader.cpp</span>
 
-#include &quot;../JuceLibraryCode/JuceHeader.h&quot;
-#include &quot;SidePanelHeader.h&quot;
+<span class="cp">#include</span> <span class="cpf">&quot;../JuceLibraryCode/JuceHeader.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;SidePanelHeader.h&quot;</span><span class="cp"></span>
 
-SidePanelHeader::SidePanelHeader(const String&amp; titleText)
-{
-    setOpaque(true);
+<span class="n">SidePanelHeader</span><span class="o">::</span><span class="n">SidePanelHeader</span><span class="p">(</span><span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">titleText</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">setOpaque</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
 
-    static const unsigned char homeIconPathData[]
-        = { 110,109,0,0,64,65,0,0,64,64,98,0,0,64,65,0,0,64,64,74,12,186,64,164,112,5,65,24,217,22,64,70,182,
-            51,65,98,35,219,9,64,240,167,54,65,0,0,0,64,170,241,58,65,0,0,0,64,0,0,64,65,98,0,0,0,64,22,217,
-            72,65,166,155,28,64,0,0,80,65,0,0,64,64,0,0,80,65,108,0,0,160,64,0,0,80,65,108,0,0,160,64,0,0,
-            160,65,98,0,0,160,64,139,108,164,65,211,77,174,64,0,0,168,65,0,0,192,64,0,0,168,65,108,0,0,16,65,
-            0,0,168,65,98,22,217,24,65,0,0,168,65,0,0,32,65,127,106,164,65,0,0,32,65,0,0,160,65,108,0,0,32,65,0,0,128,
-            65,108,0,0,96,65,0,0,128,65,108,0,0,96,65,0,0,160,65,98,0,0,96,65,127,106,164,65,233,38,103,65,0,0,168,
-            65,0,0,112,65,0,0,168,65,108,0,0,144,65,0,0,168,65,98,139,108,148,65,0,0,168,65,0,0,152,65,139,108,164,
-            65,0,0,152,65,0,0,160,65,108,0,0,152,65,0,0,80,65,108,0,0,168,65,0,0,80,65,98,139,108,172,65,0,0,80,65,0,
-            0,176,65,23,217,72,65,0,0,176,65,0,0,64,65,98,0,0,176,65,170,241,58,65,156,196,174,65,240,167,54,65,158,239,
-            172,65,70,182,51,65,98,213,120,145,65,164,112,5,65,0,0,64,65,0,0,64,64,0,0,64,65,0,0,64,64,99,
-            101,0,0 };
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">homeIconPathData</span><span class="p">[]</span>
+        <span class="o">=</span> <span class="p">{</span> <span class="mi">110</span><span class="p">,</span><span class="mi">109</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">74</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">186</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">164</span><span class="p">,</span><span class="mi">112</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">217</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">182</span><span class="p">,</span>
+            <span class="mi">51</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">219</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">240</span><span class="p">,</span><span class="mi">167</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">170</span><span class="p">,</span><span class="mi">241</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">217</span><span class="p">,</span>
+            <span class="mi">72</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">166</span><span class="p">,</span><span class="mi">155</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+            <span class="mi">160</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">164</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">211</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">174</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">217</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="mi">106</span><span class="p">,</span><span class="mi">164</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span>
+            <span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">96</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">96</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">96</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="mi">106</span><span class="p">,</span><span class="mi">164</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">233</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span>
+            <span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">112</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">144</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">148</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">152</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">164</span><span class="p">,</span>
+            <span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">152</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">152</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">172</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span><span class="mi">176</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">217</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">176</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">176</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">170</span><span class="p">,</span><span class="mi">241</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">156</span><span class="p">,</span><span class="mi">196</span><span class="p">,</span><span class="mi">174</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">240</span><span class="p">,</span><span class="mi">167</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">158</span><span class="p">,</span><span class="mi">239</span><span class="p">,</span>
+            <span class="mi">172</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">182</span><span class="p">,</span><span class="mi">51</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">213</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">145</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">164</span><span class="p">,</span><span class="mi">112</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">99</span><span class="p">,</span>
+            <span class="mi">101</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span> <span class="p">};</span>
 
-    static const unsigned char settingsIconPathData[]
-        = { 110,109,202,111,210,64,243,226,61,64,108,0,0,224,64,0,0,0,0,108,0,0,48,65,0,0,0,0,108,27,200,54,65,243,
-            226,61,64,98,91,248,63,65,174,170,76,64,95,130,72,65,231,138,96,64,46,46,80,65,180,163,120,64,108,42,
-            181,124,65,20,38,49,64,108,149,90,142,65,246,108,199,64,108,68,249,118,65,2,85,1,65,98,112,166,119,65,
-            201,31,6,65,0,0,120,65,111,5,11,65,0,0,120,65,0,0,16,65,98,0,0,120,65,145,250,20,65,108,166,119,65,55,
-            224,25,65,72,249,118,65,254,170,30,65,108,151,90,142,65,133,73,60,65,108,46,181,124,65,123,182,115,65,
-            108,50,46,80,65,18,215,97,65,98,99,130,72,65,70,221,103,65,96,248,63,65,83,213,108,65,32,200,54,65,66,
-            135,112,65,108,0,0,48,65,0,0,144,65,108,0,0,224,64,0,0,144,65,108,202,111,210,64,67,135,112,65,98,74,
-            15,192,64,84,213,108,65,65,251,174,64,70,221,103,65,164,163,159,64,19,215,97,65,108,92,43,13,64,123,182,
-            115,65,108,187,181,82,62,133,73,60,65,108,244,26,36,64,254,170,30,65,98,64,102,33,64,55,224,25,5,0,0,32,
-            64,145,250,20,65,0,0,32,64,0,0,16,65,98,0,0,32,64,111,5,11,65,64,102,33,64,201,31,6,65,244,26,36,64,2,85,
-            1,65,108,187,181,82,62,246,108,199,64,108,92,43,13,64,20,38,49,64,108,164,163,159,64,180,163,120,64,98,65,
-            251,174,64,231,138,96,64,74,15,192,64,175,170,76,64,202,111,210,64,243,226,61,64,99,109,0,0,16,65,0,0,64,
-            65,98,121,130,42,65,0,0,64,65,0,0,64,65,121,130,42,65,0,0,64,65,0,0,16,65,98,0,0,64,65,13,251,234,64,121,
-            130,42,65,0,0,192,64,0,0,16,65,0,0,192,64,98,13,251,234,64,0,0,192,64,0,0,192,64,13,251,234,64,0,0,192,64,
-            0,0,16,65,98,0,0,192,64,121,130,42,65,13,251,234,64,0,0,64,65,0,0,16,65,0,0,64,65,99,101,0,0 };
+    <span class="k">static</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">settingsIconPathData</span><span class="p">[]</span>
+        <span class="o">=</span> <span class="p">{</span> <span class="mi">110</span><span class="p">,</span><span class="mi">109</span><span class="p">,</span><span class="mi">202</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">210</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span><span class="mi">226</span><span class="p">,</span><span class="mi">61</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span>
+            <span class="mi">226</span><span class="p">,</span><span class="mi">61</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">91</span><span class="p">,</span><span class="mi">248</span><span class="p">,</span><span class="mi">63</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">174</span><span class="p">,</span><span class="mi">170</span><span class="p">,</span><span class="mi">76</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">95</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">231</span><span class="p">,</span><span class="mi">138</span><span class="p">,</span><span class="mi">96</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">163</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span>
+            <span class="mi">181</span><span class="p">,</span><span class="mi">124</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mi">49</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">149</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">142</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">246</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">199</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">68</span><span class="p">,</span><span class="mi">249</span><span class="p">,</span><span class="mi">118</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">85</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">112</span><span class="p">,</span><span class="mi">166</span><span class="p">,</span><span class="mi">119</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span>
+            <span class="mi">201</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">145</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">166</span><span class="p">,</span><span class="mi">119</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span>
+            <span class="mi">224</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">249</span><span class="p">,</span><span class="mi">118</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">254</span><span class="p">,</span><span class="mi">170</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">151</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">142</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">133</span><span class="p">,</span><span class="mi">73</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="mi">181</span><span class="p">,</span><span class="mi">124</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">123</span><span class="p">,</span><span class="mi">182</span><span class="p">,</span><span class="mi">115</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span>
+            <span class="mi">108</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">215</span><span class="p">,</span><span class="mi">97</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">99</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">221</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">96</span><span class="p">,</span><span class="mi">248</span><span class="p">,</span><span class="mi">63</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">83</span><span class="p">,</span><span class="mi">213</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">54</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">66</span><span class="p">,</span>
+            <span class="mi">135</span><span class="p">,</span><span class="mi">112</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">144</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">144</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">202</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">210</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">67</span><span class="p">,</span><span class="mi">135</span><span class="p">,</span><span class="mi">112</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">74</span><span class="p">,</span>
+            <span class="mi">15</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">84</span><span class="p">,</span><span class="mi">213</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">251</span><span class="p">,</span><span class="mi">174</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">221</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">164</span><span class="p">,</span><span class="mi">163</span><span class="p">,</span><span class="mi">159</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">215</span><span class="p">,</span><span class="mi">97</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">92</span><span class="p">,</span><span class="mi">43</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">123</span><span class="p">,</span><span class="mi">182</span><span class="p">,</span>
+            <span class="mi">115</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">187</span><span class="p">,</span><span class="mi">181</span><span class="p">,</span><span class="mi">82</span><span class="p">,</span><span class="mi">62</span><span class="p">,</span><span class="mi">133</span><span class="p">,</span><span class="mi">73</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">244</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">36</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">254</span><span class="p">,</span><span class="mi">170</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span>
+            <span class="mi">64</span><span class="p">,</span><span class="mi">145</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">201</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">244</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span><span class="mi">36</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">85</span><span class="p">,</span>
+            <span class="mi">1</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">187</span><span class="p">,</span><span class="mi">181</span><span class="p">,</span><span class="mi">82</span><span class="p">,</span><span class="mi">62</span><span class="p">,</span><span class="mi">246</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">199</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">92</span><span class="p">,</span><span class="mi">43</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mi">49</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">164</span><span class="p">,</span><span class="mi">163</span><span class="p">,</span><span class="mi">159</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">163</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span>
+            <span class="mi">251</span><span class="p">,</span><span class="mi">174</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">231</span><span class="p">,</span><span class="mi">138</span><span class="p">,</span><span class="mi">96</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">74</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">175</span><span class="p">,</span><span class="mi">170</span><span class="p">,</span><span class="mi">76</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">202</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">210</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span><span class="mi">226</span><span class="p">,</span><span class="mi">61</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">99</span><span class="p">,</span><span class="mi">109</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span>
+            <span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">121</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">121</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">251</span><span class="p">,</span><span class="mi">234</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">121</span><span class="p">,</span>
+            <span class="mi">130</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">251</span><span class="p">,</span><span class="mi">234</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">251</span><span class="p">,</span><span class="mi">234</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">192</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">121</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">251</span><span class="p">,</span><span class="mi">234</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">99</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span> <span class="p">};</span>
 
-    Path p;
-    p.loadPathFromData(homeIconPathData, sizeof(homeIconPathData));
-    m_homeButton.setShape(p, true, true, false);
+    <span class="n">Path</span> <span class="n">p</span><span class="p">;</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">loadPathFromData</span><span class="p">(</span><span class="n">homeIconPathData</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">homeIconPathData</span><span class="p">));</span>
+    <span class="n">m_homeButton</span><span class="p">.</span><span class="n">setShape</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
 
-    p.clear();
-    p.loadPathFromData(settingsIconPathData, sizeof(settingsIconPathData));
-    m_settingsButton.setShape(p, true, true, false);
+    <span class="n">p</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">loadPathFromData</span><span class="p">(</span><span class="n">settingsIconPathData</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">settingsIconPathData</span><span class="p">));</span>
+    <span class="n">m_settingsButton</span><span class="p">.</span><span class="n">setShape</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
 
-    m_titleLabel.setText(titleText, NotificationType::dontSendNotification);
+    <span class="n">m_titleLabel</span><span class="p">.</span><span class="n">setText</span><span class="p">(</span><span class="n">titleText</span><span class="p">,</span> <span class="n">NotificationType</span><span class="o">::</span><span class="n">dontSendNotification</span><span class="p">);</span>
 
-    addAndMakeVisible(m_titleLabel);
-    addAndMakeVisible(m_homeButton);
-    addAndMakeVisible(m_settingsButton);
-}
+    <span class="n">addAndMakeVisible</span><span class="p">(</span><span class="n">m_titleLabel</span><span class="p">);</span>
+    <span class="n">addAndMakeVisible</span><span class="p">(</span><span class="n">m_homeButton</span><span class="p">);</span>
+    <span class="n">addAndMakeVisible</span><span class="p">(</span><span class="n">m_settingsButton</span><span class="p">);</span>
+<span class="p">}</span>
 
-SidePanelHeader::~SidePanelHeader()
-{
-}
+<span class="n">SidePanelHeader</span><span class="o">::~</span><span class="n">SidePanelHeader</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="p">}</span>
 
-void SidePanelHeader::paint (Graphics&amp; g)
-{
-    g.fillAll (getLookAndFeel().findColour (SidePanel::backgroundColour));   // clear the background
+<span class="kt">void</span> <span class="n">SidePanelHeader</span><span class="o">::</span><span class="n">paint</span> <span class="p">(</span><span class="n">Graphics</span><span class="o">&amp;</span> <span class="n">g</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">fillAll</span> <span class="p">(</span><span class="n">getLookAndFeel</span><span class="p">().</span><span class="n">findColour</span> <span class="p">(</span><span class="n">SidePanel</span><span class="o">::</span><span class="n">backgroundColour</span><span class="p">));</span>   <span class="c1">// clear the background</span>
 
-    auto normal = getLookAndFeel().findColour(SidePanel::dismissButtonNormalColour);
-    auto over = getLookAndFeel().findColour(SidePanel::dismissButtonOverColour);
-    auto down = getLookAndFeel().findColour(SidePanel::dismissButtonDownColour);
+    <span class="k">auto</span> <span class="n">normal</span> <span class="o">=</span> <span class="n">getLookAndFeel</span><span class="p">().</span><span class="n">findColour</span><span class="p">(</span><span class="n">SidePanel</span><span class="o">::</span><span class="n">dismissButtonNormalColour</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">over</span> <span class="o">=</span> <span class="n">getLookAndFeel</span><span class="p">().</span><span class="n">findColour</span><span class="p">(</span><span class="n">SidePanel</span><span class="o">::</span><span class="n">dismissButtonOverColour</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">down</span> <span class="o">=</span> <span class="n">getLookAndFeel</span><span class="p">().</span><span class="n">findColour</span><span class="p">(</span><span class="n">SidePanel</span><span class="o">::</span><span class="n">dismissButtonDownColour</span><span class="p">);</span>
 
-    m_homeButton.setColours(normal, over, down);
-    m_settingsButton.setColours(normal, over, down);
-}
+    <span class="n">m_homeButton</span><span class="p">.</span><span class="n">setColours</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">over</span><span class="p">,</span> <span class="n">down</span><span class="p">);</span>
+    <span class="n">m_settingsButton</span><span class="p">.</span><span class="n">setColours</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">over</span><span class="p">,</span> <span class="n">down</span><span class="p">);</span>
+<span class="p">}</span>
 
-void SidePanelHeader::resized()
-{
-    auto bounds = getLocalBounds();
+<span class="kt">void</span> <span class="n">SidePanelHeader</span><span class="o">::</span><span class="n">resized</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">auto</span> <span class="n">bounds</span> <span class="o">=</span> <span class="n">getLocalBounds</span><span class="p">();</span>
 
-    bounds.removeFromLeft(10);
-    m_homeButton.setBounds(bounds.removeFromLeft(m_homeButton.getWidth()+20).reduced(7));
-    m_settingsButton.setBounds(bounds.removeFromLeft(m_settingsButton.getWidth()+20).reduced(7));
-    bounds.removeFromLeft(10);
+    <span class="n">bounds</span><span class="p">.</span><span class="n">removeFromLeft</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+    <span class="n">m_homeButton</span><span class="p">.</span><span class="n">setBounds</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">removeFromLeft</span><span class="p">(</span><span class="n">m_homeButton</span><span class="p">.</span><span class="n">getWidth</span><span class="p">()</span><span class="o">+</span><span class="mi">20</span><span class="p">).</span><span class="n">reduced</span><span class="p">(</span><span class="mi">7</span><span class="p">));</span>
+    <span class="n">m_settingsButton</span><span class="p">.</span><span class="n">setBounds</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">removeFromLeft</span><span class="p">(</span><span class="n">m_settingsButton</span><span class="p">.</span><span class="n">getWidth</span><span class="p">()</span><span class="o">+</span><span class="mi">20</span><span class="p">).</span><span class="n">reduced</span><span class="p">(</span><span class="mi">7</span><span class="p">));</span>
+    <span class="n">bounds</span><span class="p">.</span><span class="n">removeFromLeft</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
 
-    bounds.removeFromRight(10);
-    m_titleLabel.setBounds(bounds);
-}
-</code></pre>
+    <span class="n">bounds</span><span class="p">.</span><span class="n">removeFromRight</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+    <span class="n">m_titleLabel</span><span class="p">.</span><span class="n">setBounds</span><span class="p">(</span><span class="n">bounds</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>I copied the path data for home button and settings button from DemoRunner. This comes with Juce Framework. Everything else is straight forward.</p>
 <p>In the MainComponent, we set this header as the title bar component of side panel.</p>
-<pre><code class="cpp">// MainComponent.cpp
+<div class="codehilite"><pre><span></span><span class="c1">// MainComponent.cpp</span>
 
-#include &quot;MainComponent.h&quot;
-#include &quot;SidePanelHeader.h&quot;
+<span class="cp">#include</span> <span class="cpf">&quot;MainComponent.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;SidePanelHeader.h&quot;</span><span class="cp"></span>
 
-MainComponent::MainComponent(): m_invokeSidePanel(&quot;Sidepanel&quot;, &quot;Show Sidepanel&quot;),
-    m_sidePanel(&quot;&quot;, 250, true, nullptr, false) // we don't need the title here anymore
-{
-    //...
-    auto sidePanelHeader = new SidePanelHeader(&quot;Side Panel&quot;);
-    m_sidePanel.setTitleBarComponent(sidePanelHeader, true);
-}
-</code></pre>
+<span class="n">MainComponent</span><span class="o">::</span><span class="n">MainComponent</span><span class="p">()</span><span class="o">:</span> <span class="n">m_invokeSidePanel</span><span class="p">(</span><span class="s">&quot;Sidepanel&quot;</span><span class="p">,</span> <span class="s">&quot;Show Sidepanel&quot;</span><span class="p">),</span>
+    <span class="n">m_sidePanel</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">,</span> <span class="nb">false</span><span class="p">)</span> <span class="c1">// we don&#39;t need the title here anymore</span>
+<span class="p">{</span>
+    <span class="c1">//...</span>
+    <span class="k">auto</span> <span class="n">sidePanelHeader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SidePanelHeader</span><span class="p">(</span><span class="s">&quot;Side Panel&quot;</span><span class="p">);</span>
+    <span class="n">m_sidePanel</span><span class="p">.</span><span class="n">setTitleBarComponent</span><span class="p">(</span><span class="n">sidePanelHeader</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>Notice that the object is dynamically created. After we set, the parent component takes the ownership.</p>
-<pre><code class="cpp">void setTitleBarComponent (Component* titleBarComponentToUse,
-bool keepDismissButton,
-bool deleteComponentWhenNoLongerNeeded = true);
-</code></pre>
+<div class="codehilite"><pre><span></span><span class="kt">void</span> <span class="nf">setTitleBarComponent</span> <span class="p">(</span><span class="n">Component</span><span class="o">*</span> <span class="n">titleBarComponentToUse</span><span class="p">,</span>
+<span class="kt">bool</span> <span class="n">keepDismissButton</span><span class="p">,</span>
+<span class="kt">bool</span> <span class="n">deleteComponentWhenNoLongerNeeded</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+</pre></div>
+
 
 <p>The last parameter decides whether the parent component needs to take care of the ownership or not.</p>
 <p>Now, let’s add the side panel list. This is just a list box which contains a list and responds to row selection.</p>
-<pre><code class="cpp">// SidePanelList.h
+<div class="codehilite"><pre><span></span><span class="c1">// SidePanelList.h</span>
 
-#pragma once
+<span class="cp">#pragma once</span>
 
-#include &quot;../JuceLibraryCode/JuceHeader.h&quot;
+<span class="cp">#include</span> <span class="cpf">&quot;../JuceLibraryCode/JuceHeader.h&quot;</span><span class="cp"></span>
 
-class SidePanelList : public Component,
-    public ListBoxModel
-{
-public:
-    SidePanelList();
-    ~SidePanelList();
+<span class="k">class</span> <span class="nc">SidePanelList</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Component</span><span class="p">,</span>
+    <span class="k">public</span> <span class="n">ListBoxModel</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">SidePanelList</span><span class="p">();</span>
+    <span class="o">~</span><span class="n">SidePanelList</span><span class="p">();</span>
 
-    void paint (Graphics&amp;) override;
-    void resized() override;
-    void paintListBoxItem(int rowNumber, Graphics&amp; g, int width, int height, bool rowIsSelected) override;
-    int getNumRows() override;
-    void addEntry(const String&amp; entry);
-    void selectedRowsChanged(int row) override;
+    <span class="kt">void</span> <span class="nf">paint</span> <span class="p">(</span><span class="n">Graphics</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">resized</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">paintListBoxItem</span><span class="p">(</span><span class="kt">int</span> <span class="n">rowNumber</span><span class="p">,</span> <span class="n">Graphics</span><span class="o">&amp;</span> <span class="n">g</span><span class="p">,</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">rowIsSelected</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="nf">getNumRows</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="nf">addEntry</span><span class="p">(</span><span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">entry</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="nf">selectedRowsChanged</span><span class="p">(</span><span class="kt">int</span> <span class="n">row</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
 
-private:
-    ListBox m_entries;
-    StringArray m_sidePanelEntries;
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SidePanelList)
-};
-</code></pre>
+<span class="k">private</span><span class="o">:</span>
+    <span class="n">ListBox</span> <span class="n">m_entries</span><span class="p">;</span>
+    <span class="n">StringArray</span> <span class="n">m_sidePanelEntries</span><span class="p">;</span>
+    <span class="n">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</span> <span class="p">(</span><span class="n">SidePanelList</span><span class="p">)</span>
+<span class="p">};</span>
+</pre></div>
 
-<pre><code class="cpp">// SidePanelList
-#include &quot;../JuceLibraryCode/JuceHeader.h&quot;
-#include &quot;SidePanelList.h&quot;
 
-SidePanelList::SidePanelList()
-{
-    setOpaque(true);
-    addAndMakeVisible(m_entries);
-    m_entries.setModel(this);
-    m_entries.setRowHeight(40);
-}
+<div class="codehilite"><pre><span></span><span class="c1">// SidePanelList</span>
+<span class="cp">#include</span> <span class="cpf">&quot;../JuceLibraryCode/JuceHeader.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;SidePanelList.h&quot;</span><span class="cp"></span>
 
-SidePanelList::~SidePanelList()
-{
-}
+<span class="n">SidePanelList</span><span class="o">::</span><span class="n">SidePanelList</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">setOpaque</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+    <span class="n">addAndMakeVisible</span><span class="p">(</span><span class="n">m_entries</span><span class="p">);</span>
+    <span class="n">m_entries</span><span class="p">.</span><span class="n">setModel</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="n">m_entries</span><span class="p">.</span><span class="n">setRowHeight</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span>
+<span class="p">}</span>
 
-void SidePanelList::paint (Graphics&amp; g)
-{
-    g.fillAll (getLookAndFeel().findColour (SidePanel::backgroundColour));   // clear the background
+<span class="n">SidePanelList</span><span class="o">::~</span><span class="n">SidePanelList</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="p">}</span>
 
-}
+<span class="kt">void</span> <span class="n">SidePanelList</span><span class="o">::</span><span class="n">paint</span> <span class="p">(</span><span class="n">Graphics</span><span class="o">&amp;</span> <span class="n">g</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">fillAll</span> <span class="p">(</span><span class="n">getLookAndFeel</span><span class="p">().</span><span class="n">findColour</span> <span class="p">(</span><span class="n">SidePanel</span><span class="o">::</span><span class="n">backgroundColour</span><span class="p">));</span>   <span class="c1">// clear the background</span>
 
-void SidePanelList::resized()
-{
-    m_entries.setBounds(getLocalBounds());
-}
+<span class="p">}</span>
 
-void SidePanelList::paintListBoxItem(int rowNumber, Graphics&amp; g, int width, int height, bool rowIsSelected)
-{
-    if (rowNumber &lt; 0 || rowNumber &gt;= getNumRows())
-        return;
+<span class="kt">void</span> <span class="n">SidePanelList</span><span class="o">::</span><span class="n">resized</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">m_entries</span><span class="p">.</span><span class="n">setBounds</span><span class="p">(</span><span class="n">getLocalBounds</span><span class="p">());</span>
+<span class="p">}</span>
 
-    Rectangle&lt;int&gt; bounds(0, 0, width, height);
-    auto textColour = findColour(Label::textColourId);
-    g.setColour(textColour.withAlpha(0.4f));
+<span class="kt">void</span> <span class="n">SidePanelList</span><span class="o">::</span><span class="n">paintListBoxItem</span><span class="p">(</span><span class="kt">int</span> <span class="n">rowNumber</span><span class="p">,</span> <span class="n">Graphics</span><span class="o">&amp;</span> <span class="n">g</span><span class="p">,</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">rowIsSelected</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rowNumber</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">rowNumber</span> <span class="o">&gt;=</span> <span class="n">getNumRows</span><span class="p">())</span>
+        <span class="k">return</span><span class="p">;</span>
 
-    if (rowNumber == 0)
-        g.fillRect(bounds.removeFromTop(2).reduced(10, 0));
+    <span class="n">Rectangle</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">bounds</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">textColour</span> <span class="o">=</span> <span class="n">findColour</span><span class="p">(</span><span class="n">Label</span><span class="o">::</span><span class="n">textColourId</span><span class="p">);</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">setColour</span><span class="p">(</span><span class="n">textColour</span><span class="p">.</span><span class="n">withAlpha</span><span class="p">(</span><span class="mf">0.4f</span><span class="p">));</span>
 
-    g.fillRect(bounds.removeFromBottom(2).reduced(10, 0));
+    <span class="k">if</span> <span class="p">(</span><span class="n">rowNumber</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">g</span><span class="p">.</span><span class="n">fillRect</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">removeFromTop</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">reduced</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
 
-    if (rowIsSelected)
-    {
-        g.setColour(findColour(TextEditor::highlightColourId).withAlpha(0.4f));
-        g.fillRect(bounds);
-        textColour = findColour(TextEditor::highlightedTextColourId);
-    }
+    <span class="n">g</span><span class="p">.</span><span class="n">fillRect</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">removeFromBottom</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="n">reduced</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
 
-    g.setColour(textColour);
-    g.drawFittedText(m_sidePanelEntries[rowNumber], bounds, Justification::centred, 1);
-}
+    <span class="k">if</span> <span class="p">(</span><span class="n">rowIsSelected</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">g</span><span class="p">.</span><span class="n">setColour</span><span class="p">(</span><span class="n">findColour</span><span class="p">(</span><span class="n">TextEditor</span><span class="o">::</span><span class="n">highlightColourId</span><span class="p">).</span><span class="n">withAlpha</span><span class="p">(</span><span class="mf">0.4f</span><span class="p">));</span>
+        <span class="n">g</span><span class="p">.</span><span class="n">fillRect</span><span class="p">(</span><span class="n">bounds</span><span class="p">);</span>
+        <span class="n">textColour</span> <span class="o">=</span> <span class="n">findColour</span><span class="p">(</span><span class="n">TextEditor</span><span class="o">::</span><span class="n">highlightedTextColourId</span><span class="p">);</span>
+    <span class="p">}</span>
 
-void SidePanelList::addEntry(const String&amp; entry)
-{
-    m_entries.deselectAllRows();
-    m_sidePanelEntries.add(entry);
-    m_entries.updateContent();
-}
+    <span class="n">g</span><span class="p">.</span><span class="n">setColour</span><span class="p">(</span><span class="n">textColour</span><span class="p">);</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">drawFittedText</span><span class="p">(</span><span class="n">m_sidePanelEntries</span><span class="p">[</span><span class="n">rowNumber</span><span class="p">],</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">Justification</span><span class="o">::</span><span class="n">centred</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
 
-int SidePanelList::getNumRows()
-{
-    return m_sidePanelEntries.size();
-}
+<span class="kt">void</span> <span class="n">SidePanelList</span><span class="o">::</span><span class="n">addEntry</span><span class="p">(</span><span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">entry</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">m_entries</span><span class="p">.</span><span class="n">deselectAllRows</span><span class="p">();</span>
+    <span class="n">m_sidePanelEntries</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">entry</span><span class="p">);</span>
+    <span class="n">m_entries</span><span class="p">.</span><span class="n">updateContent</span><span class="p">();</span>
+<span class="p">}</span>
 
-void SidePanelList::selectedRowsChanged(int row)
-{
-    if (row &lt; 0)
-        return;
-}
-</code></pre>
+<span class="kt">int</span> <span class="n">SidePanelList</span><span class="o">::</span><span class="n">getNumRows</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">m_sidePanelEntries</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">SidePanelList</span><span class="o">::</span><span class="n">selectedRowsChanged</span><span class="p">(</span><span class="kt">int</span> <span class="n">row</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">row</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>We can integrate this list component with the side panel.</p>
-<pre><code class="cpp">// MainComponent.cpp
+<div class="codehilite"><pre><span></span><span class="c1">// MainComponent.cpp</span>
 
-MainComponent::MainComponent()
-{
-    //.....
-    auto sidePanelList = new SidePanelList;
-    sidePanelList-&gt;addEntry(&quot;Entry 1&quot;);
-    sidePanelList-&gt;addEntry(&quot;Entry 2&quot;);
-    sidePanelList-&gt;addEntry(&quot;Entry 3&quot;);
-    m_sidePanel.setContent(sidePanelList);
-}
-</code></pre>
+<span class="n">MainComponent</span><span class="o">::</span><span class="n">MainComponent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">//.....</span>
+    <span class="k">auto</span> <span class="n">sidePanelList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SidePanelList</span><span class="p">;</span>
+    <span class="n">sidePanelList</span><span class="o">-&gt;</span><span class="n">addEntry</span><span class="p">(</span><span class="s">&quot;Entry 1&quot;</span><span class="p">);</span>
+    <span class="n">sidePanelList</span><span class="o">-&gt;</span><span class="n">addEntry</span><span class="p">(</span><span class="s">&quot;Entry 2&quot;</span><span class="p">);</span>
+    <span class="n">sidePanelList</span><span class="o">-&gt;</span><span class="n">addEntry</span><span class="p">(</span><span class="s">&quot;Entry 3&quot;</span><span class="p">);</span>
+    <span class="n">m_sidePanel</span><span class="p">.</span><span class="n">setContent</span><span class="p">(</span><span class="n">sidePanelList</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>The <code>setContent</code> is like <code>setTitleBarComponent</code>, it takes the ownership.</p>
 <p><img alt="side-panel-example-final" src="../images/side-panel-example-final.png" /></p>
 <p>After attaching all click listeners, we can update the status.</p>
 <p>The source code is shared in the github.</p>
 <p><a href="https://github.com/asit-dhal/Juce-SidePanel-Example">https://github.com/asit-dhal/Juce-SidePanel-Example</a></p>
+                
+                  
+                
+              
+              
+                
 
-  <br>
-    
 
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = "None";
+      this.page.identifier =
+        "None";
+    };
+    (function() {
+      var d = document, s = d.createElement("script");
+      s.src = "//https-asit-dhal-github-io.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../broadcasters-and-listeners-in-juce/" title="Broadcasters and listeners in JUCE" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Broadcasters and listeners in JUCE
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../cpp/string-conversion-benchmark/" title="string conversion benchmark in C++" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                string conversion benchmark in C++
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017-2019 Asit Dhal
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
     
-    
+      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
     
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
-    
-    <div class="wm-article-nav pull-right">
-      <a href="../../cpp/string-conversion-benchmark/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <a href="../../cpp/string-conversion-benchmark/" class="btn btn-xs btn-link">
-        string conversion benchmark in C++
-      </a>
-    </div>
-    
-    <div class="wm-article-nav">
-      <a href="../broadcasters-and-listeners-in-juce/" class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../broadcasters-and-listeners-in-juce/" class="btn btn-xs btn-link">
-        Broadcasters and listeners in JUCE
-      </a>
-    </div>
-    
-  </div>
-
-    <br>
-</div>
-
-<footer class="col-md-12 wm-page-content"><p>Copyright &copy; 2017-2019 Asit Dhal</p>
-  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
-</footer>
-
-</body>
+  </body>
 </html>

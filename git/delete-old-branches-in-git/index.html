@@ -1,309 +1,739 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  
-  
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
     
-    
-    
-    <link rel="shortcut icon" href="../../img/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Delete old branches in Git - Asit Dhal</title>
-    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
-    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
-    <link href="../../css/base.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/highlight.css">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-
-    <script src="../../js/jquery-3.2.1.min.js"></script>
-    <script src="../../js/bootstrap-3.3.7.min.js"></script>
-    <script src="../../js/highlight.pack.js"></script>
-    
-    <base target="_top">
-    <script>
-      var base_url = '../..';
-      var is_top_frame = false;
-        
-        var pageToc = [
-          {title: "Delete old branches in Git", url: "#_top", children: [
-          ]},
-        ];
-
-    </script>
-    <script src="../../js/base.js"></script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-58305706-1', 'asit-dhal.github.io');
-        ga('send', 'pageview');
-    </script> 
-</head>
-
-<body>
-<script>
-if (is_top_frame) { $('body').addClass('wm-top-page'); }
-</script>
-
-
-
-<div class="container-fluid wm-page-content">
-  <a name="_top"></a>
-    
-
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
     
     
       
+        <title>Delete old branches in Git</title>
+      
     
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
     
-    <div class="wm-article-nav pull-right">
-      <a href="../../juce/broadcasters-and-listeners-in-juce/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-58305706-1", "asit-dhal.github.io")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#delete-old-branches-in-git" tabindex="1" class="md-skip">
+        Skip to content
       </a>
-      <a href="../../juce/broadcasters-and-listeners-in-juce/" class="btn btn-xs btn-link">
-        Broadcasters and listeners in JUCE
-      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Asit Dhal" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Asit Dhal
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Delete old branches in Git
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
     </div>
-    
-    <div class="wm-article-nav">
-      <a href="../.." class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../.." class="btn btn-xs btn-link">
-        Home
-      </a>
-    </div>
-    
   </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Asit Dhal" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Asit Dhal
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
 
     
+      
+      
+      
 
-    <h1 id="delete-old-branches-in-git">Delete old branches in Git</h1>
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Git
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Git
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+    <a href="./" title="Delete old branches in Git" class="md-nav__link md-nav__link--active">
+      Delete old branches in Git
+    </a>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Juce
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Juce
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../juce/broadcasters-and-listeners-in-juce/" title="Broadcasters and listeners in JUCE" class="md-nav__link">
+      Broadcasters and listeners in JUCE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../juce/side-panel-in-juce/" title="Side Panel in JUCE" class="md-nav__link">
+      Side Panel in JUCE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      C++
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        C++
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/string-conversion-benchmark/" title="string conversion benchmark in C++" class="md-nav__link">
+      string conversion benchmark in C++
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/range-generator-algorithms/" title="Range Generator Algorithms" class="md-nav__link">
+      Range Generator Algorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/property-check-agorithims/" title="Property Check Algorithms" class="md-nav__link">
+      Property Check Algorithms
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Golang
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Golang
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-templates-1-introduction/" title="Golang Templates-1 Introduction" class="md-nav__link">
+      Golang Templates-1 Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-templates-2-template-composition-and-how-to-organize-template-files/" title="Golang Template-2 Template composition" class="md-nav__link">
+      Golang Template-2 Template composition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-slice-and-append/" title="Golang slice and append" class="md-nav__link">
+      Golang slice and append
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../archives/" title="Archives" class="md-nav__link">
+      Archives
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="delete-old-branches-in-git">Delete old branches in Git<a class="headerlink" href="#delete-old-branches-in-git" title="Permanent link">&para;</a></h1>
 <p>Sometimes there are many branches, accumulated over the years in a git repository. And you need to delete it to save some space or make management of your repository easy.</p>
 <p>To get the list of all local branches</p>
-<pre><code class="bash">╭─asit@gandua ~/stringify ‹master*›
+<div class="codehilite"><pre><span></span>╭─asit@gandua ~/stringify ‹master*›
 ╰─$ git branch              
   ci-build-script
   dev
 * master
   remotes/origin/add-license-1
   remotes/origin/benchmark
+</pre></div>
 
-</code></pre>
 
 <p>After that, you can iterate over all local branches and get some technical details like branch creation date(age of the branch), last commit date, last commit message etc.</p>
 <p>I will try to delete ci-build-script.</p>
-<pre><code class="bash">╭─asit@gandua ~/stringify ‹master*›
+<div class="codehilite"><pre><span></span>╭─asit@gandua ~/stringify ‹master*›
 ╰─$ git merge-base ci-build-script master 
 e3b47d97284b911baa266853b208f5ea25115e67
-</code></pre>
+</pre></div>
+
 
 <p>git merge-base tries to find out a good common ancestor. This can be assumed to return the earliest commit id where branch deviates from master branch.</p>
 <p>You can use the commit id of the common ancestor to get creation date and the age of the branch.</p>
-<pre><code class="bash">╭─asit@gandua ~/stringify ‹master*› 
-╰─$ git log — pretty=format:”%ad” — date=short -n 1 e3b47d97284b911baa266853b208f5ea25115e67
-2017–09–25
+<div class="codehilite"><pre><span></span>╭─asit@gandua ~/stringify ‹master*› 
+╰─$ git log — <span class="nv">pretty</span><span class="o">=</span>format:”%ad” — <span class="nv">date</span><span class="o">=</span>short -n <span class="m">1</span> e3b47d97284b911baa266853b208f5ea25115e67
+<span class="m">2017</span>–09–25
 ╭─asit@gandua ~/stringify ‹master*› 
-╰─$ git log — pretty=format:”%cr” — date=short -n 1 e3b47d97284b911baa266853b208f5ea25115e67
-6 months ago
-</code></pre>
+╰─$ git log — <span class="nv">pretty</span><span class="o">=</span>format:”%cr” — <span class="nv">date</span><span class="o">=</span>short -n <span class="m">1</span> e3b47d97284b911baa266853b208f5ea25115e67
+<span class="m">6</span> months ago
+</pre></div>
+
 
 <p>Similarly, you can use the branch name to get the latest commit date, age of last commit and the subject line of last commit message.</p>
-<pre><code class="bash">╭─asit@gandua ~/stringify ‹master*› 
-╰─$ git log — pretty=format:”%ad” — date=short -n 1 ci-build-script 
-2017–09–26
+<div class="codehilite"><pre><span></span>╭─asit@gandua ~/stringify ‹master*› 
+╰─$ git log — <span class="nv">pretty</span><span class="o">=</span>format:”%ad” — <span class="nv">date</span><span class="o">=</span>short -n <span class="m">1</span> ci-build-script 
+<span class="m">2017</span>–09–26
 ╭─asit@gandua ~/stringify ‹master*› 
-╰─$ git log — pretty=format:”%cr” — date=short -n 1 ci-build-script
-5 months ago
+╰─$ git log — <span class="nv">pretty</span><span class="o">=</span>format:”%cr” — <span class="nv">date</span><span class="o">=</span>short -n <span class="m">1</span> ci-build-script
+<span class="m">5</span> months ago
 ╭─asit@gandua ~/stringify  ‹master*› 
-╰─$ git log --pretty=format:&quot;%s&quot; -n 1 ci-build-script              
-gcc tnd clang config for travis
-</code></pre>
+╰─$ git log --pretty<span class="o">=</span>format:<span class="s2">&quot;%s&quot;</span> -n <span class="m">1</span> ci-build-script              
+gcc tnd clang config <span class="k">for</span> travis
+</pre></div>
+
 
 <p>From that you can make an intelligent guess, should you delete the branch or not. The branch ci-build-script was created 5 months ago and last committed 5 months ago. The commit message was “gcc and clang config for travis”.</p>
 <p>You can delete it</p>
-<pre><code class="bash">git branch -d ci-build-script
-</code></pre>
+<div class="codehilite"><pre><span></span>git branch -d ci-build-script
+</pre></div>
+
 
 <p>-d option won’t allow you delete unless it is merged. In some cases branch were never merged. So, you can use -D option</p>
 <p>You can wrap all the above and make a script.</p>
-<pre><code class="bash">#!/bin/bash
-#
-# Copyright(c) 2018 Asit Dhal.
-# Distributed under the MIT License (http://opensource.org/licenses/MIT)
-#
+<div class="codehilite"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright(c) 2018 Asit Dhal.</span>
+<span class="c1"># Distributed under the MIT License (http://opensource.org/licenses/MIT)</span>
+<span class="c1">#</span>
 
-LIGHT_BLUE='\033[1;34m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-INTERACTIVE=&quot;&quot;
-FORCE_DELETE=&quot;&quot;
-MASTER=&quot;master&quot;
-while [[ $# -gt 0 ]]
-do
-  key=&quot;$1&quot;
-  case $key in
-    -f)
-    FORCE_DELETE=&quot;y&quot;
-    shift
-    ;;
-    -i)
-    INTERACTIVE=&quot;i&quot;
-    shift
-    ;;
-    -fi|-if)
-    INTERACTIVE=&quot;i&quot;
-    FORCE_DELETE=&quot;y&quot;
-    shift
-    ;;
-    -h)
-    echo &quot;$(basename $0) -i Intecative deletion of local branches&quot;
-    echo &quot;$(basename $0) -f Force delete the branch(es)&quot;
-    echo &quot;$(basename $0)    List local branches with creation and last update date&quot;
-    exit
-    ;;
-    *)
-    shift
-  esac
-done
+<span class="nv">LIGHT_BLUE</span><span class="o">=</span><span class="s1">&#39;\033[1;34m&#39;</span>
+<span class="nv">RED</span><span class="o">=</span><span class="s1">&#39;\033[0;31m&#39;</span>
+<span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;\033[0m&#39;</span> <span class="c1"># No Color</span>
+<span class="nv">INTERACTIVE</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="nv">FORCE_DELETE</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="nv">MASTER</span><span class="o">=</span><span class="s2">&quot;master&quot;</span>
+<span class="k">while</span> <span class="o">[[</span> <span class="nv">$#</span> -gt <span class="m">0</span> <span class="o">]]</span>
+<span class="k">do</span>
+  <span class="nv">key</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+  <span class="k">case</span> <span class="nv">$key</span> in
+    -f<span class="o">)</span>
+    <span class="nv">FORCE_DELETE</span><span class="o">=</span><span class="s2">&quot;y&quot;</span>
+    <span class="nb">shift</span>
+    <span class="p">;;</span>
+    -i<span class="o">)</span>
+    <span class="nv">INTERACTIVE</span><span class="o">=</span><span class="s2">&quot;i&quot;</span>
+    <span class="nb">shift</span>
+    <span class="p">;;</span>
+    -fi<span class="p">|</span>-if<span class="o">)</span>
+    <span class="nv">INTERACTIVE</span><span class="o">=</span><span class="s2">&quot;i&quot;</span>
+    <span class="nv">FORCE_DELETE</span><span class="o">=</span><span class="s2">&quot;y&quot;</span>
+    <span class="nb">shift</span>
+    <span class="p">;;</span>
+    -h<span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;</span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2"> -i Intecative deletion of local branches&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;</span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2"> -f Force delete the branch(es)&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;</span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2">    List local branches with creation and last update date&quot;</span>
+    <span class="nb">exit</span>
+    <span class="p">;;</span>
+    *<span class="o">)</span>
+    <span class="nb">shift</span>
+  <span class="k">esac</span>
+<span class="k">done</span>
 
-current_branch=$(git branch | grep &quot;*&quot;)
-current_branch=${current_branch/* /}
+<span class="nv">current_branch</span><span class="o">=</span><span class="k">$(</span>git branch <span class="p">|</span> grep <span class="s2">&quot;*&quot;</span><span class="k">)</span>
+<span class="nv">current_branch</span><span class="o">=</span><span class="si">${</span><span class="nv">current_branch</span><span class="p">/* /</span><span class="si">}</span>
 
-if [ &quot;${current_branch}&quot; != &quot;${MASTER}&quot; ]; then
-  printf &quot;Please change the current branch to ${LIGHT_BLUE}${MASTER}${NC}\n&quot;
-  exit
-fi
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">current_branch</span><span class="si">}</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">MASTER</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">printf</span> <span class="s2">&quot;Please change the current branch to </span><span class="si">${</span><span class="nv">LIGHT_BLUE</span><span class="si">}${</span><span class="nv">MASTER</span><span class="si">}${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">\n&quot;</span>
+  <span class="nb">exit</span>
+<span class="k">fi</span>
 
-if ! git diff-files --quiet; then 
-  printf &quot;you have unstaged changes. $(basename $0) needs a clean working index\n&quot;
+<span class="k">if</span> ! git diff-files --quiet<span class="p">;</span> <span class="k">then</span> 
+  <span class="nb">printf</span> <span class="s2">&quot;you have unstaged changes. </span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2"> needs a clean working index\n&quot;</span>
   git diff-files --name-status
-  printf &quot;Please commit or stash them.\n&quot;
-  exit
-fi
+  <span class="nb">printf</span> <span class="s2">&quot;Please commit or stash them.\n&quot;</span>
+  <span class="nb">exit</span>
+<span class="k">fi</span>
 
-if ! git diff-index --cached --quiet HEAD; then
-  printf &quot;your index contains uncommitted changes. $(basename $0) needs a clean working index\n&quot;
+<span class="k">if</span> ! git diff-index --cached --quiet HEAD<span class="p">;</span> <span class="k">then</span>
+  <span class="nb">printf</span> <span class="s2">&quot;your index contains uncommitted changes. </span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2"> needs a clean working index\n&quot;</span>
   git diff-index --cached --name-status HEAD
-  printf &quot;Please commit or stash them.\n&quot;
-  exit  
-fi
+  <span class="nb">printf</span> <span class="s2">&quot;Please commit or stash them.\n&quot;</span>
+  <span class="nb">exit</span>  
+<span class="k">fi</span>
 
-for brnch in $(git branch | sed /\*/d); do
-  created_commit_id=$(git merge-base ${brnch} ${MASTER})
-  created_date=$(git log --pretty=format:&quot;%ad&quot; --date=short -n 1 ${created_commit_id})
-  created_ago=$(git log --pretty=format:&quot;%cr&quot; --date=short -n 1 ${created_commit_id})
-  last_updated_date=$(git log --pretty=format:&quot;%ad&quot; --date=short -n 1 ${brnch})
-  updated_before=$(git log --pretty=format:&quot;%cr&quot; --date=short -n 1 ${brnch})
-  commit_message_subject=$(git log --pretty=format:'%s' -n 1 ${brnch})
-  printf &quot;Branch name         : ${brnch} \n&quot;
-  printf &quot;Created on          : ${created_date}${RED}(${created_ago})${NC}\n&quot;
-  printf &quot;Last updated on     : ${last_updated_date}${RED}(${updated_before}${NC})\n&quot;
-  printf &quot;Last commit message : ${commit_message_subject}\n&quot;
-  if [ &quot;${INTERACTIVE}&quot; == &quot;i&quot; ]; then
-    printf &quot;${LIGHT_BLUE}Delete the branch, followed by [y/n]?${NC} &quot;
-    read ip
-    if [ &quot;$ip&quot; == &quot;y&quot; ]; then
-      if [ &quot;${FORCE_DELETE}&quot; == &quot;y&quot; ]; then
-        git branch -D ${brnch}
-      else
-        git branch -d ${brnch}
-        if [ $? -ne 0 ]; then
-          printf &quot;${LIGHT_BLUE}Run with -fi command to delete ${brnch}${NC}\n&quot;
-        fi
-      fi
-    fi
-  fi
-done
-</code></pre>
+<span class="k">for</span> brnch in <span class="k">$(</span>git branch <span class="p">|</span> sed /<span class="se">\*</span>/d<span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+  <span class="nv">created_commit_id</span><span class="o">=</span><span class="k">$(</span>git merge-base <span class="si">${</span><span class="nv">brnch</span><span class="si">}</span> <span class="si">${</span><span class="nv">MASTER</span><span class="si">}</span><span class="k">)</span>
+  <span class="nv">created_date</span><span class="o">=</span><span class="k">$(</span>git log --pretty<span class="o">=</span>format:<span class="s2">&quot;%ad&quot;</span> --date<span class="o">=</span>short -n <span class="m">1</span> <span class="si">${</span><span class="nv">created_commit_id</span><span class="si">}</span><span class="k">)</span>
+  <span class="nv">created_ago</span><span class="o">=</span><span class="k">$(</span>git log --pretty<span class="o">=</span>format:<span class="s2">&quot;%cr&quot;</span> --date<span class="o">=</span>short -n <span class="m">1</span> <span class="si">${</span><span class="nv">created_commit_id</span><span class="si">}</span><span class="k">)</span>
+  <span class="nv">last_updated_date</span><span class="o">=</span><span class="k">$(</span>git log --pretty<span class="o">=</span>format:<span class="s2">&quot;%ad&quot;</span> --date<span class="o">=</span>short -n <span class="m">1</span> <span class="si">${</span><span class="nv">brnch</span><span class="si">}</span><span class="k">)</span>
+  <span class="nv">updated_before</span><span class="o">=</span><span class="k">$(</span>git log --pretty<span class="o">=</span>format:<span class="s2">&quot;%cr&quot;</span> --date<span class="o">=</span>short -n <span class="m">1</span> <span class="si">${</span><span class="nv">brnch</span><span class="si">}</span><span class="k">)</span>
+  <span class="nv">commit_message_subject</span><span class="o">=</span><span class="k">$(</span>git log --pretty<span class="o">=</span>format:<span class="s1">&#39;%s&#39;</span> -n <span class="m">1</span> <span class="si">${</span><span class="nv">brnch</span><span class="si">}</span><span class="k">)</span>
+  <span class="nb">printf</span> <span class="s2">&quot;Branch name         : </span><span class="si">${</span><span class="nv">brnch</span><span class="si">}</span><span class="s2"> \n&quot;</span>
+  <span class="nb">printf</span> <span class="s2">&quot;Created on          : </span><span class="si">${</span><span class="nv">created_date</span><span class="si">}${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">(</span><span class="si">${</span><span class="nv">created_ago</span><span class="si">}</span><span class="s2">)</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">\n&quot;</span>
+  <span class="nb">printf</span> <span class="s2">&quot;Last updated on     : </span><span class="si">${</span><span class="nv">last_updated_date</span><span class="si">}${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">(</span><span class="si">${</span><span class="nv">updated_before</span><span class="si">}${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">)\n&quot;</span>
+  <span class="nb">printf</span> <span class="s2">&quot;Last commit message : </span><span class="si">${</span><span class="nv">commit_message_subject</span><span class="si">}</span><span class="s2">\n&quot;</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">INTERACTIVE</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;i&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">printf</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">LIGHT_BLUE</span><span class="si">}</span><span class="s2">Delete the branch, followed by [y/n]?</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2"> &quot;</span>
+    <span class="nb">read</span> ip
+    <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$ip</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+      <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">FORCE_DELETE</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        git branch -D <span class="si">${</span><span class="nv">brnch</span><span class="si">}</span>
+      <span class="k">else</span>
+        git branch -d <span class="si">${</span><span class="nv">brnch</span><span class="si">}</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -ne <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+          <span class="nb">printf</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">LIGHT_BLUE</span><span class="si">}</span><span class="s2">Run with -fi command to delete </span><span class="si">${</span><span class="nv">brnch</span><span class="si">}${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">\n&quot;</span>
+        <span class="k">fi</span>
+      <span class="k">fi</span>
+    <span class="k">fi</span>
+  <span class="k">fi</span>
+<span class="k">done</span>
+</pre></div>
+
 
 <p>The script has 2 options: -i and -f-.</p>
 <p>If the run the script without any options, it will give you list of all local branches and the above information.</p>
-<pre><code class="bash">╰─$ git-clean-local-branches 
+<div class="codehilite"><pre><span></span>╰─$ git-clean-local-branches 
 Branch name : ci-build-script 
-Created on : 2017–09–25(6 months ago)
-Last updated on : 2017–09–26(5 months ago)
-Last commit message : gcc tnd clang config for travis
+Created on : <span class="m">2017</span>–09–25<span class="o">(</span><span class="m">6</span> months ago<span class="o">)</span>
+Last updated on : <span class="m">2017</span>–09–26<span class="o">(</span><span class="m">5</span> months ago<span class="o">)</span>
+Last commit message : gcc tnd clang config <span class="k">for</span> travis
 Branch name : dev 
-Created on : 2017–10–14(5 months ago)
-Last updated on : 2017–11–25(4 months ago)
-Last commit message : stringify improvement, size and type name removal
+Created on : <span class="m">2017</span>–10–14<span class="o">(</span><span class="m">5</span> months ago<span class="o">)</span>
+Last updated on : <span class="m">2017</span>–11–25<span class="o">(</span><span class="m">4</span> months ago<span class="o">)</span>
+Last commit message : stringify improvement, size and <span class="nb">type</span> name removal
 Branch name : remotes/origin/add-license-1 
-Created on : 2017–10–14(5 months ago)
-Last updated on : 2017–10–14(5 months ago)
+Created on : <span class="m">2017</span>–10–14<span class="o">(</span><span class="m">5</span> months ago<span class="o">)</span>
+Last updated on : <span class="m">2017</span>–10–14<span class="o">(</span><span class="m">5</span> months ago<span class="o">)</span>
 Last commit message : Create LICENSE
 Branch name : remotes/origin/benchmark 
-Created on : 2017–10–06(5 months ago)
-Last updated on : 2017–10–16(5 months ago)
+Created on : <span class="m">2017</span>–10–06<span class="o">(</span><span class="m">5</span> months ago<span class="o">)</span>
+Last updated on : <span class="m">2017</span>–10–16<span class="o">(</span><span class="m">5</span> months ago<span class="o">)</span>
 Last commit message : cxx-pretty print integration
-</code></pre>
+</pre></div>
+
 
 <p>-i option allows you interactive deletion. -f option uses git delete -D(force delete).</p>
-<pre><code class="bash">╭─asit@gandua ~/stringify ‹master*› 
+<div class="codehilite"><pre><span></span>╭─asit@gandua ~/stringify ‹master*› 
 ╰─$ git-clean-local-branches -fi
 Branch name : ci-build-script 
-Created on : 2017–09–25(6 months ago)
-Last updated on : 2017–09–26(5 months ago)
-Last commit message : gcc tnd clang config for travis
-Delete the branch, followed by [y/n]? y
-Deleted branch ci-build-script (was 2cb728c).
+Created on : <span class="m">2017</span>–09–25<span class="o">(</span><span class="m">6</span> months ago<span class="o">)</span>
+Last updated on : <span class="m">2017</span>–09–26<span class="o">(</span><span class="m">5</span> months ago<span class="o">)</span>
+Last commit message : gcc tnd clang config <span class="k">for</span> travis
+Delete the branch, followed by <span class="o">[</span>y/n<span class="o">]</span>? y
+Deleted branch ci-build-script <span class="o">(</span>was 2cb728c<span class="o">)</span>.
 Branch name : dev 
-Created on : 2017–10–14(5 months ago)
-Last updated on : 2017–11–25(4 months ago)
-Last commit message : stringify improvement, size and type name removal
-Delete the branch, followed by [y/n]? y
-Deleted branch dev (was f8698b4).
-</code></pre>
+Created on : <span class="m">2017</span>–10–14<span class="o">(</span><span class="m">5</span> months ago<span class="o">)</span>
+Last updated on : <span class="m">2017</span>–11–25<span class="o">(</span><span class="m">4</span> months ago<span class="o">)</span>
+Last commit message : stringify improvement, size and <span class="nb">type</span> name removal
+Delete the branch, followed by <span class="o">[</span>y/n<span class="o">]</span>? y
+Deleted branch dev <span class="o">(</span>was f8698b4<span class="o">)</span>.
+</pre></div>
+
 
 <p>Thanks for reading.</p>
+                
+                  
+                
+              
+              
+                
 
-  <br>
-    
 
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = "None";
+      this.page.identifier =
+        "None";
+    };
+    (function() {
+      var d = document, s = d.createElement("script");
+      s.src = "//https-asit-dhal-github-io.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../.." title="Home" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Home
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../juce/broadcasters-and-listeners-in-juce/" title="Broadcasters and listeners in JUCE" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Broadcasters and listeners in JUCE
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017-2019 Asit Dhal
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
     
-    
+      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
     
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
-    
-    <div class="wm-article-nav pull-right">
-      <a href="../../juce/broadcasters-and-listeners-in-juce/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <a href="../../juce/broadcasters-and-listeners-in-juce/" class="btn btn-xs btn-link">
-        Broadcasters and listeners in JUCE
-      </a>
-    </div>
-    
-    <div class="wm-article-nav">
-      <a href="../.." class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../.." class="btn btn-xs btn-link">
-        Home
-      </a>
-    </div>
-    
-  </div>
-
-    <br>
-</div>
-
-<footer class="col-md-12 wm-page-content"><p>Copyright &copy; 2017-2019 Asit Dhal</p>
-  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
-</footer>
-
-</body>
+  </body>
 </html>
