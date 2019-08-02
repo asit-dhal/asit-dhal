@@ -482,6 +482,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cmakeparsearguments" title="CMakeParseArguments" class="md-nav__link">
+    CMakeParseArguments
+  </a>
+  
+</li>
+      
       
       
       
@@ -678,6 +685,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cmakeparsearguments" title="CMakeParseArguments" class="md-nav__link">
+    CMakeParseArguments
+  </a>
+  
+</li>
+      
       
       
       
@@ -730,12 +744,18 @@ I am foo!!
 </pre></div>
 
 
+<blockquote>
 <p>Here the function name is <em>case-insensitive</em>. You can call in any case, but it's always recommended to use the same name declared in the function definition.</p>
+</blockquote>
 <h3 id="function-arguments">Function Arguments<a class="headerlink" href="#function-arguments" title="Permanent link">&para;</a></h3>
-<p>A cmake function can take two types of arguments.
-- keyword arguments
-- optional arguments</p>
-<p>Keyword arguments are mandatory and will throw error if not provided. You don't need a comma between argument names. </p>
+<p>A cmake function can take two types of arguments.</p>
+<ul>
+<li>named or keyword arguments</li>
+<li>optional or positional arguments</li>
+</ul>
+<blockquote>
+<p>Named arguments are mandatory and will throw error if not provided. You don't need a comma between argument names. </p>
+</blockquote>
 <div class="codehilite"><pre><span></span><span class="nb">function</span><span class="p">(</span><span class="s">fooKeyword</span> <span class="s">country</span> <span class="s">city</span><span class="p">)</span>
     <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;Address: ${country} ${city}&quot;</span><span class="p">)</span>
 <span class="nb">endfunction</span><span class="p">()</span>
@@ -1125,6 +1145,116 @@ second definition of good_func
 
 
 <p>The desired behavior is that 2nd redefinition will call the original function. But, in this scope, the 2nd redefinition is always the underscore version. </p>
+<h2 id="cmakeparsearguments">CMakeParseArguments<a class="headerlink" href="#cmakeparsearguments" title="Permanent link">&para;</a></h2>
+<p>CMake has a predefined command to parse function and macro arguments. This command is for use in macros or functions. It processes the arguments given to that macro or function, and defines a set of variables which hold the values of the respective options.</p>
+<div class="codehilite"><pre><span></span><span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">&lt;prefix&gt;</span> <span class="s">&lt;options&gt;</span> <span class="s">&lt;one_value_keywords&gt;</span> <span class="s">&lt;multi_value_keywords&gt;</span> <span class="s">&lt;args&gt;...</span><span class="p">)</span>
+
+<span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span> <span class="s">&lt;N&gt;</span> <span class="s">&lt;prefix&gt;</span> <span class="s">&lt;options&gt;</span> <span class="s">&lt;one_value_keywords&gt;</span> <span class="s">&lt;multi_value_keywords&gt;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The first version can be used both in functions and macros. The 2nd version(<code>PARSE_ARGV</code>) can only be used in functions. In this case the arguments that are parsed come from the <code>ARGV#</code> variables of the calling function. The parsing starts with the <code>&lt;N&gt;</code>th argument, where <code>&lt;N&gt;</code> is an unsigned integer. This allows for the values to have special characters like ; in them.</p>
+<p><code>prefix</code>: a prefix string which will preceed all variable names.</p>
+<p><code>options</code>: all options for the respective macro/function, i.e. keywords which can be used when calling the macro without any value following. These are the variables if passed will be set as TRUE, else FALSE.</p>
+<p><code>one_value_keywords</code>: all keywords for this macro or funtion which are followed by one value, e.g. <code>DESTINATION=/usr/lib</code></p>
+<p><code>multi_value_keywords</code>: all keywords for this macro/function which can be followed by more than one value, like e.g. FILES=test.cpp;main.cpp</p>
+<p>All remaining arguments are collected in a variable <code>&lt;prefix&gt;_UNPARSED_ARGUMENTS</code> that will be undefined if all arguments were recognized. This can be checked afterwards to see whether your macro was called with unrecognized parameters. </p>
+<div class="codehilite"><pre><span></span><span class="nb">function</span><span class="p">(</span><span class="s">demo_func</span><span class="p">)</span>
+
+    <span class="nb">set</span><span class="p">(</span><span class="s">prefix</span> <span class="s">DEMO</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">flags</span> <span class="s">IS_ASCII</span> <span class="s">IS_UNICODE</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">singleValues</span> <span class="s">TARGET</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">multiValues</span> <span class="s">SOURCES</span> <span class="s">RES</span><span class="p">)</span>
+
+    <span class="nb">include</span><span class="p">(</span><span class="s">CMakeParseArguments</span><span class="p">)</span>
+    <span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="o">${</span><span class="nv">prefix</span><span class="o">}</span>
+                     <span class="s2">&quot;${flags}&quot;</span>
+                     <span class="s2">&quot;${singleValues}&quot;</span>
+                     <span class="s2">&quot;${multiValues}&quot;</span>
+                    <span class="o">${</span><span class="nv">ARGN</span><span class="o">}</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_IS_ASCII: ${DEMO_IS_ASCII}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_IS_UNICODE: ${DEMO_IS_UNICODE}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_TARGET: ${DEMO_TARGET}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_SOURCES: ${DEMO_SOURCES}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_RES: ${DEMO_RES}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_UNPARSED_ARGUMENTS: ${DEMO_UNPARSED_ARGUMENTS}&quot;</span><span class="p">)</span>
+<span class="nb">endfunction</span><span class="p">()</span>
+
+<span class="nb">message</span><span class="p">(</span><span class="s2">&quot;test 1&quot;</span><span class="p">)</span>
+<span class="nb">demo_func</span><span class="p">(</span><span class="s">SOURCES</span> <span class="s">test.cpp</span> <span class="s">main.cpp</span> <span class="s">TARGET</span> <span class="s">mainApp</span> <span class="s">IS_ASCII</span> <span class="s">config</span> <span class="s">DEBUG</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s2">&quot;test 2&quot;</span><span class="p">)</span>
+<span class="nb">demo_func</span><span class="p">(</span><span class="s">TARGET</span> <span class="s">mainApp.so</span> <span class="s">RES</span> <span class="s">test.png</span> <span class="s">cat.png</span> <span class="s">bull.png</span> <span class="s">IS_UNICODE</span> <span class="s">config</span> <span class="s">RELEASE</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Output</p>
+<div class="codehilite"><pre><span></span>test 1
+ DEMO_IS_ASCII: TRUE
+ DEMO_IS_UNICODE: FALSE
+ DEMO_TARGET: mainApp
+ DEMO_SOURCES: test.cpp;main.cpp
+ DEMO_RES: 
+ DEMO_UNPARSED_ARGUMENTS: config;DEBUG
+test 2
+ DEMO_IS_ASCII: FALSE
+ DEMO_IS_UNICODE: TRUE
+ DEMO_TARGET: mainApp.so
+ DEMO_SOURCES: 
+ DEMO_RES: test.png;cat.png;bull.png
+ DEMO_UNPARSED_ARGUMENTS: config;RELEASE
+</pre></div>
+
+
+<p>The above example with PARSE_ARGV version</p>
+<div class="codehilite"><pre><span></span><span class="nb">function</span><span class="p">(</span><span class="s">demo_func</span> <span class="s">project_name</span> <span class="s">project_type</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">prefix</span> <span class="s">DEMO</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">flags</span> <span class="s">IS_ASCII</span> <span class="s">IS_UNICODE</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">singleValues</span> <span class="s">TARGET</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">multiValues</span> <span class="s">SOURCES</span> <span class="s">RES</span><span class="p">)</span>
+
+    <span class="nb">include</span><span class="p">(</span><span class="s">CMakeParseArguments</span><span class="p">)</span>
+
+    <span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span> <span class="s">2</span> <span class="o">${</span><span class="nv">prefix</span><span class="o">}</span>
+                     <span class="s2">&quot;${flags}&quot;</span>
+                     <span class="s2">&quot;${singleValues}&quot;</span>
+                     <span class="s2">&quot;${multiValues}&quot;</span><span class="p">)</span>
+
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_IS_ASCII: ${DEMO_IS_ASCII}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_IS_UNICODE: ${DEMO_IS_UNICODE}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_TARGET: ${DEMO_TARGET}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_SOURCES: ${DEMO_SOURCES}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; DEMO_RES: ${DEMO_RES}&quot;</span><span class="p">)</span>
+
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; named arg project_name: ${project_name}&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot; named arg project_type: ${project_type}&quot;</span><span class="p">)</span>
+
+<span class="nb">endfunction</span><span class="p">()</span>
+
+<span class="nb">message</span><span class="p">(</span><span class="s2">&quot;test 1&quot;</span><span class="p">)</span>
+<span class="nb">demo_func</span><span class="p">(</span><span class="s2">&quot;main_gen&quot;</span> <span class="s2">&quot;gen&quot;</span> <span class="s">SOURCES</span> <span class="s">test.cpp</span> <span class="s">main.cpp</span> <span class="s">TARGET</span> <span class="s">mainApp</span> <span class="s">IS_ASCII</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s2">&quot;test 2&quot;</span><span class="p">)</span>
+<span class="nb">demo_func</span><span class="p">(</span><span class="s2">&quot;main_test&quot;</span> <span class="s2">&quot;unit test&quot;</span> <span class="s">TARGET</span> <span class="s">mainApp.so</span> <span class="s">RES</span> <span class="s">test.png</span> <span class="s">cat.png</span> <span class="s">bull.png</span> <span class="s">IS_UNICODE</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Output</p>
+<div class="codehilite"><pre><span></span>test 1
+ DEMO_IS_ASCII: TRUE
+ DEMO_IS_UNICODE: FALSE
+ DEMO_TARGET: mainApp
+ DEMO_SOURCES: test.cpp;main.cpp
+ DEMO_RES: 
+ named arg project_name: main_gen
+ named arg project_type: gen
+test 2
+ DEMO_IS_ASCII: FALSE
+ DEMO_IS_UNICODE: TRUE
+ DEMO_TARGET: mainApp.so
+ DEMO_SOURCES: 
+ DEMO_RES: test.png;cat.png;bull.png
+ named arg project_name: main_test
+ named arg project_type: unit test
+</pre></div>
                 
                   
                 
