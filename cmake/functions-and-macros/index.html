@@ -423,8 +423,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#return-command" title="Return() command" class="md-nav__link">
-    Return() command
+  <a href="#return-command" title="return() command" class="md-nav__link">
+    return() command
   </a>
   
 </li>
@@ -441,13 +441,6 @@
   
     <nav class="md-nav">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#difference-between-function-and-macro" title="Difference between function and macro" class="md-nav__link">
-    Difference between function and macro
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#macro-arguments" title="Macro Arguments" class="md-nav__link">
@@ -626,8 +619,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#return-command" title="Return() command" class="md-nav__link">
-    Return() command
+  <a href="#return-command" title="return() command" class="md-nav__link">
+    return() command
   </a>
   
 </li>
@@ -644,13 +637,6 @@
   
     <nav class="md-nav">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#difference-between-function-and-macro" title="Difference between function and macro" class="md-nav__link">
-    Difference between function and macro
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#macro-arguments" title="Macro Arguments" class="md-nav__link">
@@ -751,7 +737,7 @@ I am foo!!
 <p>A cmake function can take two types of arguments.</p>
 <ul>
 <li>named or keyword arguments</li>
-<li>optional or positional arguments</li>
+<li>optional arguments</li>
 </ul>
 <blockquote>
 <p>Named arguments are mandatory and will throw error if not provided. You don't need a comma between argument names. </p>
@@ -769,7 +755,7 @@ I am foo!!
 </pre></div>
 
 
-<p>Option arguments can be accessed using some predefined variables.</p>
+<p>Optional arguments can be accessed using some predefined variables.</p>
 <table>
 <thead>
 <tr>
@@ -843,7 +829,7 @@ arguments at index 3: Bhubaneswar
 </pre></div>
 
 
-<p>Usually, named arguments are accessed using the variable and postional arguments are accessed using ARGN.</p>
+<p>Usually, named arguments are accessed using the variable and optional arguments are accessed using ARGN.</p>
 <div class="codehilite"><pre><span></span><span class="nb">function</span><span class="p">(</span><span class="s">foo</span> <span class="s">firstName</span> <span class="s">lastName</span><span class="p">)</span>
     <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;first name: ${firstName}&quot;</span><span class="p">)</span>
     <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;last name: ${lastName}&quot;</span><span class="p">)</span>
@@ -867,8 +853,8 @@ address parts: Bhubaneswar
 
 
 <h3 id="variable-scope">Variable Scope<a class="headerlink" href="#variable-scope" title="Permanent link">&para;</a></h3>
-<p>CMake functions introduce new scopes, a variable modified inside the function won't have any effect outside the function. Another problem in CMake, the functions don't return any value. This will make function completely uselss. So, CMake provides the keyword PARENT_SCOPE to set a variable in the parent scope.</p>
-<p>You can send variable name as a function parameter. The function will the variable in the parent scope. </p>
+<p>CMake functions introduce new scopes, a variable modified inside the function won't be accessible outside the function. Another problem in CMake, the functions don't return any value. This will make the function difficult to use. So, CMake provides the keyword <code>PARENT_SCOPE</code> to set a variable in the parent scope.</p>
+<p>You can send variable name as a function parameter. The function will set the variable in the parent scope. </p>
 <div class="codehilite"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">name</span> <span class="s2">&quot;Uttam Mohanty&quot;</span><span class="p">)</span>
 
 <span class="nb">function</span><span class="p">(</span><span class="s">set_name</span> <span class="s">varName</span> <span class="p">)</span>
@@ -887,7 +873,7 @@ after call first name: Sriram Panda
 </pre></div>
 
 
-<p>This way of returning value from function is self documenting. But, it becomes repetative if the function has to return many values. So, many library functions document well known variables which are set by a function.</p>
+<p>This way of returning value from function is self documenting. But, it becomes repetative if the function has to return many values. So, many library functions explicitly document well known variables which are set by a function and you don't need to send any variable name as argument. </p>
 <p>In some projects, it's to common to have functions which set project specific variables in the parent scope. The cmake libraries provide <code>FindPackageHandleStandardArgs</code> function which sets a variable called Package_FOUND in the parent scope.</p>
 <div class="codehilite"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">Git</span><span class="p">)</span>
 <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;Git found: ${GIT_FOUND}&quot;</span><span class="p">)</span>
@@ -905,7 +891,7 @@ Git version: 2.17.1
 </pre></div>
 
 
-<h3 id="return-command">Return() command<a class="headerlink" href="#return-command" title="Permanent link">&para;</a></h3>
+<h3 id="return-command">return() command<a class="headerlink" href="#return-command" title="Permanent link">&para;</a></h3>
 <p>You can call <code>return()</code> to exit a function early.</p>
 <div class="codehilite"><pre><span></span><span class="nb">function</span><span class="p">(</span><span class="s">early_ret</span><span class="p">)</span>
     <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;one&quot;</span><span class="p">)</span>
@@ -950,16 +936,6 @@ I am a poor little macro!!
 
 
 <p>Like functions, macro names are also case insensitive. You can call in any case, but it's always recommended to use the same name declared in the macro definition.</p>
-<h3 id="difference-between-function-and-macro">Difference between function and macro<a class="headerlink" href="#difference-between-function-and-macro" title="Permanent link">&para;</a></h3>
-<p>Functions always introduce a new scope when called. In case of macro, the macro call is substituted with the macro body and arguments are replaced using string substitution. No new scope is created. So both functions and macros behave differently in some cases</p>
-<ul>
-<li>
-<p>In case of function, calling set on a variable with PARENT_SCOPE will affect the calling scope. In case of macro, it will affect the scope of the parent of calling scope.</p>
-</li>
-<li>
-<p>In case of function, function variables are not available after the call is finished. Macro variables are available after the macro call. </p>
-</li>
-</ul>
 <h3 id="macro-arguments">Macro Arguments<a class="headerlink" href="#macro-arguments" title="Permanent link">&para;</a></h3>
 <p>Like functions, macros also take both named and positional arguments. </p>
 <div class="codehilite"><pre><span></span><span class="nb">macro</span><span class="p">(</span><span class="s">foo_macro</span> <span class="s">name1</span> <span class="s">name2</span><span class="p">)</span>
@@ -1015,7 +991,7 @@ func argument name is defined
 </pre></div>
 
 
-<p>Macros show strange behavior while using the three special variables.</p>
+<p>Macros show strange behavior while using the three special variables(in some cases).</p>
 <h3 id="variable-scope_1">Variable Scope<a class="headerlink" href="#variable-scope_1" title="Permanent link">&para;</a></h3>
 <p>Unlike functions, macro introduce no new scope. The variables declared inside the macro(other than the arguments) will be available after the call. </p>
 <div class="codehilite"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">name</span> <span class="s2">&quot;asit&quot;</span><span class="p">)</span>
@@ -1043,7 +1019,7 @@ after micro call middle name: kumar
 
 
 <h3 id="return-command_1">return() command<a class="headerlink" href="#return-command_1" title="Permanent link">&para;</a></h3>
-<p>Since, micro doesn't create any new scope, it will exit the current scope.</p>
+<p>Since, micro doesn't create any new scope, return() will exit the current scope.</p>
 <div class="codehilite"><pre><span></span><span class="nb">macro</span><span class="p">(</span><span class="s">early_ret</span><span class="p">)</span>
     <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;one&quot;</span><span class="p">)</span>
     <span class="nb">return</span><span class="p">()</span>
