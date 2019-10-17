@@ -1,0 +1,1085 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://asit-dhal.github.io/qt-qml/positioning-with-anchors/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>Positioning with Anchors</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-58305706-1", "asit-dhal.github.io")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#positioning-with-anchors" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://asit-dhal.github.io/" title="Asit Dhal's Personal Blog" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Asit Dhal's Personal Blog
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Positioning with Anchors
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://asit-dhal.github.io/" title="Asit Dhal's Personal Blog" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Asit Dhal's Personal Blog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Git
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Git
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../git/delete-old-branches-in-git/" title="Delete old branches in Git" class="md-nav__link">
+      Delete old branches in Git
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Juce
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Juce
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../juce/broadcasters-and-listeners-in-juce/" title="Broadcasters and listeners in JUCE" class="md-nav__link">
+      Broadcasters and listeners in JUCE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../juce/side-panel-in-juce/" title="Side Panel in JUCE" class="md-nav__link">
+      Side Panel in JUCE
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      C++
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        C++
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/string-conversion-benchmark/" title="string conversion benchmark in C++" class="md-nav__link">
+      string conversion benchmark in C++
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/range-generator-algorithms/" title="Range Generator Algorithms" class="md-nav__link">
+      Range Generator Algorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cpp/property-check-agorithims/" title="Property Check Algorithms" class="md-nav__link">
+      Property Check Algorithms
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      CMake
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        CMake
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cmake/functions-and-macros/" title="Cmake Functions and Macros" class="md-nav__link">
+      Cmake Functions and Macros
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../cmake/custom-command-and-custom-tasks/" title="Custom Commands and Custom Tasks" class="md-nav__link">
+      Custom Commands and Custom Tasks
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Golang
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Golang
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-templates-1-introduction/" title="Golang Templates-1 Introduction" class="md-nav__link">
+      Golang Templates-1 Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-templates-2-template-composition-and-how-to-organize-template-files/" title="Golang Template-2 Template composition" class="md-nav__link">
+      Golang Template-2 Template composition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../golang/golang-slice-and-append/" title="Golang slice and append" class="md-nav__link">
+      Golang slice and append
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+    
+    <label class="md-nav__link" for="nav-7">
+      Qt-Qml
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        Qt-Qml
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Positioning with Anchors
+      </label>
+    
+    <a href="./" title="Positioning with Anchors" class="md-nav__link md-nav__link--active">
+      Positioning with Anchors
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-1" title="Example 1" class="md-nav__link">
+    Example 1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2" title="Example 2" class="md-nav__link">
+    Example 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-3" title="Example 3" class="md-nav__link">
+    Example 3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#margins-and-offsets" title="Margins and Offsets" class="md-nav__link">
+    Margins and Offsets
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../archives/" title="Archives" class="md-nav__link">
+      Archives
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-1" title="Example 1" class="md-nav__link">
+    Example 1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2" title="Example 2" class="md-nav__link">
+    Example 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-3" title="Example 3" class="md-nav__link">
+    Example 3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#margins-and-offsets" title="Margins and Offsets" class="md-nav__link">
+    Margins and Offsets
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="positioning-with-anchors">Positioning with Anchors<a class="headerlink" href="#positioning-with-anchors" title="Permanent link">&para;</a></h1>
+<p>QML provides anchors to position different items relative to each others.</p>
+<p>For each item, there are 7 imaginary lines called anchor lines. An item can be placed in these anchor lines relative to another item(a parent or any sibling).</p>
+<p><img alt="anchor-lines" src="../images/abchor-lines.png" /></p>
+<p>The 7th anchor is <code>baseline</code>. It is slightly above the bottom anchor line for text elements, and top for other elements. It's only useful for text based elements. </p>
+<p>You can use any of those 7 anchor line properties to place your item.</p>
+<h3 id="example-1">Example 1<a class="headerlink" href="#example-1" title="Permanent link">&para;</a></h3>
+<p>We have a green rectangle at (10, 10). We want to align a blue rectangle just below it. We will align the top and left anchor line of the blue rectangle with the bottom and left anchor line of the green rectangle respectively.</p>
+<p><img alt="anchor-lines" src="../images/anchoring_example1.png" /></p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="kd">id: root</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">800</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">color:</span> <span class="s2">&quot;#3c3c3c&quot;</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Anchor Line Example-1&quot;</span><span class="p">)</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: greenRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">width:</span> <span class="mi">150</span>
+        <span class="k">height:</span> <span class="mi">120</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: blueRect</span>
+        <span class="k">width:</span> <span class="mi">200</span>
+        <span class="k">height:</span> <span class="mi">120</span>
+        <span class="k">color:</span> <span class="s2">&quot;blue&quot;</span>
+        <span class="k">anchors.left:</span> <span class="nx">greenRect</span><span class="p">.</span><span class="nx">left</span>
+        <span class="k">anchors.top:</span> <span class="nx">greenRect</span><span class="p">.</span><span class="nx">bottom</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchoring_example1_run.png" /></p>
+<h3 id="example-2">Example 2<a class="headerlink" href="#example-2" title="Permanent link">&para;</a></h3>
+<p>Now, we want the blue rectangle to be aligned on the right of the green rectangle, exactly at the middle of the right edge.</p>
+<p><img alt="anchor-lines" src="../images/anchoring_example2.png" /></p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="kd">id: root</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">800</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">color:</span> <span class="s2">&quot;#3c3c3c&quot;</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Anchor Line Example-2&quot;</span><span class="p">)</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: greenRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">width:</span> <span class="mi">150</span>
+        <span class="k">height:</span> <span class="mi">120</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: blueRect</span>
+        <span class="k">width:</span> <span class="mi">200</span>
+        <span class="k">height:</span> <span class="mi">120</span>
+        <span class="k">color:</span> <span class="s2">&quot;blue&quot;</span>
+        <span class="k">anchors.left:</span> <span class="nx">greenRect</span><span class="p">.</span><span class="nx">right</span>
+        <span class="k">anchors.top:</span> <span class="nx">greenRect</span><span class="p">.</span><span class="nx">verticalCenter</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchoring_example2_run.png" /></p>
+<h3 id="example-3">Example 3<a class="headerlink" href="#example-3" title="Permanent link">&para;</a></h3>
+<p>We want to align a rectangle just below a text on the right of text.</p>
+<p><img alt="anchor-lines" src="../images/anchoring_example3.png" /></p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="kd">id: root</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">800</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">color:</span> <span class="s2">&quot;#3c3c3c&quot;</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Baseline Anchor Line Example&quot;</span><span class="p">)</span>
+
+    <span class="nx">Text</span> <span class="p">{</span>
+        <span class="kd">id: a_text</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">text:</span> <span class="s2">&quot;Bhubaneswar&quot;</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: blueRect</span>
+        <span class="k">width:</span> <span class="mi">100</span>
+        <span class="k">height:</span> <span class="mi">60</span>
+        <span class="k">color:</span> <span class="s2">&quot;pink&quot;</span>
+        <span class="k">anchors.top:</span> <span class="nx">a_text</span><span class="p">.</span><span class="nx">baseline</span>
+        <span class="k">anchors.left:</span> <span class="nx">a_text</span><span class="p">.</span><span class="nx">right</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchoring_example3_run.png" /></p>
+<p>There are two more properties <code>fill</code> and <code>centerIn</code> which take another Item and aligns accordingly.</p>
+<p><code>fill</code> completely accupies. Usually, all anchor lines, except <code>verticalCenter</code> and <code>horizontalCenter</code>, are aligned fully. So, height and width should be same.</p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="kd">id: root</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">800</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">color:</span> <span class="s2">&quot;#3c3c3c&quot;</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Anchor Fill Example&quot;</span><span class="p">)</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: rootRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="nx">textItem</span><span class="p">.</span><span class="nx">paintedHeight</span>
+        <span class="k">width:</span> <span class="nx">textItem</span><span class="p">.</span><span class="nx">paintedWidth</span>
+        <span class="k">color:</span> <span class="s2">&quot;blue&quot;</span>
+    <span class="p">}</span>
+
+    <span class="nx">Text</span> <span class="p">{</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="kd">id: textItem</span>
+        <span class="k">text:</span> <span class="s2">&quot;Bhubaneswar&quot;</span>
+        <span class="k">color:</span> <span class="s2">&quot;lightgreen&quot;</span>
+        <span class="k">anchors.fill:</span> <span class="nx">rootRect</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchoring_example_fill.png" /></p>
+<p>In case of centerIn, verticalCenter and horizontalCenter anchor lines are aligned fully.</p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">640</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">)</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: mainRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="mi">100</span>
+        <span class="k">width:</span> <span class="mi">100</span>
+        <span class="k">color:</span> <span class="s2">&quot;cyan&quot;</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: innerRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="mi">60</span>
+        <span class="k">width:</span> <span class="mi">50</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">anchors.centerIn:</span> <span class="nx">mainRect</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchoring_example_centerIn.png" /></p>
+<p>By specifying multiple horizontal or vertical anchors you can control the size of an item. In the following case, the left and right rectangle have fixed width. The middle rectangle will always accupy the rest of spaces. </p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="kd">id: root</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">800</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">color:</span> <span class="s2">&quot;#3c3c3c&quot;</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Anchor Example - 4&quot;</span><span class="p">)</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: leftRect</span>
+        <span class="k">color:</span> <span class="s2">&quot;blue&quot;</span>
+        <span class="k">width:</span> <span class="mi">30</span>
+        <span class="k">height:</span> <span class="mi">100</span>
+        <span class="k">anchors.left:</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">left</span>
+        <span class="k">anchors.top:</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">top</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: rightRect</span>
+        <span class="k">color:</span> <span class="s2">&quot;blue&quot;</span>
+        <span class="k">width:</span> <span class="mi">30</span>
+        <span class="k">height:</span> <span class="mi">100</span>
+        <span class="k">anchors.right:</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">right</span>
+        <span class="k">anchors.top:</span> <span class="nx">parent</span><span class="p">.</span><span class="nx">top</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: middleRect</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">height:</span> <span class="mi">100</span>
+        <span class="k">anchors.left:</span> <span class="nx">leftRect</span><span class="p">.</span><span class="nx">right</span>
+        <span class="k">anchors.right:</span> <span class="nx">rightRect</span><span class="p">.</span><span class="nx">left</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchoring_example4_run.png" /></p>
+<h2 id="margins-and-offsets">Margins and Offsets<a class="headerlink" href="#margins-and-offsets" title="Permanent link">&para;</a></h2>
+<p>Margins specify the amount of empty space to leave to the outside of an item's anchor. There are 4 types of margins(one for each edge).</p>
+<p><img alt="anchor-lines" src="../images/anchoring_margins.png" /></p>
+<p><code>anchors.margin</code> will set the all the 4 margins.</p>
+<p>It's necessary to set the anchor to set the margin.</p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">640</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">)</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: mainRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="mi">100</span>
+        <span class="k">width:</span> <span class="mi">100</span>
+        <span class="k">color:</span> <span class="s2">&quot;red&quot;</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: anotherRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="mi">60</span>
+        <span class="k">width:</span> <span class="mi">50</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">anchors.left:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">left</span>
+        <span class="k">anchors.top:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">bottom</span>
+        <span class="k">anchors.leftMargin:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchoring_margins_run.png" /></p>
+<p>Margins can also be negative.</p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">640</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Margins&quot;</span><span class="p">)</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: mainRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="mi">100</span>
+        <span class="k">width:</span> <span class="mi">100</span>
+        <span class="k">color:</span> <span class="s2">&quot;red&quot;</span>
+        <span class="k">radius:</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: anotherRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="mi">60</span>
+        <span class="k">width:</span> <span class="mi">50</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">anchors.left:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">right</span>
+        <span class="k">anchors.top:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">bottom</span>
+        <span class="k">anchors.leftMargin:</span> <span class="o">-</span><span class="mi">20</span>
+        <span class="k">anchors.topMargin:</span> <span class="o">-</span><span class="mi">10</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchoring_negative_margins_run.png" /></p>
+<p>offsets allow positioning to be manipulated using the center anchor lines, offset specify empty space around the central anchor lines. -ve offset value will pull towards the corresponding axis(verticalCenterOffset towards x-axis). </p>
+<p><img alt="anchor-lines" src="../images/anchors_offset.png" /></p>
+<div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
+<span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
+
+<span class="nx">Window</span> <span class="p">{</span>
+    <span class="k">visible:</span> <span class="kc">true</span>
+    <span class="k">width:</span> <span class="mi">640</span>
+    <span class="k">height:</span> <span class="mi">480</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Margins&quot;</span><span class="p">)</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: mainRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="mi">100</span>
+        <span class="k">width:</span> <span class="mi">100</span>
+        <span class="k">color:</span> <span class="s2">&quot;red&quot;</span>
+    <span class="p">}</span>
+
+    <span class="nx">Rectangle</span> <span class="p">{</span>
+        <span class="kd">id: anotherRect</span>
+        <span class="k">x:</span> <span class="mi">10</span>
+        <span class="k">y:</span> <span class="mi">10</span>
+        <span class="k">height:</span> <span class="mi">60</span>
+        <span class="k">width:</span> <span class="mi">50</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">anchors.verticalCenter:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">bottom</span>
+        <span class="k">anchors.left:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">right</span>
+        <span class="k">anchors.verticalCenterOffset:</span> <span class="o">-</span><span class="mi">10</span> 
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><img alt="anchor-lines" src="../images/anchors_offset_run.png" /></p>
+                
+                  
+                
+              
+              
+                
+
+
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://asit-dhal.github.io/qt-qml/positioning-with-anchors/";
+      this.page.identifier =
+        "qt-qml/positioning-with-anchors/";
+    };
+    (function() {
+      var d = document, s = d.createElement("script");
+      s.src = "//asit-dhal.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../golang/golang-slice-and-append/" title="Golang slice and append" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Golang slice and append
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../archives/" title="Archives" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Archives
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2017-2019 Asit Dhal
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/asit-dhal" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>
