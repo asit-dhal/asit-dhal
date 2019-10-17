@@ -659,7 +659,9 @@
 <p>QML provides anchors to position different items relative to each others.</p>
 <p>For each item, there are 7 imaginary lines called anchor lines. An item can be placed in these anchor lines relative to another item(a parent or any sibling).</p>
 <p><img alt="anchor-lines" src="../images/abchor-lines.png" /></p>
-<p>The 7th anchor is <code>baseline</code>. It is slightly above the bottom anchor line for text elements, and top for other elements. It's only useful for text based elements. </p>
+<p>The 7th anchor is <code>baseline</code>, for text items, it's an imaginary line on which a text rests. For letters like g, the descender goes below the baseline. Some non-latin characters can have all characters can have some part below baseline like(ନ୍ଧୁ in Odia).</p>
+<p><img alt="anchor-lines" src="../images/baseline.png" /></p>
+<p>It's only useful for text based elements. </p>
 <p>You can use any of those 7 anchor line properties to place your item. </p>
 <h3 id="example-1">Example 1<a class="headerlink" href="#example-1" title="Permanent link">&para;</a></h3>
 <p>We have a green rectangle at (10, 10). We want to align a blue rectangle just below it. We will align the top and left anchor line of the blue rectangle with the bottom and left anchor line of the green rectangle respectively.</p>
@@ -738,7 +740,7 @@
 
 <p><img alt="anchor-lines" src="../images/anchoring_example2_run.png" /></p>
 <h3 id="example-3">Example 3<a class="headerlink" href="#example-3" title="Permanent link">&para;</a></h3>
-<p>We want to align a rectangle just below a text on the right of text.</p>
+<p>We want to align a rectangle just below the baseline of text, on the right of text.</p>
 <p><img alt="anchor-lines" src="../images/anchoring_example3.png" /></p>
 <div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
 <span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
