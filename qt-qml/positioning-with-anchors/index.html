@@ -530,6 +530,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#fill-and-centerin" title="fill and centerIn" class="md-nav__link">
+    fill and centerIn
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#margins-and-offsets" title="Margins and Offsets" class="md-nav__link">
     Margins and Offsets
   </a>
@@ -612,6 +619,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#fill-and-centerin" title="fill and centerIn" class="md-nav__link">
+    fill and centerIn
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#margins-and-offsets" title="Margins and Offsets" class="md-nav__link">
     Margins and Offsets
   </a>
@@ -646,7 +660,7 @@
 <p>For each item, there are 7 imaginary lines called anchor lines. An item can be placed in these anchor lines relative to another item(a parent or any sibling).</p>
 <p><img alt="anchor-lines" src="../images/abchor-lines.png" /></p>
 <p>The 7th anchor is <code>baseline</code>. It is slightly above the bottom anchor line for text elements, and top for other elements. It's only useful for text based elements. </p>
-<p>You can use any of those 7 anchor line properties to place your item.</p>
+<p>You can use any of those 7 anchor line properties to place your item. </p>
 <h3 id="example-1">Example 1<a class="headerlink" href="#example-1" title="Permanent link">&para;</a></h3>
 <p>We have a green rectangle at (10, 10). We want to align a blue rectangle just below it. We will align the top and left anchor line of the blue rectangle with the bottom and left anchor line of the green rectangle respectively.</p>
 <p><img alt="anchor-lines" src="../images/anchoring_example1.png" /></p>
@@ -758,6 +772,7 @@
 
 
 <p><img alt="anchor-lines" src="../images/anchoring_example3_run.png" /></p>
+<h3 id="fill-and-centerin">fill and centerIn<a class="headerlink" href="#fill-and-centerin" title="Permanent link">&para;</a></h3>
 <p>There are two more properties <code>fill</code> and <code>centerIn</code> which take another Item and aligns accordingly.</p>
 <p><code>fill</code> completely accupies. Usually, all anchor lines, except <code>verticalCenter</code> and <code>horizontalCenter</code>, are aligned fully. So, height and width should be same.</p>
 <div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
@@ -872,35 +887,39 @@
 <p>Margins specify the amount of empty space to leave to the outside of an item's anchor. There are 4 types of margins(one for each edge).</p>
 <p><img alt="anchor-lines" src="../images/anchoring_margins.png" /></p>
 <p><code>anchors.margin</code> will set the all the 4 margins.</p>
+<blockquote>
 <p>It's necessary to set the anchor to set the margin.</p>
+</blockquote>
 <div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
 <span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
 
 <span class="nx">Window</span> <span class="p">{</span>
+    <span class="kd">id: root</span>
     <span class="k">visible:</span> <span class="kc">true</span>
-    <span class="k">width:</span> <span class="mi">640</span>
+    <span class="k">width:</span> <span class="mi">800</span>
     <span class="k">height:</span> <span class="mi">480</span>
-    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">)</span>
+    <span class="k">color:</span> <span class="s2">&quot;#3c3c3c&quot;</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Margin Example&quot;</span><span class="p">)</span>
 
     <span class="nx">Rectangle</span> <span class="p">{</span>
         <span class="kd">id: mainRect</span>
         <span class="k">x:</span> <span class="mi">10</span>
         <span class="k">y:</span> <span class="mi">10</span>
-        <span class="k">height:</span> <span class="mi">100</span>
-        <span class="k">width:</span> <span class="mi">100</span>
-        <span class="k">color:</span> <span class="s2">&quot;red&quot;</span>
+        <span class="k">width:</span> <span class="mi">150</span>
+        <span class="k">height:</span> <span class="mi">120</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
     <span class="p">}</span>
 
     <span class="nx">Rectangle</span> <span class="p">{</span>
         <span class="kd">id: anotherRect</span>
-        <span class="k">x:</span> <span class="mi">10</span>
-        <span class="k">y:</span> <span class="mi">10</span>
-        <span class="k">height:</span> <span class="mi">60</span>
-        <span class="k">width:</span> <span class="mi">50</span>
-        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">width:</span> <span class="mi">200</span>
+        <span class="k">height:</span> <span class="mi">120</span>
+        <span class="k">color:</span> <span class="s2">&quot;blue&quot;</span>
         <span class="k">anchors.left:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">left</span>
         <span class="k">anchors.top:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">bottom</span>
         <span class="k">anchors.leftMargin:</span> <span class="mi">10</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -912,48 +931,52 @@
 <span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
 
 <span class="nx">Window</span> <span class="p">{</span>
+    <span class="kd">id: root</span>
     <span class="k">visible:</span> <span class="kc">true</span>
-    <span class="k">width:</span> <span class="mi">640</span>
+    <span class="k">width:</span> <span class="mi">800</span>
     <span class="k">height:</span> <span class="mi">480</span>
-    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Margins&quot;</span><span class="p">)</span>
+    <span class="k">color:</span> <span class="s2">&quot;#3c3c3c&quot;</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Negative Margin Example&quot;</span><span class="p">)</span>
 
     <span class="nx">Rectangle</span> <span class="p">{</span>
         <span class="kd">id: mainRect</span>
         <span class="k">x:</span> <span class="mi">10</span>
         <span class="k">y:</span> <span class="mi">10</span>
-        <span class="k">height:</span> <span class="mi">100</span>
-        <span class="k">width:</span> <span class="mi">100</span>
-        <span class="k">color:</span> <span class="s2">&quot;red&quot;</span>
+        <span class="k">width:</span> <span class="mi">150</span>
+        <span class="k">height:</span> <span class="mi">150</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
         <span class="k">radius:</span> <span class="nx">width</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
     <span class="p">}</span>
 
     <span class="nx">Rectangle</span> <span class="p">{</span>
         <span class="kd">id: anotherRect</span>
-        <span class="k">x:</span> <span class="mi">10</span>
-        <span class="k">y:</span> <span class="mi">10</span>
-        <span class="k">height:</span> <span class="mi">60</span>
-        <span class="k">width:</span> <span class="mi">50</span>
-        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">width:</span> <span class="mi">200</span>
+        <span class="k">height:</span> <span class="mi">120</span>
+        <span class="k">color:</span> <span class="s2">&quot;blue&quot;</span>
         <span class="k">anchors.left:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">right</span>
         <span class="k">anchors.top:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">bottom</span>
-        <span class="k">anchors.leftMargin:</span> <span class="o">-</span><span class="mi">20</span>
-        <span class="k">anchors.topMargin:</span> <span class="o">-</span><span class="mi">10</span>
+        <span class="k">anchors.leftMargin:</span> <span class="o">-</span><span class="mi">25</span>
+        <span class="k">anchors.topMargin:</span> <span class="o">-</span><span class="mi">20</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
 
 <p><img alt="anchor-lines" src="../images/anchoring_negative_margins_run.png" /></p>
-<p>offsets allow positioning to be manipulated using the center anchor lines, offset specify empty space around the central anchor lines. -ve offset value will pull towards the corresponding axis(verticalCenterOffset towards x-axis). </p>
+<p><code>offsets</code> allow positioning to be manipulated using the center anchor lines, <code>offset</code> specify empty space around the central anchor lines. -ve offset value will pull towards the corresponding axis(verticalCenterOffset towards x-axis) and +ve  offset pulls away from the corresponding axis. </p>
 <p><img alt="anchor-lines" src="../images/anchors_offset.png" /></p>
 <div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="nx">QtQuick</span> <span class="mf">2.12</span>
 <span class="kr">import</span> <span class="nx">QtQuick</span><span class="p">.</span><span class="nx">Window</span> <span class="mf">2.12</span>
 
 <span class="nx">Window</span> <span class="p">{</span>
+    <span class="kd">id: root</span>
     <span class="k">visible:</span> <span class="kc">true</span>
-    <span class="k">width:</span> <span class="mi">640</span>
+    <span class="k">width:</span> <span class="mi">800</span>
     <span class="k">height:</span> <span class="mi">480</span>
-    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Margins&quot;</span><span class="p">)</span>
+    <span class="k">color:</span> <span class="s2">&quot;#3c3c3c&quot;</span>
+    <span class="k">title:</span> <span class="nx">qsTr</span><span class="p">(</span><span class="s2">&quot;Offset Example&quot;</span><span class="p">)</span>
 
     <span class="nx">Rectangle</span> <span class="p">{</span>
         <span class="kd">id: mainRect</span>
@@ -961,25 +984,26 @@
         <span class="k">y:</span> <span class="mi">10</span>
         <span class="k">height:</span> <span class="mi">100</span>
         <span class="k">width:</span> <span class="mi">100</span>
-        <span class="k">color:</span> <span class="s2">&quot;red&quot;</span>
+        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
     <span class="p">}</span>
 
     <span class="nx">Rectangle</span> <span class="p">{</span>
         <span class="kd">id: anotherRect</span>
-        <span class="k">x:</span> <span class="mi">10</span>
-        <span class="k">y:</span> <span class="mi">10</span>
         <span class="k">height:</span> <span class="mi">60</span>
         <span class="k">width:</span> <span class="mi">50</span>
-        <span class="k">color:</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">color:</span> <span class="s2">&quot;blue&quot;</span>
+        <span class="k">border.color:</span> <span class="nx">Qt</span><span class="p">.</span><span class="nx">lighter</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span>
         <span class="k">anchors.verticalCenter:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">bottom</span>
         <span class="k">anchors.left:</span> <span class="nx">mainRect</span><span class="p">.</span><span class="nx">right</span>
-        <span class="k">anchors.verticalCenterOffset:</span> <span class="o">-</span><span class="mi">10</span> 
+        <span class="k">anchors.verticalCenterOffset:</span> <span class="o">-</span><span class="mi">10</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
 
 <p><img alt="anchor-lines" src="../images/anchors_offset_run.png" /></p>
+<p>Thanks for reading. </p>
                 
                   
                 
