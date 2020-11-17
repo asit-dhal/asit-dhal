@@ -1,4 +1,4 @@
-I'm Asit! wave
+I'm Asit! :pray: :pray:
 
 I’m a software engineer. I also contribute to CMake opensource project in my free time.
 I like simple, readable and elegant code.
