@@ -5,6 +5,5 @@ I write simple, readable, and elegant code, and occasionally use some design pat
 I know C++14/17, Qt, OpenGL, CMake, and Python. 
 
 I was born and raised in Bhubaneswar, India. At this moment, I am based in Munich. I enjoy mountain biking and watching field hockey.
-I am looking for a job in Germany(Munich/Berlin), preferably in C++/Qt. I would like to work in any multi-language project(C++ being the main language). 
 
 How to reach me: dhal.asitk@gmail.com
